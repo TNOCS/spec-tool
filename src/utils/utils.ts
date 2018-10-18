@@ -125,7 +125,7 @@ const createMarkdownParser = () => {
     smartypants: true,
     headerIds: false,
   });
-  renderer.paragraph = (text: string) => text; // to avoid wrapping each paragraph in a <p>text</p>
+  // renderer.paragraph = (text: string) => text; // to avoid wrapping each paragraph in a <p>text</p>
   renderer.list = (body: string, ordered: boolean) =>
     ordered ? `<ol>${body}</ol>` : `<ul class="browser-default">${body}</ul>`;
   return (s: string) => parse(s, { renderer });
@@ -321,6 +321,8 @@ export const isVisible = (question: Question, index = defaultIndex) => {
   return show.some(v => checkAnswers(v));
 };
 
+const placeholderRegex = /&([a-zA-Z0-9]+\.[a-zA-Z0-9]+)/g;
+
 /** Replace placeholders, as &name, with their value. */
 export const replacePlaceholders = (
   txt: string | string[] | undefined,
@@ -331,7 +333,6 @@ export const replacePlaceholders = (
     return '';
   }
   let s = txt instanceof Array ? txt.join('<br/>') : txt;
-  const placeholderRegex = /&([a-zA-Z0-9.]+)/g;
   let rep: RegExpExecArray | null;
   do {
     rep = placeholderRegex.exec(s);
@@ -365,7 +366,6 @@ export const checkPlaceholders = (
     return true;
   }
   const s = txt instanceof Array ? txt.join() : txt;
-  const placeholderRegex = /&([a-zA-Z0-9.]+)/g;
   let rep: RegExpExecArray | null;
   let isComplete = true;
   do {
