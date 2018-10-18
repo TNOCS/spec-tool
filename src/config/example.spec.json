@@ -15,12 +15,13 @@
     "prevLabel": "Previous"
   },
   "introduction": [
-    "# Example Questionnaire and Spec tool",
-    "In principle, this application is a dynamic questionnaire that can generate formatted output. That is, you can",
-    "ask questions, and depending on the provided answers, new questions can be displayed. Furthermore, each answered",
-    "question can generate output. E.g. when you ask 'Should the building be furnished?', it could generate",
-    "the affirmative output could be 'Buildings should be furnished.'. In that sense, by asking smart questions,",
-    "a specification can be generated."
+    "# Example",
+    "This is a questionnaire and specification tool: being a dynamic questionnaire, it can generate formatted output.",
+    "That is, you can ask questions, and depending on the provided answers, new questions can be displayed.",
+    "Furthermore, each answered question can generate output. E.g. when you ask 'Should the building be furnished?',",
+    "it could generate the affirmative output could be 'Buildings should be furnished'.",
+    "",
+    "In that sense, by asking smart questions, a specification can be generated."
   ],
   "chapters": [
     {
@@ -28,7 +29,7 @@
       "title": "Introduction",
       "description": "A brief introduction about myself.",
       "output": [
-        "Introduction"
+        "# Introduction"
       ],
       "questions": [
         {
@@ -47,7 +48,7 @@
         {
           "id": "hobbies",
           "title": "What are your hobbies?",
-          "output": "<br>My hobbies are:",
+          "output": "My hobbies are:",
           "show": "user.name",
           "options": [
             {
@@ -76,7 +77,7 @@
           "id": "movie_genres",
           "title": "Aha, so you like movies. What kind of movie genres do you like?",
           "show": [ "hobbies.movies" ],
-          "output": "<br>I am a movie buff, and really like:",
+          "output": "I am a movie buff, and really like:",
           "options": [
             {
               "id": "sf",
