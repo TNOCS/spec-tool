@@ -1,4 +1,4 @@
-import vmg from '../config/example.spec.json';
+import spec from '../config/example.spec.json';
 import { ISpecification, IChapter, ISection } from '../models/specification/specification';
 import { IAnswer } from '../models/specification/answer';
 import {
@@ -25,11 +25,11 @@ class SpecificationService {
   public chapters!: IChapter[];
   public specificationInfo!: IDocumentInfo;
   public templateInfo!: IDocumentInfo & ITemplateDefinition;
-  private specification: ISpecification;
+  private specification!: ISpecification;
   private specFile?: File;
 
-  constructor() {
-    this.specification = vmg as ISpecification;
+  public load(specification: ISpecification) {
+    this.specification = specification;
     this.init();
   }
 
@@ -40,12 +40,11 @@ class SpecificationService {
     const reader = new FileReader();
     reader.onload = async (ev: ProgressEvent) => {
       if (ev.target) {
-        this.specification = JSON.parse((ev.target as any).result);
-        this.init();
+        this.load(JSON.parse((ev.target as any).result));
         cb();
       }
     };
-    reader.onerror = async (ev: ProgressEvent) => cb(new Error('Error loading file'));
+    reader.onerror = () => cb(new Error('Error loading file!'));
     reader.readAsText(this.specFile);
   }
 
@@ -79,7 +78,7 @@ class SpecificationService {
       if (q.no) {
         group.push(q.no);
       }
-      return group.map(i => replacePlaceholders(i.output, i.index, false)).join('<br/>');
+      return group.map(i => replacePlaceholders(i.output, i.index, false)).join('\n');
     };
     const printSection = (s: ISection) => {
       const d = [] as string[];
@@ -109,8 +108,9 @@ class SpecificationService {
 
   get report() {
     const docs = this.specs;
-    console.log(docs);
-    return docs instanceof Array ? markdown(docs.join('<br/>')) : markdown(docs);
+    const doc = docs instanceof Array ? docs.join('\n\n') : docs;
+    console.log(doc);
+    return markdown(doc);
   }
 
   get fileSize() {
@@ -306,3 +306,4 @@ class SpecificationService {
 }
 
 export const specSvc = new SpecificationService();
+specSvc.load(spec);
