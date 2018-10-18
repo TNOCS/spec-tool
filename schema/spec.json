@@ -1,0 +1,795 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "IAnswer": {
+            "properties": {
+                "presetName": {
+                    "description": "If the answer was given by a preset, mark it as such, so we can replace it with another preset's value.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "The given answer",
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "IBaseQuestion": {
+            "description": "Generic question",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IChapter": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "presets": {
+                    "description": "When used, some or all (unanswered) questions are prefilled",
+                    "items": {
+                        "$ref": "#/definitions/IPreset"
+                    },
+                    "type": "array"
+                },
+                "questions": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IBaseQuestion"
+                            },
+                            {
+                                "$ref": "#/definitions/IYesNo"
+                            },
+                            {
+                                "$ref": "#/definitions/IOption"
+                            },
+                            {
+                                "$ref": "#/definitions/ISelection"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "sections": {
+                    "items": {
+                        "$ref": "#/definitions/ISection"
+                    },
+                    "type": "array"
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IData": {
+            "additionalProperties": {
+            },
+            "description": "Attached data, e.g. for generating output or creating a table, etc.",
+            "properties": {
+                "presets": {
+                    "description": "Optional list of answers that must be set when the question is selected.\nIf value is not supplied, the default (true) is used.",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": [
+                                    "string",
+                                    "number",
+                                    "boolean"
+                                ]
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "text": {
+                    "description": "Markdown text that is added to the specification document.\nHeaders are automatically adjusted, e.g. if the text is added.\n\nWhen the owning question is a parent, it can reference its children\nusing $1, $2, etc. or $$ to reference all.",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "number",
+                        "text",
+                        "textarea"
+                    ],
+                    "type": "string"
+                },
+                "value": {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "IDocumentInfo": {
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "created": {
+                    "description": "Enables basic storage and retrieval of dates and times.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "releaseInfo": {
+                    "type": "string"
+                },
+                "updated": {
+                    "description": "Enables basic storage and retrieval of dates and times.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IOption": {
+            "description": "Question with multiple options (more can be checked)",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "options": {
+                    "items": {
+                        "$ref": "#/definitions/IBaseQuestion"
+                    },
+                    "type": "array"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IPreset": {
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "selections": {
+                    "items": {
+                        "$ref": "#/definitions/IPresetSelection"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IPresetSelection": {
+            "properties": {
+                "id": {
+                    "description": "ID of the selected question",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "text": {
+                    "description": "In case the ID refers to an open question, you can add here open text.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ISection": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "presets": {
+                    "description": "When used, some or all (unanswered) questions are prefilled",
+                    "items": {
+                        "$ref": "#/definitions/IPreset"
+                    },
+                    "type": "array"
+                },
+                "questions": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IBaseQuestion"
+                            },
+                            {
+                                "$ref": "#/definitions/IYesNo"
+                            },
+                            {
+                                "$ref": "#/definitions/IOption"
+                            },
+                            {
+                                "$ref": "#/definitions/ISelection"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ISelection": {
+            "description": "Question with only one allowed option (only one can be selected)",
+            "properties": {
+                "choices": {
+                    "items": {
+                        "$ref": "#/definitions/IBaseQuestion"
+                    },
+                    "type": "array"
+                },
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ITabDefinition": {
+            "properties": {
+                "icon": {
+                    "description": "Materialize CSS icon name",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "Label in the tab",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IYesNo": {
+            "description": "Yes/no question",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "no": {
+                    "$ref": "#/definitions/IBaseQuestion"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                },
+                "yes": {
+                    "$ref": "#/definitions/IBaseQuestion"
+                }
+            },
+            "type": "object"
+        },
+        "Partial<ITemplateDefinition>": {
+            "properties": {
+                "about": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "About page tab"
+                },
+                "and": {
+                    "description": "In a list, how to display a, b, AND c",
+                    "type": "string"
+                },
+                "authorLabel": {
+                    "description": "Label for the author",
+                    "type": "string"
+                },
+                "createdLabel": {
+                    "description": "Label for the created time",
+                    "type": "string"
+                },
+                "docInfoTitle": {
+                    "description": "Label for the document info",
+                    "type": "string"
+                },
+                "downloadJsonFilename": {
+                    "description": "What is the name of the JSON download file",
+                    "type": "string"
+                },
+                "downloadJsonLabel": {
+                    "description": "How to name the JSON download button",
+                    "type": "string"
+                },
+                "downloadMarkdownFilename": {
+                    "description": "What is the name of the Markdown download file",
+                    "type": "string"
+                },
+                "downloadMarkdownLabel": {
+                    "description": "How to name the markdown download button",
+                    "type": "string"
+                },
+                "edit": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "Edit page tab"
+                },
+                "emptySpecMessage": {
+                    "description": "When there is no specification, what message do you want to display",
+                    "type": "string"
+                },
+                "home": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "Home page tab"
+                },
+                "nextLabel": {
+                    "description": "Label for navigation to the next page",
+                    "type": "string"
+                },
+                "prevLabel": {
+                    "description": "Label for navigation to the previous page",
+                    "type": "string"
+                },
+                "releaseLabel": {
+                    "description": "Label for the release info",
+                    "type": "string"
+                },
+                "spec": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "Spec page tab"
+                },
+                "tableOfContent": {
+                    "description": "Label for the ToC",
+                    "type": "string"
+                },
+                "updatedLabel": {
+                    "description": "Label for the updated time",
+                    "type": "string"
+                },
+                "uploadTemplateLabel": {
+                    "description": "How to name the upload button",
+                    "type": "string"
+                },
+                "uploadTooltipLabel": {
+                    "description": "Message to show when you hover above the upload area",
+                    "type": "string"
+                },
+                "versionLabel": {
+                    "description": "Label for the version",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "answers": {
+            "additionalProperties": {
+                "additionalProperties": {
+                    "$ref": "#/definitions/IAnswer"
+                },
+                "type": "object"
+            },
+            "description": "Provided answers",
+            "type": "object"
+        },
+        "chapters": {
+            "description": "Content questionnaires",
+            "items": {
+                "$ref": "#/definitions/IChapter"
+            },
+            "type": "array"
+        },
+        "introduction": {
+            "anyOf": [
+                {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                {
+                    "type": "string"
+                }
+            ],
+            "description": "Welcome text on the home page"
+        },
+        "specificationInfo": {
+            "$ref": "#/definitions/IDocumentInfo",
+            "description": "Information about the current version of the document"
+        },
+        "templateInfo": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/IDocumentInfo"
+                },
+                {
+                    "$ref": "#/definitions/Partial<ITemplateDefinition>"
+                }
+            ],
+            "description": "Information about the template you are currently editing"
+        }
+    },
+    "type": "object"
+}
+

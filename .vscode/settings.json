@@ -1,0 +1,11 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["/*.spec.json"],
+      "url": "./schema/spec.json"
+    }
+  ],
+  "yaml.schemas": {
+    "./schema/spec.json": "/*.spec.yaml",
+  }
+}

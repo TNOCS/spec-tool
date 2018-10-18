@@ -1,0 +1,102 @@
+{
+  "templateInfo": {
+    "author": "Erik Vullings",
+    "created": "2018-09-18",
+    "version": "v0.0.1",
+    "tableOfContent": "Table of Content",
+    "and": "and",
+    "docInfoTitle": "Document info",
+    "authorLabel": "Author",
+    "releaseLabel": "Comments",
+    "versionLabel": "Version",
+    "createdLabel": "Created on",
+    "updatedLabel": "Updated on",
+    "nextLabel": "Next",
+    "prevLabel": "Previous"
+  },
+  "introduction": [
+    "# Example Questionnaire and Spec tool",
+    "In principle, this application is a dynamic questionnaire that can generate formatted output. That is, you can",
+    "ask questions, and depending on the provided answers, new questions can be displayed. Furthermore, each answered",
+    "question can generate output. E.g. when you ask 'Should the building be furnished?', it could generate",
+    "the affirmative output could be 'Buildings should be furnished.'. In that sense, by asking smart questions,",
+    "a specification can be generated."
+  ],
+  "chapters": [
+    {
+      "id": "me",
+      "title": "Introduction",
+      "description": "A brief introduction about myself.",
+      "output": [
+        "Introduction"
+      ],
+      "questions": [
+        {
+          "id": "user",
+          "title": "What is your name? _name_",
+          "output": "My name is &user.name."
+        },
+        {
+          "id": "desc",
+          "title": "&user.name, could you please provide a description of yourself? _description_",
+          "data": {
+            "type": "textarea"
+          },
+          "output": "&desc.description"
+        },
+        {
+          "id": "hobbies",
+          "title": "What are your hobbies?",
+          "output": "<br>My hobbies are:",
+          "show": "user.name",
+          "options": [
+            {
+              "id": "movies",
+              "title": "Watching movies",
+              "output": "- Watching movies"
+            },
+            {
+              "id": "going_out",
+              "title": "Going out",
+              "output": "- Going out"
+            },
+            {
+              "id": "music",
+              "title": "Playing music",
+              "output": "- Playing music"
+            },
+            {
+              "id": "books",
+              "title": "Reading books",
+              "output": "- Reading books"
+            }
+          ]
+        },
+        {
+          "id": "movie_genres",
+          "title": "Aha, so you like movies. What kind of movie genres do you like?",
+          "show": [ "hobbies.movies" ],
+          "output": "<br>I am a movie buff, and really like:",
+          "options": [
+            {
+              "id": "sf",
+              "title": "SF",
+              "output": "- SF"
+            },
+            {
+              "id": "fantasy",
+              "title": "Fantasy",
+              "output": "- Fantasy"
+            },
+            {
+              "id": "magic",
+              "title": "Should they include magic?",
+              "show": "movie_genres.fantasy",
+              "output": "  - magic"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
