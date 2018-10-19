@@ -714,6 +714,10 @@
                     "description": "Label for the release info",
                     "type": "string"
                 },
+                "showTemplateSelector": {
+                    "description": "When true, show the dropdown selector to switch between different examples.",
+                    "type": "boolean"
+                },
                 "spec": {
                     "$ref": "#/definitions/ITabDefinition",
                     "description": "Spec page tab"

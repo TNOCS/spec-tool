@@ -12,7 +12,8 @@
     "createdLabel": "Created on",
     "updatedLabel": "Updated on",
     "nextLabel": "Next",
-    "prevLabel": "Previous"
+    "prevLabel": "Previous",
+    "showTemplateSelector": true
   },
   "introduction": [
     "# Example",

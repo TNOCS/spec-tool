@@ -1,4 +1,6 @@
 export interface ITemplateDefinition {
+  /** When true, show the dropdown selector to switch between different examples. */
+  showTemplateSelector: boolean;
   /** Label for the ToC */
   tableOfContent: string;
   /** Label for the document info */

@@ -111,7 +111,7 @@ export const DownloadUpload = () => ({
             ),
           ]
         ),
-        m(SelectSpec),
+        specSvc.templateInfo.showTemplateSelector ? m(SelectSpec) : undefined,
       ])
     ),
 });
