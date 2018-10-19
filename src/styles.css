@@ -34,14 +34,9 @@
   margin: 1.0933333333rem 0 0.656rem 0;
 }
 
-.download-upload {
-  margin-top: 10px;
-}
-
 .download-upload a {
-  margin-left: 10px;
+  margin-right: 5px; 
 }
-
 /* Overrides of default style */
 .nav-wrapper a.sidenav-trigger {
   display: block;
@@ -66,26 +61,10 @@
 
 .upload-btn-wrapper {
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: inline-block;
   cursor: pointer;
   vertical-align: bottom;
-}
-
-.upload-btn-wrapper .upload-btn {
-  margin-left: 10px;
-  border: 2px solid gray;
-  color: gray;
-  background-color: white;
-  border-radius: 4px;
-  padding: 4px 0;
-  cursor: pointer;
-}
-
-.upload-btn-wrapper .upload-btn i {
-  width: 120px;
-  height: 24px;
-  cursor: pointer;
 }
 
 .upload-btn-wrapper input[type='file'] {

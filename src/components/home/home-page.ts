@@ -25,7 +25,7 @@ export const HomePage = () => ({
                   `a[href=#!/${specSvc.templateInfo.edit.label.toLowerCase()}/${
                     c.id
                   }]`,
-                  m.trust(replacePlaceholders(c.title))
+                  replacePlaceholders(c.title).replace('<p>', '').replace('</p>', '')
                 )
               )
             ),

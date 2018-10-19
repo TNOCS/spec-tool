@@ -1,3 +1,4 @@
+import { SelectSpec } from './../ui/select-spec';
 import m from 'mithril';
 import { specSvc } from '../../services/spec-service';
 import { button } from '../../utils/html';
@@ -10,8 +11,7 @@ const stopPropagation = (e: UIEvent) => {
 const handleFiles = (files: FileList | null) => {
   const file = files && files.length > 0 ? files[0] : undefined;
   if (file && /\.json$/.test(file.name)) {
-    specSvc.file = file;
-    specSvc.loadSpecification(err => {
+    specSvc.loadSpecification(file, err => {
       if (err) {
         console.error(err);
       }
@@ -28,71 +28,90 @@ export const DownloadUpload = () => ({
     M.Tooltip.init(elems);
   },
   view: () =>
-    m('.row.download-upload', [
-      button({
-        label: specSvc.templateInfo.downloadJsonLabel,
-        iconName: 'cloud_download',
-        ui: {
-          onclick: el => {
-            const data =
-              'text/json;charset=utf-8,' +
-              encodeURIComponent(JSON.stringify(specSvc.json, null, 2));
-            (el.target as any).setAttribute('href', 'data:' + data);
-            (el.target as any).setAttribute(
-              'download',
-              specSvc.templateInfo.downloadJsonFilename
-            );
+    m(
+      '.row.download-upload',
+      m('.col.s12', [
+        button({
+          label: specSvc.templateInfo.downloadJsonLabel,
+          iconName: 'cloud_download',
+          ui: {
+            onclick: el => {
+              const data =
+                'text/json;charset=utf-8,' +
+                encodeURIComponent(JSON.stringify(specSvc.json, null, 2));
+              (el.target as any).setAttribute('href', 'data:' + data);
+              (el.target as any).setAttribute(
+                'download',
+                specSvc.templateInfo.downloadJsonFilename
+              );
+            },
           },
-        },
-      }),
-      button({
-        label: specSvc.templateInfo.downloadMarkdownLabel,
-        iconName: 'cloud_download',
-        ui: {
-          onclick: el => {
-            const report = specSvc.report;
-            if (!report) {
-              return;
-            }
-            const data =
-              'text/json;charset=utf-8,' +
-              encodeURIComponent(JSON.stringify(report));
-            (el.target as any).setAttribute('href', 'data:' + data);
-            (el.target as any).setAttribute(
-              'download',
-              specSvc.templateInfo.downloadMarkdownFilename
-            );
+        }),
+        button({
+          label: specSvc.templateInfo.downloadMarkdownLabel,
+          iconName: 'cloud_download',
+          ui: {
+            onclick: el => {
+              const report = specSvc.report;
+              if (!report) {
+                return;
+              }
+              const data =
+                'text/json;charset=utf-8,' +
+                encodeURIComponent(JSON.stringify(report));
+              (el.target as any).setAttribute('href', 'data:' + data);
+              (el.target as any).setAttribute(
+                'download',
+                specSvc.templateInfo.downloadMarkdownFilename
+              );
+            },
           },
-        },
-      }),
-      m(
-        `.upload-btn-wrapper.tooltipped[data-position=bottom][data-tooltip=${
-          specSvc.templateInfo.uploadTooltipLabel
-        }]`,
-        [
-          m(
-            'button.upload-btn]',
+        }),
+        m(
+          `.upload-btn-wrapper.tooltipped[data-position=bottom][data-tooltip=${
+            specSvc.templateInfo.uploadTooltipLabel
+          }]`,
+          [
             m(
-              'i.material-icons',
+              'a.waves-effect.waves-light.btn',
               {
-                ondragover: stopPropagation,
-                ondragenter: stopPropagation,
-                ondrop: (e: DragEvent) => {
-                  stopPropagation(e);
-                  const dt = e.dataTransfer;
-                  if (dt) { handleFiles(dt.files); }
+                onclick: () => {
+                  const inputs = document.querySelectorAll('.upload-file');
+                  if (inputs && inputs.length > 0) {
+                    const inp = inputs[0] as HTMLInputElement;
+                    inp.click();
+                  }
                 },
               },
-              'cloud_upload'
-            )
-          ),
-          m('input[id=specfile][type=file][multiple=false][accept=.json]', {
-            onchange: (e: UIEvent) => {
-              const files = (e.srcElement as HTMLInputElement).files;
-              handleFiles(files);
-            },
-          }),
-        ]
-      ),
-    ]),
+              m(
+                'i.material-icons.left',
+                {
+                  ondragover: stopPropagation,
+                  ondragenter: stopPropagation,
+                  ondrop: (e: DragEvent) => {
+                    stopPropagation(e);
+                    const dt = e.dataTransfer;
+                    if (dt) {
+                      handleFiles(dt.files);
+                    }
+                  },
+                },
+                'cloud_upload'
+              ),
+              'UPLOAD'
+            ),
+            m(
+              'input.upload-file[id=specfile][type=file][multiple=false][accept=.json]',
+              {
+                onchange: (e: UIEvent) => {
+                  const files = (e.srcElement as HTMLInputElement).files;
+                  handleFiles(files);
+                },
+              }
+            ),
+          ]
+        ),
+        m(SelectSpec),
+      ])
+    ),
 });

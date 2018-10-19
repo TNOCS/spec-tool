@@ -75,9 +75,10 @@ const baseButton = (defaultClassNames: string[]) => <State, Attrs>(opt: {
   attr?: IHtmlAttributes;
   tooltip?: string;
   ui?: IHtmlInputEvents<State, Attrs>;
+  classNames?: string;
 }) =>
   m(
-    `${defaultClassNames.join('.')}${
+    `${defaultClassNames.join('.')}${opt.classNames ? '.' + opt.classNames : ''}${
       opt.tooltip
         ? '.tooltipped[data-position=top][data-tooltip=' + opt.tooltip + ']'
         : ''

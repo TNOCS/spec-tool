@@ -25,27 +25,29 @@ class SpecificationService {
   public chapters!: IChapter[];
   public specificationInfo!: IDocumentInfo;
   public templateInfo!: IDocumentInfo & ITemplateDefinition;
+  public specFile?: string;
   private specification!: ISpecification;
-  private specFile?: File;
+  // private specFile?: File;
 
-  public load(specification: ISpecification) {
+  public load(specFile: string, specification: ISpecification) {
+    this.specFile = specFile.toLowerCase().replace('.spec.json', '');
     this.specification = specification;
     this.init();
   }
 
-  public loadSpecification(cb: (err?: Error) => void) {
-    if (!this.specFile) {
+  public loadSpecification(specFile: File, cb: (err?: Error) => void) {
+    if (!specFile) {
       return;
     }
     const reader = new FileReader();
     reader.onload = async (ev: ProgressEvent) => {
       if (ev.target) {
-        this.load(JSON.parse((ev.target as any).result));
+        this.load(specFile.name, JSON.parse((ev.target as any).result));
         cb();
       }
     };
     reader.onerror = () => cb(new Error('Error loading file!'));
-    reader.readAsText(this.specFile);
+    reader.readAsText(specFile);
   }
 
   public get json() {
@@ -111,15 +113,6 @@ class SpecificationService {
     const doc = docs instanceof Array ? docs.join('\n\n') : docs;
     console.log(doc);
     return markdown(doc);
-  }
-
-  get fileSize() {
-    return this.specFile ? this.specFile.size : 0;
-  }
-
-  set file(file: File) {
-    this.specFile = file;
-    console.log(file);
   }
 
   /** Return zero (when no questions are answered) or more (when repeated) chapters. */
@@ -306,4 +299,4 @@ class SpecificationService {
 }
 
 export const specSvc = new SpecificationService();
-specSvc.load(spec);
+specSvc.load('Example', spec);
