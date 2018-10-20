@@ -1,3 +1,4 @@
+import { dashboardSvc } from './../../services/dashboard-service';
 import { specSvc } from './../../services/spec-service';
 import M from 'materialize-css';
 import m, { Component } from 'mithril';
@@ -16,11 +17,11 @@ export const SelectSpec = () => {
       return [
         m(
           'a.select-spec.waves-effect.waves-teal.btn.blue[href=#][data-target=dropdownspecs]',
-          specSvc.specFile || 'SELECT',
+          specSvc.specTitle || 'SELECT',
         ),
         m(
           'ul.dropdown-content[id=dropdownspecs]',
-          specificationCatalogue.map(spec =>
+          specificationCatalogue.list.map(spec =>
             m(
               'li',
               m(
@@ -29,6 +30,7 @@ export const SelectSpec = () => {
                   onclick: (e: UIEvent) => {
                     e.preventDefault();
                     specSvc.load(spec.title, spec.data);
+                    m.route.set(dashboardSvc.defaultRoute);
                   },
                 },
                 spec.title

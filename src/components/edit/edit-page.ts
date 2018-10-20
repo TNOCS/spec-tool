@@ -6,7 +6,7 @@ import { defaultIndex, isVisible } from '../../utils/utils';
 import { NextPrevPage } from '../ui/next-prev-page';
 
 export const EditPage = () => {
-  const createLink = (c: IChapter) => `#!/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}`;
+  const createLink = (c: IChapter) => `#!/${specSvc.specTitle}/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}`;
   return {
     view: () => {
       const id = m.route.param('id');

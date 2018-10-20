@@ -1,3 +1,4 @@
+import { specificationCatalogue } from './specification-catalogue';
 import m, { RouteDefs, ComponentTypes } from 'mithril';
 import { IDashboard } from '../models/dashboard';
 // import { ISubscriptionDefinition } from './message-bus-service';
@@ -34,13 +35,23 @@ class DashboardService {
 
   public get defaultRoute() {
     const dashboard = this.dashboards.filter(d => d.default).shift();
-    return dashboard ? dashboard.route : this.dashboards[0].route;
+    const route = dashboard ? dashboard.route : this.dashboards[0].route;
+    return route.replace(
+      ':spec',
+      specSvc.specTitle || specificationCatalogue.default.title.toLowerCase()
+    );
   }
 
   public get routingTable() {
     return this.dashboards.reduce(
       (p, c) => {
-        p[c.route] = { render: () => m(this.layout, m(c.component)) };
+        p[c.route] = {
+          render: () => {
+            const spec = m.route.param('spec');
+            specSvc.load(spec);
+            return m(this.layout, m(c.component));
+          },
+        };
         return p;
       },
       {} as RouteDefs
@@ -83,7 +94,7 @@ export const dashboardSvc: DashboardService = new DashboardService(Layout, [
     default: true,
     title: specSvc.templateInfo.home.label,
     icon: specSvc.templateInfo.home.icon,
-    route: `/${specSvc.templateInfo.home.label.toLowerCase()}`,
+    route: `/:spec/${specSvc.templateInfo.home.label.toLowerCase()}`,
     visible: true,
     component: HomePage,
   },
@@ -91,7 +102,7 @@ export const dashboardSvc: DashboardService = new DashboardService(Layout, [
     id: Dashboards.EDIT,
     title: specSvc.templateInfo.edit.label,
     icon: specSvc.templateInfo.edit.icon,
-    route: `/${specSvc.templateInfo.edit.label.toLowerCase()}/:id`,
+    route: `/:spec/${specSvc.templateInfo.edit.label.toLowerCase()}/:id`,
     visible: false,
     component: EditPage,
   },
@@ -99,7 +110,7 @@ export const dashboardSvc: DashboardService = new DashboardService(Layout, [
     id: Dashboards.EDIT,
     title: specSvc.templateInfo.edit.label,
     icon: specSvc.templateInfo.edit.icon,
-    route: `/${specSvc.templateInfo.edit.label.toLowerCase()}`,
+    route: `/:spec/${specSvc.templateInfo.edit.label.toLowerCase()}`,
     visible: true,
     component: EditPage,
   },
@@ -107,7 +118,7 @@ export const dashboardSvc: DashboardService = new DashboardService(Layout, [
     id: Dashboards.SPEC,
     title: specSvc.templateInfo.spec.label,
     icon: specSvc.templateInfo.spec.icon,
-    route: `/${specSvc.templateInfo.spec.label.toLowerCase()}`,
+    route: `/:spec/${specSvc.templateInfo.spec.label.toLowerCase()}`,
     visible: true,
     component: SpecPage,
   },
@@ -115,7 +126,7 @@ export const dashboardSvc: DashboardService = new DashboardService(Layout, [
     id: Dashboards.ABOUT,
     title: specSvc.templateInfo.about.label,
     icon: specSvc.templateInfo.about.icon,
-    route: `/${specSvc.templateInfo.about.label.toLowerCase()}`,
+    route: `/:spec/${specSvc.templateInfo.about.label.toLowerCase()}`,
     visible: true,
     component: AboutPage,
   },

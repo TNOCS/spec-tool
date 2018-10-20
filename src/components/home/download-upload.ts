@@ -1,3 +1,4 @@
+import { dashboardSvc } from './../../services/dashboard-service';
 import { SelectSpec } from './../ui/select-spec';
 import m from 'mithril';
 import { specSvc } from '../../services/spec-service';
@@ -15,7 +16,7 @@ const handleFiles = (files: FileList | null) => {
       if (err) {
         console.error(err);
       }
-      m.redraw();
+      m.route.set(dashboardSvc.defaultRoute);
     });
   } else {
     console.error('Cannot open file!');

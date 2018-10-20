@@ -29,6 +29,7 @@ export const Layout = () => ({
             dashboardSvc
               .getList()
               .filter(d => d.visible)
+              .map(d => ({ ...d, route: d.route.replace(':spec', specSvc.specTitle)}))
               .map(d =>
                 m(
                   `li${isActive(d.route)}`,

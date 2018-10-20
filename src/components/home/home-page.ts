@@ -3,17 +3,26 @@ import { specSvc } from '../../services/spec-service';
 import { replacePlaceholders, isVisible, markdown } from '../../utils/utils';
 import { DownloadUpload } from './download-upload';
 
+export const removeParagraph = (s: string) => s.replace(/<\/?p>/gm, '');
+
 export const HomePage = () => ({
+  oninit: () => {
+    const specTitle = m.route.param('spec');
+    if (!specTitle) {
+      return;
+    }
+    specSvc.load(specTitle);
+  },
   view: () =>
     m('.row', [
       m(
-        '.col s7',
+        '.col.s12.m7.l8',
         m('.introduction', [
           m.trust(markdown(specSvc.introduction)),
           m(DownloadUpload),
         ])
       ),
-      m('.col s5', [
+      m('.col.s12.m5.l4', [
         m('h1', m.trust(specSvc.templateInfo.tableOfContent)),
         m('ul.collection', [
           specSvc.chapters
@@ -22,10 +31,11 @@ export const HomePage = () => ({
               m(
                 'li.collection-item',
                 m(
-                  `a[href=#!/${specSvc.templateInfo.edit.label.toLowerCase()}/${
+                  `a[href=/${specSvc.specTitle}/${specSvc.templateInfo.edit.label.toLowerCase()}/${
                     c.id
                   }]`,
-                  replacePlaceholders(c.title).replace('<p>', '').replace('</p>', '')
+                  { oncreate: m.route.link },
+                  removeParagraph(replacePlaceholders(c.title))
                 )
               )
             ),

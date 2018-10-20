@@ -1,5 +1,10 @@
+import { specificationCatalogue } from './specification-catalogue';
 import spec from '../config/example.spec.json';
-import { ISpecification, IChapter, ISection } from '../models/specification/specification';
+import {
+  ISpecification,
+  IChapter,
+  ISection
+} from '../models/specification/specification';
 import { IAnswer } from '../models/specification/answer';
 import {
   isVisible,
@@ -13,9 +18,14 @@ import {
   createSubIndex,
   replacePlaceholders,
   markdown,
-  checkPlaceholders,
+  checkPlaceholders
 } from '../utils/utils';
-import { Question, IOption, ISelection, IAnsweredQuestion } from '../models/specification/question';
+import {
+  Question,
+  IOption,
+  ISelection,
+  IAnsweredQuestion
+} from '../models/specification/question';
 import { IDocumentInfo } from '../models/specification/document-info';
 import { ITemplateDefinition } from '../models/specification/language-definition';
 
@@ -25,13 +35,21 @@ class SpecificationService {
   public chapters!: IChapter[];
   public specificationInfo!: IDocumentInfo;
   public templateInfo!: IDocumentInfo & ITemplateDefinition;
-  public specFile?: string;
+  public specTitle!: string;
   private specification!: ISpecification;
-  // private specFile?: File;
 
-  public load(specFile: string, specification: ISpecification) {
-    this.specFile = specFile.toLowerCase().replace('.spec.json', '');
-    this.specification = specification;
+  public load(title: string, specification?: ISpecification) {
+    if (title === this.specTitle) { return; }
+    if (!specification) {
+      const spec = specificationCatalogue.find(title);
+      specification = spec ? spec.data : undefined;
+    }
+    this.specTitle = specification
+      ? title.toLowerCase().replace('.spec.json', '')
+      : specificationCatalogue.default.title;
+    this.specification = specification
+      ? specification
+      : specificationCatalogue.default.data;
     this.init();
   }
 
@@ -42,7 +60,9 @@ class SpecificationService {
     const reader = new FileReader();
     reader.onload = async (ev: ProgressEvent) => {
       if (ev.target) {
-        this.load(specFile.name, JSON.parse((ev.target as any).result));
+        const title = specFile.name.replace(/\.spec\.json/gi, '');
+        specificationCatalogue.add(title, JSON.parse((ev.target as any).result));
+        this.load(title);
         cb();
       }
     };
@@ -80,13 +100,18 @@ class SpecificationService {
       if (q.no) {
         group.push(q.no);
       }
-      return group.map(i => replacePlaceholders(i.output, i.index, false)).join('\n');
+      return group
+        .map(i => replacePlaceholders(i.output, i.index, false))
+        .join('\n');
     };
     const printSection = (s: ISection) => {
       const d = [] as string[];
       d.push(replacePlaceholders(s.output, s.index, false));
       if (s.questions) {
-        const docs = s.questions.reduce((p, q) => [...p, printQuestion(q)], [] as string[]);
+        const docs = s.questions.reduce(
+          (p, q) => [...p, printQuestion(q)],
+          [] as string[]
+        );
         d.push(...docs);
       }
       return d;
@@ -95,16 +120,24 @@ class SpecificationService {
       const d = [] as string[];
       d.push(replacePlaceholders(c.output, c.index, false));
       if (c.questions) {
-        const docs = c.questions.reduce((p, q) => [...p, printQuestion(q)], [] as string[]);
+        const docs = c.questions.reduce(
+          (p, q) => [...p, printQuestion(q)],
+          [] as string[]
+        );
         d.push(...docs);
       }
       if (c.sections) {
-        const docs = c.sections.reduce((p, s) => [...p, ...printSection(s)], [] as string[]);
+        const docs = c.sections.reduce(
+          (p, s) => [...p, ...printSection(s)],
+          [] as string[]
+        );
         d.push(...docs);
       }
       return d;
     };
-    const doc = chapters.reduce((p, chapter) => [...p, ...printChapter(chapter)], [] as string[]).filter(s => s);
+    const doc = chapters
+      .reduce((p, chapter) => [...p, ...printChapter(chapter)], [] as string[])
+      .filter(s => s);
     return doc.length > 0 ? doc : this.templateInfo.emptySpecMessage;
   }
 
@@ -131,11 +164,14 @@ class SpecificationService {
             [] as ISection[]
           )
         : [];
-      return questions.length || sections.length ? ({ ...c, index, sections, questions } as IChapter) : undefined;
+      return questions.length || sections.length
+        ? ({ ...c, index, sections, questions } as IChapter)
+        : undefined;
     };
     const repeat = getRepeat(chapter, index) || 0;
     const up = levelUp(index);
-    const createIndex = (j: number) => (up === '' ? j.toString() : `${up}.${j}`);
+    const createIndex = (j: number) =>
+      up === '' ? j.toString() : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedChapter(chapter, index)] as IChapter[])
@@ -143,7 +179,10 @@ class SpecificationService {
             .map(createIndex)
             .reduce(
               (p, i) => {
-                const prunedChapter = pruneIndexedChapter(chapter, createSubIndex(index, i));
+                const prunedChapter = pruneIndexedChapter(
+                  chapter,
+                  createSubIndex(index, i)
+                );
                 return prunedChapter ? [...p, prunedChapter] : p;
               },
               [] as IChapter[]
@@ -158,11 +197,14 @@ class SpecificationService {
         return undefined;
       }
       const questions = this.pruneQuestions(section.questions, index);
-      return questions.length ? ({ ...s, index, questions } as ISection) : undefined;
+      return questions.length
+        ? ({ ...s, index, questions } as ISection)
+        : undefined;
     };
     const repeat = getRepeat(section, index) || 0;
     const up = levelUp(index);
-    const createIndex = (j: number) => (up === '' ? j.toString() : `${up}.${j}`);
+    const createIndex = (j: number) =>
+      up === '' ? j.toString() : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedSection(section, index)] as ISection[])
@@ -170,7 +212,10 @@ class SpecificationService {
             .map(createIndex)
             .reduce(
               (p, i) => {
-                const prunedSection = pruneIndexedSection(section, createSubIndex(index, i));
+                const prunedSection = pruneIndexedSection(
+                  section,
+                  createSubIndex(index, i)
+                );
                 return prunedSection ? [...p, prunedSection] : p;
               },
               [] as ISection[]
@@ -181,10 +226,13 @@ class SpecificationService {
   /** Only return a clone of the questions that have been answered, optionally repeating them. */
   private pruneQuestion(question: Question, index: string) {
     const pruneIndexedQuestion = (q: Question, i: string) =>
-      isVisible(q) && checkPlaceholders(q.output) ? this.cloneAnsweredQuestions(q, i) : undefined;
+      isVisible(q) && checkPlaceholders(q.output)
+        ? this.cloneAnsweredQuestions(q, i)
+        : undefined;
     const repeat = getRepeat(question, index) || 0;
     const up = levelUp(index);
-    const createIndex = (j: number) => (up === '' ? j.toString() : `${up}.${j}`);
+    const createIndex = (j: number) =>
+      up === '' ? j.toString() : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedQuestion(question, index)] as Question[])
@@ -192,7 +240,10 @@ class SpecificationService {
             .map(createIndex)
             .reduce(
               (p, i) => {
-                const prunedQuestion = pruneIndexedQuestion(question, createSubIndex(index, i));
+                const prunedQuestion = pruneIndexedQuestion(
+                  question,
+                  createSubIndex(index, i)
+                );
                 return prunedQuestion ? [...p, prunedQuestion] : p;
               },
               [] as ISection[]
@@ -212,7 +263,10 @@ class SpecificationService {
       : [];
   }
 
-  private cloneAnsweredQuestions(q: Question, index: string): IAnsweredQuestion | undefined {
+  private cloneAnsweredQuestions(
+    q: Question,
+    index: string
+  ): IAnsweredQuestion | undefined {
     if (q.hasOwnProperty('choices')) {
       const selection = q as ISelection;
       const choices = selection.choices.reduce(
@@ -255,7 +309,9 @@ class SpecificationService {
     spec.specificationInfo = this.specificationInfo;
   }
 
-  private defaultTemplateInfo(ti?: IDocumentInfo & Partial<ITemplateDefinition>) {
+  private defaultTemplateInfo(
+    ti?: IDocumentInfo & Partial<ITemplateDefinition>
+  ) {
     return Object.assign(
       {
         and: 'and',
