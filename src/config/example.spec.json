@@ -19,8 +19,8 @@
     "# Example",
     "This is a questionnaire and specification tool: being a dynamic questionnaire, it can generate formatted output.",
     "That is, you can ask questions, and depending on the provided answers, new questions can be displayed.",
-    "Furthermore, each answered question can generate output. E.g. when you ask 'Should the building be furnished?',",
-    "it could generate the affirmative output could be 'Buildings should be furnished'.",
+    "Furthermore, each answered question can generate output. E.g. when you check 'Should the building be furnished?',",
+    "it could generate the affirmative output 'Buildings should be furnished'.",
     "",
     "In that sense, by asking smart questions, a specification can be generated."
   ],
