@@ -4,7 +4,7 @@
   "description": "Specification tool.",
   "scripts": {
     "start": "parcel index.html",
-    "build:domain": "rm -fr dist && parcel build index.html --public-url http://my_domain.com/spectool",
+    "build:domain": "rm -fr docs && cp favicon.ico docs && parcel build index.html --out-dir docs --public-url https://tnocs.github.io/spec-tool",
     "build": "rm -fr dist && parcel build index.html",
     "gen:schema": "typescript-json-schema.cmd tsconfig.json ISpecification > ./schema/spec.json",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,6 +31,7 @@
     "@types/materialize-css": "^1.0.4",
     "@types/mithril": "^1.1.13",
     "autoprefixer": "^9.2.0",
+    "cssnano": "^4.1.5",
     "parcel-bundler": "^1.10.3",
     "typescript": "^3.1.3",
     "typescript-json-schema": "^0.32.0"
