@@ -15,7 +15,7 @@ export const SelectSpec = () => {
     view: () => {
       return [
         m(
-          'a.select-spec.btn[href=#][data-target=dropdownspecs]',
+          'a.select-spec.waves-effect.waves-teal.btn.blue[href=#][data-target=dropdownspecs]',
           specSvc.specFile || 'SELECT',
         ),
         m(
