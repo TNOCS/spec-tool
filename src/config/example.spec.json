@@ -94,7 +94,13 @@
               "id": "magic",
               "title": "Should they include magic?",
               "show": "movie_genres.fantasy",
-              "output": "  - magic"
+              "output": "  - With magic"
+            },
+            {
+              "id": "dragons",
+              "title": "Should they include dragons?",
+              "show": "movie_genres.fantasy",
+              "output": "  - With dragons"
             }
           ]
         }
