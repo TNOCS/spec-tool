@@ -1,0 +1,179 @@
+{
+  "templateInfo": {
+    "author": "Erik Vullings",
+    "created": "2018-09-18",
+    "version": "v0.0.1",
+    "tableOfContent": "Inhoudsopgave",
+    "and": "and",
+    "docInfoTitle": "Document info",
+    "authorLabel": "Auteur",
+    "releaseLabel": "Commentaar",
+    "versionLabel": "Versie",
+    "createdLabel": "Gemaakt op",
+    "updatedLabel": "Bijgewerkt op",
+    "nextLabel": "Volgende",
+    "prevLabel": "Vorige",
+    "home": { "label": "BOB" },
+    "showTemplateSelector": true
+  },
+  "introduction": [
+    "# BOB",
+    "BOB staat voor Beeldvorming, Oordeelvorming en Besluitvorming, en is een manier om een groepsbeslisproces te",
+    "structureren. Het wordt vooral gebruikt bij calamiteiten en incident management.",
+    "",
+    "- Beeldvorming: Eerst wordt binnen de groep ieders beeld gedeeld.",
+    "- Oordeelvorming: Vervolgens wordt iedereen gevraagd wat zijn of haar oordeel over de situatie is, en wat de knelpunten zijn.",
+    "- Besluitvorming: Tenslotte worden de besluiten genomen, en de tijd tot een volgend BOB gesprek bepaald.",
+    "",
+    "Hier richten we ons vooral op de oordeel- en besluitvorming. Door het selecteren van opties worden andere opties",
+    "zichtbaar, en daarmee kunt u uw oordeel of besluit verscherpen."
+  ],
+  "chapters": [
+    {
+      "id": "team",
+      "title": "Samenstelling team",
+      "description": "Wie zijn de BOB teamleden",
+      "output": "# Team samenstelling",
+      "questions": [
+        {
+          "id": "hovd",
+          "title": "HoVD _naam_",
+          "output": "## HoVD: &hovd.naam"
+        },
+        {
+          "id": "leden",
+          "title": "Hoeveel overige leden heeft het team: _aantal_",
+          "output": "## Overige leden",
+          "data": {
+            "aantal": 4,
+            "type": "number"
+          }
+        },
+        {
+          "id": "lid",
+          "title": "$index. Rol en naam: _rol_, _naam_",
+          "repeat": "leden.aantal",
+          "output": "- &lid.rol: &lid.naam"
+        }
+      ]
+    },
+    {
+      "id": "beeld",
+      "title": "Beeldvorming",
+      "description": "Vat het huidige beeld samen.",
+      "questions": [
+        {
+          "id": "lead",
+          "title": "Wie heeft de lead?",
+          "output": "# Lead",
+          "choices": [
+            {
+              "id": "wij",
+              "title": "Wij hebben de lead.",
+              "output": "De lead ligt bij ons."
+            },
+            {
+              "id": "zij",
+              "title": "Iemand anders is in de lead."
+            }
+          ]
+        },
+        {
+          "id": "externe_lead",
+          "title": "Bij wie ligt de lead? _naam_",
+          "output": "De lead ligt bij &externe_lead.naam.",
+          "show": ["lead.zij"]
+        }
+      ]
+    },
+    {
+      "id": "oordeel",
+      "title": "Oordeelvorming",
+      "description": "Hoe duidt u dit incident, en welke knelpunten ziet u.",
+      "output": [
+        "# Oordeelvorming"
+      ],
+      "questions": [
+        {
+          "id": "user",
+          "title": "What is your name? _name_",
+          "output": "My name is &user.name."
+        },
+        {
+          "id": "desc",
+          "title": "&user.name, could you please provide a description of yourself? _description_",
+          "data": {
+            "type": "textarea"
+          },
+          "output": "&desc.description"
+        },
+        {
+          "id": "hobbies",
+          "title": "What are your hobbies?",
+          "output": "My hobbies are:",
+          "show": "user.name",
+          "options": [
+            {
+              "id": "movies",
+              "title": "Watching movies",
+              "output": "- Watching movies"
+            },
+            {
+              "id": "going_out",
+              "title": "Going out",
+              "output": "- Going out"
+            },
+            {
+              "id": "music",
+              "title": "Playing music",
+              "output": "- Playing music"
+            },
+            {
+              "id": "books",
+              "title": "Reading books",
+              "output": "- Reading books"
+            }
+          ]
+        },
+        {
+          "id": "movie_genres",
+          "title": "Aha, so you like movies. What kind of movie genres do you like?",
+          "show": [ "hobbies.movies" ],
+          "output": "I am a movie buff, and really like:",
+          "options": [
+            {
+              "id": "sf",
+              "title": "SF",
+              "output": "- SF"
+            },
+            {
+              "id": "fantasy",
+              "title": "Fantasy",
+              "output": "- Fantasy"
+            },
+            {
+              "id": "magic",
+              "title": "Should they include magic?",
+              "show": "movie_genres.fantasy",
+              "output": "  - With magic"
+            },
+            {
+              "id": "dragons",
+              "title": "Should they include dragons?",
+              "show": "movie_genres.fantasy",
+              "output": "  - With dragons"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "besluit",
+      "title": "Besluitvorming",
+      "description": "Welke maatregelen gaat u treffen?",
+      "output": [
+        "# Besluitvorming"
+      ]
+    }
+  ]
+}
