@@ -6,7 +6,8 @@ import { dashboardSvc } from '../services/dashboard-service';
 import M from 'materialize-css';
 import { specSvc } from '../services/spec-service';
 
-const isActive = (path: string) => (m.route.get().indexOf(path) >= 0 ? '.active' : '');
+const isActive = (path: string) =>
+  m.route.get().indexOf(path) >= 0 ? '.active' : '';
 
 export const Layout = () => ({
   oncreate: () => {
@@ -29,7 +30,10 @@ export const Layout = () => ({
             dashboardSvc
               .getList()
               .filter(d => d.visible)
-              .map(d => ({ ...d, route: d.route.replace(':spec', specSvc.specTitle)}))
+              .map(d => ({
+                ...d,
+                route: d.route.replace(':spec', specSvc.specTitle),
+              }))
               .map(d =>
                 m(
                   `li${isActive(d.route)}`,
@@ -50,13 +54,26 @@ export const Layout = () => ({
             m('.background', m(`img[src=${background}]`)),
             m(
               'a[href=http://www.tno.nl][target=_blank]',
-              m(`img.circle[src=${tno}]`, { style: 'background: white; padding: 5px;' })
+              m(`img.circle[src=${tno}]`, {
+                style: 'background: white; padding: 5px;',
+              })
             ),
-            m('a[href=mailto:erik.vullings@tno.nl][target=_blank]', m('span.black-text name', 'Contact')),
+            m(
+              'a[href=mailto:erik.vullings@tno.nl][target=_blank]',
+              m('span.black-text name', 'Contact')
+            ),
           ])
         ),
         ...specSvc.chapters.map(c =>
-          m('li', m(`a[href=#!/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}]`, c.title))
+          m(
+            'li',
+            m(
+              `a[href=#!/${
+                specSvc.specTitle
+              }/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}]`,
+              c.title
+            )
+          )
         ),
       ]),
       m('section.main', vnode.children),
