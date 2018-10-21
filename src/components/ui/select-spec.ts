@@ -17,7 +17,7 @@ export const SelectSpec = () => {
       return [
         m(
           'a.select-spec.waves-effect.waves-teal.btn.blue[href=#][data-target=dropdownspecs]',
-          specSvc.specTitle || 'SELECT',
+          `Template: ${specSvc.specTitle}` || 'SELECT'
         ),
         m(
           'ul.dropdown-content[id=dropdownspecs]',
