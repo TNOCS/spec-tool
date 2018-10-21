@@ -20,6 +20,14 @@ export const uuid4 = () => {
   });
 };
 
+export const toLetters = (num: number): string => {
+  const mod = num % 26;
+  // tslint:disable-next-line:no-bitwise
+  let pow = (num / 26) | 0;
+  const out = mod ? String.fromCharCode(64 + mod) : (--pow, 'Z');
+  return pow ? toLetters(pow) + out : out;
+};
+
 /**
  * Generate a sequence of numbers between from and to with step size: [from, to].
  *
@@ -184,7 +192,7 @@ export const setAnswer = (
   if (!answers.hasOwnProperty(id)) {
     answers[id] = {};
   }
-  if (typeof value === 'string' && /^\d+$/.test(value) ) {
+  if (typeof value === 'string' && /^\d+$/.test(value)) {
     value = +value;
   }
   if (
@@ -277,16 +285,13 @@ export const getRepeat = (question: Question, index = defaultIndex) => {
     return undefined;
   }
   const answer = typeof r === 'number' ? r : getAnswer(r, index);
-  // const answer = AppState.answers.hasOwnProperty(r) ? AppState.answers[r][0] : undefined;
-  return typeof r === 'number'
-    ? r
-    : answer
-      ? typeof answer === 'string'
-        ? parseInt(answer, 10)
-        : typeof answer === 'number'
-          ? answer
-          : undefined
-      : undefined;
+  return answer
+    ? typeof answer === 'string'
+      ? parseInt(answer, 10)
+      : typeof answer === 'number'
+        ? answer
+        : 0
+    : 0;
 };
 
 /**
@@ -321,7 +326,7 @@ export const isVisible = (question: Question, index = defaultIndex) => {
   return show.some(v => checkAnswers(v));
 };
 
-const placeholderRegex = /&([a-zA-Z0-9]+\.[a-zA-Z0-9]+)/g;
+const placeholderRegex = /&([a-zA-Z0-9_]+\.[a-zA-Z0-9_]+)/g;
 
 /** Replace placeholders, as &name, with their value. */
 export const replacePlaceholders = (
@@ -333,7 +338,12 @@ export const replacePlaceholders = (
     return '';
   }
   let s = txt instanceof Array ? txt.join('<br/>') : txt;
+  if (s.indexOf('$index') >= 0) {
+    const i = index.split('.').pop() || '0';
+    s = s.replace('$indexStr', toLetters(+i + 1)).replace('$index', `${+i + 1}`);
+  }
   let rep: RegExpExecArray | null;
+  const replacements: { [key: string]: string } = {};
   do {
     rep = placeholderRegex.exec(s);
     if (rep !== null) {
@@ -349,11 +359,14 @@ export const replacePlaceholders = (
         const answer = getAnswer(match, index);
         // const answer = answers.hasOwnProperty(match) ? answers[match][index] : undefined;
         if (answer && s) {
-          s = s.replace(`&${match}`, `${answer}`);
+          replacements[`&${match}`] = `${answer}`;
         }
       });
     }
   } while (rep !== null);
+  Object.keys(replacements).map(key => {
+    s = s.replace(key, replacements[key]);
+  });
   return toMarkdown ? markdown(s) : s;
 };
 
