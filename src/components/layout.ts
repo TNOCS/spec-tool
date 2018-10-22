@@ -5,6 +5,7 @@ import tno from '../assets/tno.png';
 import { dashboardSvc } from '../services/dashboard-service';
 import M from 'materialize-css';
 import { specSvc } from '../services/spec-service';
+import { removeHtml, replacePlaceholders } from '../utils/utils';
 
 const isActive = (path: string) =>
   m.route.get().indexOf(path) >= 0 ? '.active' : '';
@@ -71,7 +72,7 @@ export const Layout = () => ({
               `a[href=#!/${
                 specSvc.specTitle
               }/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}]`,
-              c.title
+              removeHtml(replacePlaceholders(c.title))
             )
           )
         ),

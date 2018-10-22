@@ -1,9 +1,7 @@
 import m from 'mithril';
 import { specSvc } from '../../services/spec-service';
-import { replacePlaceholders, isVisible, markdown } from '../../utils/utils';
+import { replacePlaceholders, isVisible, markdown, removeHtml } from '../../utils/utils';
 import { DownloadUpload } from './download-upload';
-
-export const removeParagraph = (s: string) => s.replace(/<\/?p>/gm, '');
 
 export const HomePage = () => ({
   oninit: () => {
@@ -35,7 +33,7 @@ export const HomePage = () => ({
                     c.id
                   }]`,
                   { oncreate: m.route.link },
-                  removeParagraph(replacePlaceholders(c.title))
+                  removeHtml(replacePlaceholders(c.title))
                 )
               )
             ),
