@@ -235,10 +235,6 @@ export const levelUp = (i: string) =>
 export const newId = (id: string | number, subId?: string | number) =>
   subId ? `${id}.${subId}` : `${id}`;
 
-/** Create an index one nested level deeper. */
-export const createSubIndex = (index: string, subIndex: string) =>
-  `${index}.${subIndex}`;
-
 /** Check if a single answer has been answered */
 const checkSingleAnswer = (answer: IAnswer) => {
   const v = answer.value;
@@ -340,7 +336,9 @@ export const replacePlaceholders = (
   let s = txt instanceof Array ? txt.join('<br/>') : txt;
   if (s.indexOf('$index') >= 0) {
     const i = index.split('.').pop() || '0';
-    s = s.replace('$indexStr', toLetters(+i + 1)).replace('$index', `${+i + 1}`);
+    s = s
+      .replace('$indexStr', toLetters(+i + 1))
+      .replace('$index', `${+i + 1}`);
   }
   let rep: RegExpExecArray | null;
   const replacements: { [key: string]: string } = {};
