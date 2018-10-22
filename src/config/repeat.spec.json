@@ -1,0 +1,143 @@
+{
+  "templateInfo": {
+    "author": "Erik Vullings",
+    "created": "2018-09-18",
+    "version": "v0.0.1",
+    "tableOfContent": "Table of Content",
+    "and": "and",
+    "docInfoTitle": "Document info",
+    "authorLabel": "Author",
+    "releaseLabel": "Comments",
+    "versionLabel": "Version",
+    "createdLabel": "Created on",
+    "updatedLabel": "Updated on",
+    "nextLabel": "Next",
+    "prevLabel": "Previous",
+    "showTemplateSelector": true
+  },
+  "introduction": [
+    "# Test repeating elements",
+    "Each chapter, section and question can be repeated. This is a simple test to see whether the answers are",
+    "still correctly created."
+  ],
+  "chapters": [
+    {
+      "id": "me",
+      "title": "# $index. Introduction",
+      "description": "A brief introduction about myself.",
+      "output": [
+        "# Introduction"
+      ],
+      "repeat": 3,
+      "sections": [
+        {
+          "id": "main",
+          "title": "## $index. Main section",
+          "description": "This is the most important section",
+          "output": "## Main section",
+          "repeat": "repeat.count",
+          "questions": [
+            {
+              "id": "first",
+              "title": "First question: _question_",
+              "description": "Please enter the first question.",
+              "output": "The first question is &first.question",
+              "data": {
+                "type": "textarea"
+              }
+            },
+            {
+              "id": "second",
+              "title": "Second question: _question_",
+              "description": "Your first question is &first.question. Please enter the second question too.",
+              "output": "The second question is &second.question",
+              "data": {
+                "type": "textarea"
+              }
+            }
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "repeat",
+          "title": "How many times do we need to repeat the main section (default 3)? _count_",
+          "data": {
+            "count": 3
+          }
+        },
+        {
+          "id": "user",
+          "title": "What is your name? _name_",
+          "output": "My name is &user.name."
+        },
+        {
+          "id": "desc",
+          "title": "&user.name, could you please provide a description of yourself? _description_",
+          "data": {
+            "type": "textarea"
+          },
+          "output": "&desc.description"
+        },
+        {
+          "id": "hobbies",
+          "title": "What are your hobbies?",
+          "output": "My hobbies are:",
+          "show": "user.name",
+          "options": [
+            {
+              "id": "movies",
+              "title": "Watching movies",
+              "output": "- Watching movies"
+            },
+            {
+              "id": "going_out",
+              "title": "Going out",
+              "output": "- Going out"
+            },
+            {
+              "id": "music",
+              "title": "Playing music",
+              "output": "- Playing music"
+            },
+            {
+              "id": "books",
+              "title": "Reading books",
+              "output": "- Reading books"
+            }
+          ]
+        },
+        {
+          "id": "movie_genres",
+          "title": "Aha, so you like movies. What kind of movie genres do you like?",
+          "show": [ "hobbies.movies" ],
+          "output": "I am a movie buff, and really like:",
+          "options": [
+            {
+              "id": "sf",
+              "title": "SF",
+              "output": "- SF"
+            },
+            {
+              "id": "fantasy",
+              "title": "Fantasy",
+              "output": "- Fantasy"
+            },
+            {
+              "id": "magic",
+              "title": "Should they include magic?",
+              "show": "movie_genres.fantasy",
+              "output": "  - With magic"
+            },
+            {
+              "id": "dragons",
+              "title": "Should they include dragons?",
+              "show": "movie_genres.fantasy",
+              "output": "  - With dragons"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
