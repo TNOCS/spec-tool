@@ -78,7 +78,9 @@ const baseButton = (defaultClassNames: string[]) => <State, Attrs>(opt: {
   classNames?: string;
 }) =>
   m(
-    `${defaultClassNames.join('.')}${opt.classNames ? '.' + opt.classNames : ''}${
+    `${defaultClassNames.join('.')}${
+      opt.classNames ? '.' + opt.classNames : ''
+    }${
       opt.tooltip
         ? '.tooltipped[data-position=top][data-tooltip=' + opt.tooltip + ']'
         : ''
@@ -116,26 +118,26 @@ export interface IInputOptions {
 const isLabelActive = (value: string | number | boolean | undefined) =>
   typeof value === 'undefined' ? '' : 'active';
 
-const inputField = (type: string) => (
-  opt: IInputOptions
-) => ({
-  view: () =>
-    m(
-      `.input-field${toDottedClassList(opt.classNames)}`,
+const inputField = (type: string) => (opt: IInputOptions) => ({
+  view: () => {
+    const id = uuid4();
+    return m(
+      `.input-field[tabindex=0]${toDottedClassList(opt.classNames)}`,
       { style: opt.style || '' },
       [
         opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-        m(`${type}[id=${opt.id}]${opt.disabled ? '[disabled]' : ''}`, {
+        m(`${type}[id=${id}]${opt.disabled ? '[disabled]' : ''}`, {
           onchange: m.withAttr('value', opt.onchange),
           value: opt.initialValue,
         }),
         m(
-          `label[for=${opt.id}]`,
+          `label[for=${id}]`,
           { class: `${isLabelActive(opt.initialValue)}` },
           opt.label
         ),
       ]
-    ),
+    );
+  },
 });
 
 export const inputTextArea = (opt: IInputOptions) => ({
@@ -145,8 +147,9 @@ export const inputTextArea = (opt: IInputOptions) => ({
       M.textareaAutoResize(elem);
     }
   },
-  view: () =>
-    m(
+  view: () => {
+    const id = uuid4();
+    return m(
       'form',
       m(
         `.input-field${toDottedClassList(opt.classNames)}`,
@@ -154,7 +157,7 @@ export const inputTextArea = (opt: IInputOptions) => ({
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
           m(
-            `textarea.materialize-textarea[id=${opt.id}]${
+            `textarea.materialize-textarea[tabindex=0][id=${id}]${
               opt.disabled ? '[disabled]' : ''
             }`,
             {
@@ -163,23 +166,16 @@ export const inputTextArea = (opt: IInputOptions) => ({
             }
           ),
           m(
-            `label[for=${opt.id}]`,
+            `label[for=${id}]`,
             { class: `${isLabelActive(opt.initialValue)}` },
             opt.label
           ),
         ]
       )
-    ),
+    );
+  },
 });
 
-// export const inputTextArea = inputField('textarea.materialize-textarea', () => {
-//   console.log('onblur');
-//   const elem = document.querySelector('.materialize-textarea');
-//   if (elem) {
-//     M.textareaAutoResize(elem);
-//     console.log('autoresize');
-//  }
-// });
 export const inputText = inputField('input[type=text]');
 export const inputNumber = inputField('input[type=number]');
 export const inputEmail = inputField('input[type=email]');
@@ -203,7 +199,7 @@ export const InputCheckbox = (opt: {
       m(
         'p',
         m('label', [
-          m(`input[type=checkbox]${attrs.checked ? '[checked=checked]' : ''}`, {
+          m(`input[type=checkbox][tabindex=0]${attrs.checked ? '[checked=checked]' : ''}`, {
             onclick: m.withAttr('checked', opt.onchange),
           }),
           m('span', m.trust(removeParagraphs(opt.label))),
@@ -248,7 +244,7 @@ const InputRadio = (opt: {
         'p',
         m('label', [
           m(
-            `input[type=radio][name=${opt.groupId}]${
+            `input[type=radio][tabindex=0][name=${opt.groupId}]${
               attrs.checked ? '[checked=checked]' : ''
             }`,
             {
