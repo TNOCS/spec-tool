@@ -1,6 +1,7 @@
 dependencies:
   js-yaml: 3.12.0
   marked: 0.5.1
+  material-icons: 0.2.3
   materialize-css: 1.0.0
   mithril: 1.1.6
 devDependencies:
@@ -2965,6 +2966,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-iUkBZegCZou4AdwbKTwSW/lNDcz5OuRSl3qdcl31Ia0B2QPG0Jn+tKblh/9/eP9/6+4h27vpoh8wel/vQOV0vw==
+  /material-icons/0.2.3:
+    dev: false
+    resolution:
+      integrity: sha512-1Q5wp4aeGWjE5POMtdLmqJn94QM7vmUCeJhNO5m0oDrtW1jfWlaLK73vF3C7/fuMD7NIVicyK8TSkwd+diFgaQ==
   /materialize-css/1.0.0:
     dev: false
     resolution:
@@ -5192,6 +5197,7 @@ specifiers:
   autoprefixer: ^9.2.0
   js-yaml: ^3.12.0
   marked: ^0.5.1
+  material-icons: ^0.2.3
   materialize-css: ^1.0.0
   mithril: ^1.1.6
   parcel-bundler: ^1.10.3
