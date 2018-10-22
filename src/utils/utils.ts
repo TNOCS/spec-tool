@@ -140,6 +140,8 @@ const createMarkdownParser = () => {
 };
 export const markdown = createMarkdownParser();
 
+export const removeHtml = (s: string) => s.replace(/<\/?[0-9a-zA-Z=\[\]_ \-"]+>/gm, '');
+
 /**
  * Every chapter, section and question can be repeated. The index keeps track of the
  * number of repeats, such that each answer is given a unique index.
@@ -169,12 +171,11 @@ export const updateIndex = (
       return createIndex(c, s, x);
   }
 };
+
 /** Get a new index, one level up for looking up answers (question -> section -> chapter) */
 export const levelUpIndex = (index: string) => {
   const [c, s, q] = parseIndex(index);
-  return q > 0
-    ? createIndex(c, s, 0)
-    : s > 0
+  return q > 0 && s > 0
       ? createIndex(c, s - 1, 0)
       : c > 0
         ? createIndex(c - 1, 0, 0)
