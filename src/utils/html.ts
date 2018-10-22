@@ -122,11 +122,11 @@ const inputField = (type: string) => (opt: IInputOptions) => ({
   view: () => {
     const id = uuid4();
     return m(
-      `.input-field[tabindex=0]${toDottedClassList(opt.classNames)}`,
+      `.input-field${toDottedClassList(opt.classNames)}`,
       { style: opt.style || '' },
       [
         opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-        m(`${type}[id=${id}]${opt.disabled ? '[disabled]' : ''}`, {
+        m(`${type}[tabindex=0][id=${id}]${opt.disabled ? '[disabled]' : ''}`, {
           onchange: m.withAttr('value', opt.onchange),
           value: opt.initialValue,
         }),
@@ -150,28 +150,25 @@ export const inputTextArea = (opt: IInputOptions) => ({
   view: () => {
     const id = uuid4();
     return m(
-      'form',
-      m(
-        `.input-field${toDottedClassList(opt.classNames)}`,
-        { style: opt.style || '' },
-        [
-          opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-          m(
-            `textarea.materialize-textarea[tabindex=0][id=${id}]${
-              opt.disabled ? '[disabled]' : ''
-            }`,
-            {
-              onchange: m.withAttr('value', opt.onchange),
-              value: opt.initialValue,
-            }
-          ),
-          m(
-            `label[for=${id}]`,
-            { class: `${isLabelActive(opt.initialValue)}` },
-            opt.label
-          ),
-        ]
-      )
+      `.input-field${toDottedClassList(opt.classNames)}`,
+      { style: opt.style || '' },
+      [
+        opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
+        m(
+          `textarea.materialize-textarea[tabindex=0][id=${id}]${
+            opt.disabled ? '[disabled]' : ''
+          }`,
+          {
+            onchange: m.withAttr('value', opt.onchange),
+            value: opt.initialValue,
+          }
+        ),
+        m(
+          `label[for=${id}]`,
+          { class: `${isLabelActive(opt.initialValue)}` },
+          opt.label
+        ),
+      ]
     );
   },
 });
@@ -199,9 +196,14 @@ export const InputCheckbox = (opt: {
       m(
         'p',
         m('label', [
-          m(`input[type=checkbox][tabindex=0]${attrs.checked ? '[checked=checked]' : ''}`, {
-            onclick: m.withAttr('checked', opt.onchange),
-          }),
+          m(
+            `input[type=checkbox][tabindex=0]${
+              attrs.checked ? '[checked=checked]' : ''
+            }`,
+            {
+              onclick: m.withAttr('checked', opt.onchange),
+            }
+          ),
           m('span', m.trust(removeParagraphs(opt.label))),
         ])
       ),
