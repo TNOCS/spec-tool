@@ -1,5 +1,4 @@
 import { specificationCatalogue } from './specification-catalogue';
-import spec from '../config/example.spec.json';
 import {
   ISpecification,
   IChapter,
@@ -15,7 +14,6 @@ import {
   getRepeat,
   levelUp,
   range,
-  createSubIndex,
   replacePlaceholders,
   markdown,
   checkPlaceholders
@@ -41,8 +39,8 @@ class SpecificationService {
   public load(title: string, specification?: ISpecification) {
     if (title === this.specTitle) { return; }
     if (!specification) {
-      const spec = specificationCatalogue.find(title);
-      specification = spec ? spec.data : undefined;
+      const s = specificationCatalogue.find(title);
+      specification = s ? s.data : undefined;
     }
     this.specTitle = specification
       ? title.toLowerCase().replace('.spec.json', '')
@@ -171,7 +169,7 @@ class SpecificationService {
     const repeat = getRepeat(chapter, index) || 0;
     const up = levelUp(index);
     const createIndex = (j: number) =>
-      up === '' ? j.toString() : `${up}.${j}`;
+      up === '' ? `0.${j}` : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedChapter(chapter, index)] as IChapter[])
@@ -181,7 +179,7 @@ class SpecificationService {
               (p, i) => {
                 const prunedChapter = pruneIndexedChapter(
                   chapter,
-                  createSubIndex(index, i)
+                  i
                 );
                 return prunedChapter ? [...p, prunedChapter] : p;
               },
@@ -204,7 +202,7 @@ class SpecificationService {
     const repeat = getRepeat(section, index) || 0;
     const up = levelUp(index);
     const createIndex = (j: number) =>
-      up === '' ? j.toString() : `${up}.${j}`;
+      up === '' ? `0.${j}` : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedSection(section, index)] as ISection[])
@@ -214,7 +212,7 @@ class SpecificationService {
               (p, i) => {
                 const prunedSection = pruneIndexedSection(
                   section,
-                  createSubIndex(index, i)
+                  i
                 );
                 return prunedSection ? [...p, prunedSection] : p;
               },
@@ -226,15 +224,15 @@ class SpecificationService {
   /** Only return a clone of the questions that have been answered, optionally repeating them. */
   private pruneQuestion(question: Question, index: string) {
     const pruneIndexedQuestion = (q: Question, i: string) =>
-      isVisible(q) && checkPlaceholders(q.output)
+      isVisible(q, i) && checkPlaceholders(q.output, i)
         ? this.cloneAnsweredQuestions(q, i)
         : undefined;
     const repeat = getRepeat(question, index) || 0;
     const up = levelUp(index);
     const createIndex = (j: number) =>
-      up === '' ? j.toString() : `${up}.${j}`;
+      up === '' ? `0.${j}` : `${up}.${j}`;
     const pruned =
-      repeat === 0
+      repeat === 0 || typeof repeat === 'undefined'
         ? ([pruneIndexedQuestion(question, index)] as Question[])
         : range(0, repeat - 1)
             .map(createIndex)
@@ -242,7 +240,7 @@ class SpecificationService {
               (p, i) => {
                 const prunedQuestion = pruneIndexedQuestion(
                   question,
-                  createSubIndex(index, i)
+                  i
                 );
                 return prunedQuestion ? [...p, prunedQuestion] : p;
               },
@@ -296,17 +294,17 @@ class SpecificationService {
     if (!this.specification) {
       return;
     }
-    const spec = this.specification as ISpecification;
-    this.answers = spec.answers || {};
-    this.chapters = spec.chapters;
-    this.introduction = spec.introduction
-      ? spec.introduction instanceof Array
-        ? spec.introduction.join('\n')
-        : spec.introduction
+    const specification = this.specification as ISpecification;
+    this.answers = specification.answers || {};
+    this.chapters = specification.chapters;
+    this.introduction = specification.introduction
+      ? specification.introduction instanceof Array
+        ? specification.introduction.join('\n')
+        : specification.introduction
       : ['# Welcome to SPECTOOL'].join('\n');
-    this.templateInfo = this.defaultTemplateInfo(spec.templateInfo);
-    this.specificationInfo = spec.specificationInfo || {};
-    spec.specificationInfo = this.specificationInfo;
+    this.templateInfo = this.defaultTemplateInfo(specification.templateInfo);
+    this.specificationInfo = specification.specificationInfo || {};
+    specification.specificationInfo = this.specificationInfo;
   }
 
   private defaultTemplateInfo(
@@ -355,4 +353,4 @@ class SpecificationService {
 }
 
 export const specSvc = new SpecificationService();
-specSvc.load('Example', spec);
+specSvc.load(specificationCatalogue.default.title, specificationCatalogue.default.data);

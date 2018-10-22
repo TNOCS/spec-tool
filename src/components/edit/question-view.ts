@@ -1,6 +1,19 @@
+import { updateIndex } from './../../utils/utils';
 import m, { Component, Vnode } from 'mithril';
-import { Question, IOption, ISelection, IBaseQuestion } from '../../models/specification/question';
-import { InputCheckbox, InputRadios, inputText, IInputOptions, inputNumber, inputTextArea } from '../../utils/html';
+import {
+  Question,
+  IOption,
+  ISelection,
+  IBaseQuestion
+} from '../../models/specification/question';
+import {
+  InputCheckbox,
+  InputRadios,
+  inputText,
+  IInputOptions,
+  inputNumber,
+  inputTextArea
+} from '../../utils/html';
 import {
   replacePlaceholders,
   range,
@@ -9,9 +22,8 @@ import {
   setAnswer,
   getAnswer,
   getRepeat,
-  levelUp,
   newId,
-  getDirectAnswer,
+  getDirectAnswer
 } from '../../utils/utils';
 
 const switchView = (question: Question) => {
@@ -29,17 +41,17 @@ export const QuestionView = () => {
     view: ({ attrs }) => {
       const question = attrs.question;
       const i = attrs.index || defaultIndex;
-      const up = levelUp(i);
-      const createIndex = (j: number) => (up === '' ? j.toString() : `${up}.${j}`);
       const v = switchView(question);
-      const repeat = getRepeat(question, i);
-      return !repeat || repeat <= 1
-        ? isVisible(question)
-          ? m(v, { question, index: i })
-          : ''
-        : range(0, repeat - 1)
-            .map(createIndex)
-            .map(index => m(v, { question, index }));
+      const repeat = getRepeat(question, i) || 1;
+      return repeat === 0
+        ? undefined
+        : repeat === 1
+          ? isVisible(question)
+            ? m(v, { question, index: i })
+            : undefined
+          : range(0, repeat - 1)
+              .map(x => updateIndex(i, x, 'question'))
+              .map(index => m(v, { question, index }));
     },
   } as Component<{ question: Question; index?: string }>;
 };
@@ -84,7 +96,9 @@ const ChoicesView = () =>
       const title = replacePlaceholders(question.title, index);
       const description = replacePlaceholders(question.description, index);
       const id = (optionId: string | number) => newId(question.id, optionId);
-      const checkedChoice = choices.filter(c => getAnswer(id(c.id), index)).shift();
+      const checkedChoice = choices
+        .filter(c => getAnswer(id(c.id), index))
+        .shift();
       const onchange = (selectedId: string | number) => {
         choices.forEach(c => setAnswer(id(c.id), false, index));
         const selected = choices.filter(c => c.id === selectedId).shift();
@@ -96,7 +110,10 @@ const ChoicesView = () =>
         m(
           InputRadios({
             onchange,
-            radios: choices.map(c => ({ id: c.id, label: replacePlaceholders(c.title, index) })),
+            radios: choices.map(c => ({
+              id: c.id,
+              label: replacePlaceholders(c.title, index),
+            })),
           }),
           { checkedId: checkedChoice ? checkedChoice.id : undefined }
         ),
@@ -131,7 +148,10 @@ const TemplateView = () => {
           if (k < j && k > 0) {
             // Title contains a newline character
             matches.push({ fragment: title.substr(0, k) });
-            matches.push({ fragment: title.substr(k + 1, j - k - 1), key: match });
+            matches.push({
+              fragment: title.substr(k + 1, j - k - 1),
+              key: match,
+            });
           } else {
             matches.push({ fragment: title.substr(i, j - i), key: match });
           }
@@ -157,7 +177,10 @@ const TemplateView = () => {
               const label = v.key;
               if (label) {
                 const key = newId(q.id, label);
-                const givenValue = q.data && q.data.hasOwnProperty(label) ? q.data[label] : undefined;
+                const givenValue =
+                  q.data && q.data.hasOwnProperty(label)
+                    ? q.data[label]
+                    : undefined;
                 const type = q.data
                   ? q.data.type
                     ? q.data.type

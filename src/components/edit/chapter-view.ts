@@ -7,13 +7,16 @@ import {
   isVisible,
   getRepeat,
   range,
-  levelUp,
-  createSubIndex,
+  updateIndex
 } from '../../utils/utils';
 import { SectionView } from './section-view';
 import { specSvc } from '../../services/spec-service';
 
-export const ChapterView = (): Component<{ chapter: IChapter; index: string; canRepeat: boolean }> => {
+export const ChapterView = (): Component<{
+  chapter: IChapter;
+  index: string;
+  canRepeat: boolean;
+}> => {
   return {
     onupdate: () => console.log(JSON.stringify(specSvc.answers, null, 2)),
     view: ({ attrs }) => {
@@ -22,23 +25,27 @@ export const ChapterView = (): Component<{ chapter: IChapter; index: string; can
       const questions = chapter.questions || [];
       const sections = chapter.sections || [];
       const repeat = attrs.canRepeat ? getRepeat(chapter, i) : 0;
-      const up = levelUp(i);
-      const createIndex = (j: number) => (up === '' ? j.toString() : `${up}.${j}`);
       const title = m.trust(replacePlaceholders(chapter.title, i));
-      const description = chapter.description ? m.trust(replacePlaceholders(chapter.description, i)) : '';
+      const description = chapter.description
+        ? m.trust(replacePlaceholders(chapter.description, i))
+        : '';
       return !repeat || repeat <= 1
         ? m('.row', [
             m(`h1[id=${chapter.id}]`, title),
             description ? m('p.chapter', description) : '',
-            ...questions.filter(q => isVisible(q, i)).map(question => m(QuestionView, { question, index: i })),
+            ...questions
+              .filter(q => isVisible(q, i))
+              .map(question => m(QuestionView, { question, index: i })),
             ...sections
               .filter(q => isVisible(q, i))
-              .map(section => m(SectionView, { section, index: i, canRepeat: true })),
+              .map(section =>
+                m(SectionView, { section, index: i, canRepeat: true })
+              ),
           ])
         : range(0, repeat - 1)
-            .map(createIndex)
+            .map(x => updateIndex(i, x, 'chapter'))
             .filter(index => isVisible(chapter, index))
-            .map(index => m(ChapterView, { chapter, index: createSubIndex(i, index), canRepeat: false }));
+            .map(index => m(ChapterView, { chapter, index, canRepeat: false }));
     },
   } as Component<{ chapter: IChapter; index: string; canRepeat: boolean }>;
 };

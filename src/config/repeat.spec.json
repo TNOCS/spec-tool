@@ -23,7 +23,7 @@
   "chapters": [
     {
       "id": "me",
-      "title": "# $index. Introduction",
+      "title": "# $chapterIndex. Introduction",
       "description": "A brief introduction about myself.",
       "output": [
         "# Introduction"
@@ -32,7 +32,7 @@
       "sections": [
         {
           "id": "main",
-          "title": "## $index. Main section",
+          "title": "## $chapterIndex.$sectionIndex. Main section",
           "description": "This is the most important section",
           "output": "## Main section",
           "repeat": "repeat.count",

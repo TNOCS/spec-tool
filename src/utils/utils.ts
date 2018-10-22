@@ -140,7 +140,46 @@ const createMarkdownParser = () => {
 };
 export const markdown = createMarkdownParser();
 
-export const defaultIndex = '0';
+/**
+ * Every chapter, section and question can be repeated. The index keeps track of the
+ * number of repeats, such that each answer is given a unique index.
+ * INDEX = CHAPTER_REPEAT.SECTION_REPEAT.QUESTION_REPEAT
+ */
+export const defaultIndex = '0.0.0';
+
+/** Parse the index and extract the chapter, section and question repeat count. */
+export const parseIndex = (index: string): number[] =>
+  index.split('.').map(i => +i);
+/** Create a new index based on the number of repeats */
+export const createIndex = (c: number, s: number, q: number) =>
+  `${c}.${s}.${q}`;
+/** Update an existing index */
+export const updateIndex = (
+  index: string,
+  x: number,
+  type: 'chapter' | 'section' | 'question'
+) => {
+  const [c, s, q] = parseIndex(index);
+  switch (type) {
+    case 'chapter':
+      return createIndex(x, s, q);
+    case 'section':
+      return createIndex(c, x, q);
+    case 'question':
+      return createIndex(c, s, x);
+  }
+};
+/** Get a new index, one level up for looking up answers (question -> section -> chapter) */
+export const levelUpIndex = (index: string) => {
+  const [c, s, q] = parseIndex(index);
+  return q > 0
+    ? createIndex(c, s, 0)
+    : s > 0
+      ? createIndex(c, s - 1, 0)
+      : c > 0
+        ? createIndex(c - 1, 0, 0)
+        : undefined;
+};
 
 /** For radio buttons, provide a means to clear an answer */
 export const clearAnswer = (id: string, index = defaultIndex) => {
@@ -224,12 +263,12 @@ export const setAnswer = (
   }
 };
 
-/** Move the index a level up */
-export const levelUp = (i: string) =>
-  i
-    .split('.')
-    .filter((v, j, arr) => j < arr.length - 1)
-    .join('.');
+// /** Move the index a level up */
+// export const levelUp = (i: string) =>
+//   i
+//     .split('.')
+//     .filter((v, j, arr) => j < arr.length - 1)
+//     .join('.');
 
 /** Create the answer id by combining two id. */
 export const newId = (id: string | number, subId?: string | number) =>
@@ -267,8 +306,8 @@ export const getAnswer = (
     if (answers[id].hasOwnProperty(i)) {
       return answers[id][i];
     }
-    const up = levelUp(i);
-    return up === '' ? undefined : find(up);
+    const up = levelUpIndex(i);
+    return up ? find(up) : undefined;
   };
   const answer = find();
   return answer ? answer.value : undefined;
@@ -322,6 +361,26 @@ export const isVisible = (question: Question, index = defaultIndex) => {
   return show.some(v => checkAnswers(v));
 };
 
+const repeatRegex = /\$chapterIndex||\$sectionIndex||\$questionIndex/g;
+
+/**
+ * Replace the $chapterIndex, $sectionIndex and $questionIndex with a number.
+ * Same for $chapterIndexStr, $sectionIndexStr and $questionIndexStr with a letter.
+ */
+const replaceRepeatIndex = (index: string, str: string) => {
+  if (!repeatRegex.test(str)) {
+    return str;
+  }
+  const [c, s, q] = parseIndex(index);
+  return str
+    .replace(/\$chapterIndexStr/g, `${toLetters(c + 1)}`)
+    .replace(/\$sectionIndexStr/g, `${toLetters(s + 1)}`)
+    .replace(/\$questionIndexStr/g, `${toLetters(q + 1)}`)
+    .replace(/\$chapterIndex/g, `${c + 1}`)
+    .replace(/\$sectionIndex/g, `${s + 1}`)
+    .replace(/\$questionIndex/g, `${q + 1}`);
+};
+
 const placeholderRegex = /&([a-zA-Z0-9_]+\.[a-zA-Z0-9_]+)/g;
 
 /** Replace placeholders, as &name, with their value. */
@@ -334,12 +393,7 @@ export const replacePlaceholders = (
     return '';
   }
   let s = txt instanceof Array ? txt.join('<br/>') : txt;
-  if (s.indexOf('$index') >= 0) {
-    const i = index.split('.').pop() || '0';
-    s = s
-      .replace('$indexStr', toLetters(+i + 1))
-      .replace('$index', `${+i + 1}`);
-  }
+  s = replaceRepeatIndex(index, s);
   let rep: RegExpExecArray | null;
   const replacements: { [key: string]: string } = {};
   do {
