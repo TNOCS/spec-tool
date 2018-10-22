@@ -12,11 +12,11 @@ import {
   getDirectAnswer,
   newId,
   getRepeat,
-  levelUp,
   range,
   replacePlaceholders,
   markdown,
-  checkPlaceholders
+  checkPlaceholders,
+  updateIndex
 } from '../utils/utils';
 import {
   Question,
@@ -167,14 +167,11 @@ class SpecificationService {
         : undefined;
     };
     const repeat = getRepeat(chapter, index) || 0;
-    const up = levelUp(index);
-    const createIndex = (j: number) =>
-      up === '' ? `0.${j}` : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedChapter(chapter, index)] as IChapter[])
         : range(0, repeat - 1)
-            .map(createIndex)
+            .map(x => updateIndex(index, x, 'chapter'))
             .reduce(
               (p, i) => {
                 const prunedChapter = pruneIndexedChapter(
@@ -200,14 +197,11 @@ class SpecificationService {
         : undefined;
     };
     const repeat = getRepeat(section, index) || 0;
-    const up = levelUp(index);
-    const createIndex = (j: number) =>
-      up === '' ? `0.${j}` : `${up}.${j}`;
     const pruned =
       repeat === 0
         ? ([pruneIndexedSection(section, index)] as ISection[])
         : range(0, repeat - 1)
-            .map(createIndex)
+            .map(x => updateIndex(index, x, 'section'))
             .reduce(
               (p, i) => {
                 const prunedSection = pruneIndexedSection(
@@ -228,14 +222,11 @@ class SpecificationService {
         ? this.cloneAnsweredQuestions(q, i)
         : undefined;
     const repeat = getRepeat(question, index) || 0;
-    const up = levelUp(index);
-    const createIndex = (j: number) =>
-      up === '' ? `0.${j}` : `${up}.${j}`;
     const pruned =
       repeat === 0 || typeof repeat === 'undefined'
         ? ([pruneIndexedQuestion(question, index)] as Question[])
         : range(0, repeat - 1)
-            .map(createIndex)
+            .map(x => updateIndex(index, x, 'question'))
             .reduce(
               (p, i) => {
                 const prunedQuestion = pruneIndexedQuestion(
