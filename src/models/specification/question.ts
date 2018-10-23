@@ -67,6 +67,8 @@ export interface IBaseQuestion {
    * show it when all of these questions have been selected.
    */
   show?: string | string[];
+  /** When true, mark the question as mandatory. */
+  mandatory?: boolean;
   /** Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc. */
   index?: string;
 }

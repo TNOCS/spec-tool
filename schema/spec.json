@@ -50,6 +50,10 @@
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
                     "type": "string"
                 },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
+                },
                 "output": {
                     "anyOf": [
                         {
@@ -122,6 +126,10 @@
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
                     "type": "string"
+                },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
                 },
                 "output": {
                     "anyOf": [
@@ -299,6 +307,10 @@
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
                     "type": "string"
                 },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
+                },
                 "options": {
                     "items": {
                         "$ref": "#/definitions/IBaseQuestion"
@@ -411,6 +423,10 @@
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
                     "type": "string"
                 },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
+                },
                 "output": {
                     "anyOf": [
                         {
@@ -517,6 +533,10 @@
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
                     "type": "string"
                 },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
+                },
                 "output": {
                     "anyOf": [
                         {
@@ -603,6 +623,10 @@
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
                     "type": "string"
+                },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
                 },
                 "no": {
                     "$ref": "#/definitions/IBaseQuestion"
