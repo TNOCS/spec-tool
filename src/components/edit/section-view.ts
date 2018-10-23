@@ -21,6 +21,7 @@ export const SectionView = (): Component<{
       const section = attrs.section;
       const i = attrs.index || defaultIndex;
       const questions = section.questions || [];
+      const key = (index: string) => `${section.id}_${index}`;
       const repeat = attrs.canRepeat ? getRepeat(section, i) : 1;
       const title = m.trust(replacePlaceholders(section.title, i));
       const description = section.description
@@ -34,11 +35,11 @@ export const SectionView = (): Component<{
               description ? m('p.section', description) : '',
               ...questions
                 .filter(q => isVisible(q, i))
-                // .map(q => {
-                //   console.log(`${i}: ${q.title}`);
-                //   return q;
-                // })
-                .map(question => m(QuestionView, { question, index: i })),
+                .map(q => {
+                  console.log(`${i}: ${q.title}`);
+                  return q;
+                })
+                .map(question => m(QuestionView, { question, index: i, key: key(i) })),
             ])
           : range(0, repeat - 1)
               .map(x => updateIndex(i, x, 'section'))
@@ -48,6 +49,7 @@ export const SectionView = (): Component<{
                   section,
                   index,
                   canRepeat: false,
+                  key: key(index),
                 })
               );
     },

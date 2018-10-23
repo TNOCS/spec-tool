@@ -39,21 +39,22 @@ const switchView = (question: Question) => {
 export const QuestionView = () => {
   return {
     view: ({ attrs }) => {
-      const question = attrs.question;
+      const { question } = attrs;
       const i = attrs.index || defaultIndex;
+      const key = (index: string) => `${question.id}_${index}`;
       const v = switchView(question);
       const repeat = getRepeat(question, i) || 1;
       return repeat === 0
         ? undefined
         : repeat === 1
           ? isVisible(question)
-            ? m(v, { question, index: i })
+            ? m(v, { question, index: i, key: key(i) })
             : undefined
           : range(0, repeat - 1)
               .map(x => updateIndex(i, x, 'question'))
-              .map(index => m(v, { question, index }));
+              .map(index => m(v, { question, index, key: key(index) }));
     },
-  } as Component<{ question: Question; index?: string }>;
+  } as Component<{ question: Question; index?: string; }>;
 };
 
 /**
@@ -68,7 +69,7 @@ const OptionsView = () =>
       const title = replacePlaceholders(question.title, index);
       const description = replacePlaceholders(question.description, index);
       const id = (option: Question) => newId(question.id, option.id);
-      return m('form.row', [
+      return m('.row', [
         m('h3', m.trust(title)),
         description ? m('p.description', m.trust(description)) : '',
         ...options.filter(o => isVisible(o, index)).map(o =>
@@ -104,7 +105,7 @@ const ChoicesView = () =>
         const selected = choices.filter(c => c.id === selectedId).shift();
         setAnswer(id(selectedId), true, index, { question: selected });
       };
-      return m('form.row', [
+      return m('.row', [
         m('h3', m.trust(title)),
         description ? m('p.description', m.trust(description)) : '',
         m(
@@ -137,7 +138,6 @@ const TemplateView = () => {
           inputsRegex.lastIndex++;
         }
 
-        // The result can be accessed through the `m`-variable.
         r.forEach((match, groupIndex) => {
           if (groupIndex === 0) {
             return;
@@ -146,7 +146,6 @@ const TemplateView = () => {
           const j = title.indexOf(fullMatch);
           const k = matches.length > 0 ? j : title.indexOf('\n');
           if (k < j && k > 0) {
-            // Title contains a newline character
             matches.push({ fragment: title.substr(0, k) });
             matches.push({
               fragment: title.substr(k + 1, j - k - 1),

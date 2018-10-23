@@ -43,6 +43,7 @@
         {
           "id": "leden",
           "title": "Hoeveel overige leden heeft het team: _aantal_",
+          "description": "_Eventueel kunnen we hier ook de vaste rollen neerzetten._",
           "output": "## Overige leden",
           "data": {
             "aantal": 4,
@@ -51,7 +52,7 @@
         },
         {
           "id": "lid",
-          "title": "$index. Rol en naam: _rol_, _naam_",
+          "title": "$questionIndex. Rol en naam: _rol_, _naam_",
           "repeat": "leden.aantal",
           "output": "- &lid.rol: &lid.naam"
         }
@@ -60,7 +61,7 @@
     {
       "id": "beeld",
       "title": "Beeldvorming",
-      "description": "Vat het huidige beeld samen.",
+      "description": "_Vat het huidige beeld samen._",
       "questions": [
         {
           "id": "lead",
