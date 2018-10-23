@@ -36,9 +36,9 @@
       "output": "# Team samenstelling",
       "questions": [
         {
-          "id": "hovd",
-          "title": "HoVD _naam_",
-          "output": "## HoVD: &hovd.naam"
+          "id": "HOVD",
+          "title": "HOVD _naam_",
+          "output": "## HOVD: &HOVD.naam"
         },
         {
           "id": "leden",
