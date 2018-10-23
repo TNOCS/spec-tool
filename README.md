@@ -1,11 +1,13 @@
 # Introduction
 
-Spec-tool is a web application to guide the end-user in creating a requirements document for Virtual Mission Generation. By answering questions, the savvy but non-technical Defence end-user, creates a specification document that defines:
+Spec-tool is a web application to guide the end-user in creating a requirements document or any kind of formalized overview based on their answers. By answering questions, the savvy but non-technical end-user creates a (specification) document, e.g. for:
 
-- The main use cases
-- The map area(s)
-- The simulators that must be supported
-- The (map) source data requirements
+- Creating a specification for a well-defined field (where you often ask the same questions)
+- Creating an overview or structured summary of a meeting
+- Creating a Lessons Learned document based on answering questions
+- ...
+
+You can easily create your own questionnaire, upload and edit it, or you can fork the project and add your own template to the deployed website. 
 
 ## Features
 
@@ -17,7 +19,7 @@ Spec-tool is a web application to guide the end-user in creating a requirements 
   - Additionally, the placeholder `$index` (note the dollar sign) is replaced with the current repeat number (starting at `1`). Similarly, `$indexStr` is replaced by a letter (starting at `a`).
 - Each chapter, section and question has a title and description. For each, markdown can be used.
 - Each chapter, section and question may contain placeholders that reference another question, e.g.
-  - In the title `Project &project.name`, `&project.name` is replaced by the value of the input.
+  - In the title `Project &project.name`, `&project.name` is replaced by the value of the previously requested input. As long as `project.name` is undefined, the question will be hidden.
 - Each chapter, section or question is displayed, unless it is hidden. It is hidden when:
   - One of the placeholders is still empty, e.g. when `&project.name` has not been specified yet
   - One of the 'show' requirements has not been answered, where show is a list of strings, where
@@ -27,13 +29,11 @@ Spec-tool is a web application to guide the end-user in creating a requirements 
 - You can apply pre-set answers, so when you select a radio or check an option, many other questions can be answered too.
 - If a title or a template question, i.e. a question that asks for inputs using the `_inputId_` placeholder, contains a `\n`, the first part of the title will be displayed as header, while the rest of the text will be displayed as ordinary text.
 - Each question can contain 'output' properties: this markdown text, after substitution of placeholders, will be used to generate the output document. If you start the output text with a dash, e.g. `- option1`, the output document will be formatted as a list. If you add two spaces before the dash, it will indent one level deeper.
-- Each template can be internationalized by adding the proper headers and labels to the template info section.
-
-## To do
-
-The main item is generating the output. For the others, see the issue list.
+- Each template can be **internationalized** by adding the proper headers and labels to the template info section.
 
 ## Build instructions
+
+During development, you can just use `npm start` to get going.
 
 ## Install
 
@@ -43,6 +43,13 @@ Assuming you have installed `node.js` and checked out the code, you can do:
 > npm i
 > npm start
 ```
+You may also want to try `pnpm (npm i -g pnpm)`, which stores all dependencies onely once. 
+
+## Deploy to GitHub pages
+
+If you fork this project, you can deploy your own questionnaire to GitHub pages using `npm run build:domain`. The optimized code will be saved in the `docs` folder. 
+
+Please note that you have to change the output domain in the `build:domain` script in `package.json`, and that you need to update the GitHub settings to use the docs folder to share your project.
 
 ## Generate the JSON schema file
 
