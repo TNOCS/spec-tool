@@ -17,21 +17,25 @@
 }
 
 .main h1 {
-  font-size: 2.92rem;
+  font-size: 2.28rem;
   line-height: 110%;
   margin: 1.9466666667rem 0 1.168rem 0;
 }
 
 .main h2 {
-  font-size: 2.28rem;
+  font-size: 1.64rem;
   line-height: 110%;
   margin: 1.52rem 0 0.912rem 0;
 }
 
 .main h3 {
-  font-size: 1.64rem;
+  font-size: 1.28rem;
   line-height: 110%;
   margin: 1.0933333333rem 0 0.656rem 0;
+}
+
+.spectool-section {
+  margin-left: 0.5em;
 }
 
 .download-upload a {
