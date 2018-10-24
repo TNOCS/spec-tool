@@ -1,3 +1,4 @@
+import { removeHtml } from './../../utils/utils';
 import m, { Component } from 'mithril';
 import { ISection } from '../../models/specification/specification';
 import { QuestionView } from './question-view';
@@ -23,16 +24,16 @@ export const SectionView = (): Component<{
       const questions = section.questions || [];
       const key = (index: string) => `${section.id}_${index}`;
       const repeat = attrs.canRepeat ? getRepeat(section, i) : 1;
-      const title = m.trust(replacePlaceholders(section.title, i));
+      const title = removeHtml(replacePlaceholders(section.title, i));
       const description = section.description
         ? m.trust(replacePlaceholders(section.description, i))
         : '';
       return repeat === 0
         ? undefined
         : !repeat || repeat <= 1
-          ? m('.row', [
+          ? m('.row.spectool-section', [
               m(`h2[id=${section.id}]`, title),
-              description ? m('p.section', description) : '',
+              description ? m('#', description) : '',
               ...questions
                 .filter(q => isVisible(q, i))
                 .map(q => {

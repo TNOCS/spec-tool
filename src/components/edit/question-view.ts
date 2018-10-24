@@ -1,10 +1,11 @@
-import { updateIndex } from './../../utils/utils';
+import { updateIndex, removeHtml } from './../../utils/utils';
 import m, { Component, Vnode } from 'mithril';
 import {
   Question,
   IOption,
   ISelection,
-  IBaseQuestion
+  IBaseQuestion,
+  InputType
 } from '../../models/specification/question';
 import {
   InputCheckbox,
@@ -12,7 +13,12 @@ import {
   inputText,
   IInputOptions,
   inputNumber,
-  inputTextArea
+  inputTextArea,
+  inputColor,
+  inputDate,
+  mandatory,
+  inputUrl,
+  inputEmail
 } from '../../utils/html';
 import {
   replacePlaceholders,
@@ -66,7 +72,7 @@ const OptionsView = () =>
       const question = attrs.question as IOption;
       const index = attrs.index;
       const options = question.options || [];
-      const title = replacePlaceholders(question.title, index);
+      const title = removeHtml(replacePlaceholders(question.title, index)) + (question.mandatory ? mandatory : '');
       const description = replacePlaceholders(question.description, index);
       const id = (option: Question) => newId(question.id, option.id);
       return m('.row', [
@@ -94,7 +100,7 @@ const ChoicesView = () =>
       const question = attrs.question as ISelection;
       const index = attrs.index;
       const choices = question.choices || [];
-      const title = replacePlaceholders(question.title, index);
+      const title = removeHtml(replacePlaceholders(question.title, index)) + (question.mandatory ? mandatory : '');
       const description = replacePlaceholders(question.description, index);
       const id = (optionId: string | number) => newId(question.id, optionId);
       const checkedChoice = choices
@@ -167,55 +173,56 @@ const TemplateView = () => {
       const title = replacePlaceholders(q.title, index, false);
       const matches = replaceInputs(title);
       const description = replacePlaceholders(q.description, index);
+      const inputType = (type: InputType, options: IInputOptions) => {
+        switch (type) {
+          case 'number': return inputNumber(options);
+          case 'email': return inputEmail(options);
+          case 'url': return inputUrl(options);
+          case 'textarea': return inputTextArea(options);
+          case 'color': return inputColor(options);
+          case 'date': return inputDate(options);
+          default: return inputText(options);
+        }
+      };
       return m('div', [
-        m(
-          'p',
-          matches.reduce(
-            (p, v, i) => {
-              p.push(m(i === 0 ? 'h3' : 'span', m.trust(v.fragment)));
-              const label = v.key;
-              if (label) {
-                const key = newId(q.id, label);
-                const givenValue =
-                  q.data && q.data.hasOwnProperty(label)
-                    ? q.data[label]
-                    : undefined;
-                const type = q.data
+        matches.reduce(
+          (p, v, i) => {
+            p.push(m(i === 0 ? 'h3' : 'span', m.trust(v.fragment + (i === 0 && q.mandatory ? mandatory : ''))));
+            if (i === 0 && description) { p.push(m('p.description', m.trust(description))); }
+            const label = v.key;
+            if (label) {
+              const key = newId(q.id, label);
+              const givenValue =
+                q.data && q.data.hasOwnProperty(label)
+                  ? q.data[label]
+                  : undefined;
+              const type = q.data
+                ? q.data.type
                   ? q.data.type
-                    ? q.data.type
-                    : typeof givenValue === 'number'
-                      ? 'number'
-                      : 'text'
-                  : 'text';
-                const answer = getDirectAnswer(key, index);
-                const initialValue = answer ? answer.value : givenValue;
-                if (givenValue && (!answer || answer.value !== initialValue)) {
-                  setAnswer(key, initialValue, index);
-                  setTimeout(() => m.redraw(), 0);
-                }
-                const options: IInputOptions = {
-                  id: label,
-                  label,
-                  initialValue,
-                  style: type === 'textarea' ? '' : 'display: inline-block',
-                  onchange: value => setAnswer(key, value, index),
-                };
-                p.push(
-                  m(
-                    type === 'number'
-                      ? inputNumber(options)
-                      : type === 'textarea'
-                        ? inputTextArea(options)
-                        : inputText(options)
-                  )
-                );
+                  : typeof givenValue === 'number'
+                    ? 'number'
+                    : 'text'
+                : 'text';
+              const answer = getDirectAnswer(key, index);
+              const initialValue = answer ? answer.value : givenValue;
+              if (givenValue && (!answer || answer.value !== initialValue)) {
+                setAnswer(key, initialValue, index);
+                setTimeout(() => m.redraw(), 0);
               }
-              return p;
-            },
-            [] as Vnode[]
-          )
+              const options: IInputOptions = {
+                ...q.data,
+                id: label,
+                label,
+                initialValue,
+                style: type === 'textarea' || type === 'url' ? '' : 'display: inline-block',
+                onchange: value => setAnswer(key, value, index),
+              };
+              p.push(m(inputType(type, options)));
+            }
+            return p;
+          },
+          [] as Vnode[]
         ),
-        description ? m('p.description', m.trust(description)) : '',
       ]);
     },
   } as Component<{ question: Question; index?: string }>;
