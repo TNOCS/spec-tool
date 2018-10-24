@@ -81,6 +81,8 @@ export interface IAnsweredQuestion extends IBaseQuestion {
   no?: IAnsweredQuestion;
 }
 
+export type InputType = 'text' | 'textarea' | 'number' | 'url' | 'email' | 'color' | 'date';
+
 /** Attached data, e.g. for generating output or creating a table, etc. */
 export interface IData {
   /**
@@ -88,15 +90,16 @@ export interface IData {
    * If value is not supplied, the default (true) is used.
    */
   presets?: Array<{ id: string; value?: boolean | number | string }>;
-  /**
-   * Markdown text that is added to the specification document.
-   * Headers are automatically adjusted, e.g. if the text is added.
-   *
-   * When the owning question is a parent, it can reference its children
-   * using $1, $2, etc. or $$ to reference all.
-   */
-  text?: string;
-  value?: boolean | number | string;
-  type?: 'text' | 'textarea' | 'number';
+  /** When input type is a number, optionally specify the minimum value. */
+  min?: number;
+  /** When input type is a number, optionally specify the maximum value. */
+  max?: number;
+  /** When input type is a text or text area, optionally specify the minimum length. */
+  minLength?: number;
+  /** When input type is a text or text area, optionally specify the maximum length. */
+  maxLength?: number;
+  /** Type of input */
+  type?: InputType;
+  /** When you use a property `x` in your question, you can use x to provide an initial value. */
   [key: string]: any;
 }
