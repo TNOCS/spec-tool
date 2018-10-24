@@ -105,6 +105,8 @@ export const roundIconButton = baseButton([
   'waves-light',
 ]);
 
+export const mandatory = '<span style="color: red;">*</span>';
+
 export interface IInputOptions {
   id: string;
   initialValue?: string;
@@ -113,66 +115,101 @@ export interface IInputOptions {
   iconName?: string;
   disabled?: boolean;
   style?: string;
+  /** When input type is a number, optionally specify the minimum value. */
+  min?: number;
+  /** When input type is a number, optionally specify the maximum value. */
+  max?: number;
+  /** When input type is a text or text area, optionally specify the minimum length. */
+  minLength?: number;
+  /** When input type is a text or text area, optionally specify the maximum length. */
+  maxLength?: number;
   classNames?: string | string[];
 }
 const isLabelActive = (value: string | number | boolean | undefined) =>
   typeof value === 'undefined' ? '' : 'active';
 
-const inputField = (type: string) => (opt: IInputOptions) => ({
-  view: () => {
-    const id = uuid4();
-    return m(
-      `.input-field${toDottedClassList(opt.classNames)}`,
-      { style: opt.style || '' },
-      [
-        opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-        m(`${type}[tabindex=0][id=${id}]${opt.disabled ? '[disabled]' : ''}`, {
-          onchange: m.withAttr('value', opt.onchange),
-          value: opt.initialValue,
-        }),
-        m(
-          `label[for=${id}]`,
-          { class: `${isLabelActive(opt.initialValue)}` },
-          opt.label
-        ),
-      ]
-    );
-  },
-});
+const toProps = (o: IInputOptions) =>
+  Object.keys(o)
+    .filter(key => ['min', 'max', 'minLength', 'maxLength'].indexOf(key) >= 0)
+    .reduce(
+      (p, c) => {
+        const value = (o as any)[c];
+        p.push(`[${c.toLowerCase()}=${value}]`);
+        return p;
+      },
+      [] as string[]
+    )
+    .join('');
 
-export const inputTextArea = (opt: IInputOptions) => ({
-  oncreate: () => {
-    const elem = document.querySelector('.materialize-textarea');
-    if (elem) {
-      M.textareaAutoResize(elem);
-    }
-  },
-  view: () => {
-    const id = uuid4();
-    return m(
-      `.input-field${toDottedClassList(opt.classNames)}`,
-      { style: opt.style || '' },
-      [
-        opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-        m(
-          `textarea.materialize-textarea[tabindex=0][id=${id}]${
-            opt.disabled ? '[disabled]' : ''
-          }`,
-          {
-            onchange: m.withAttr('value', opt.onchange),
-            value: opt.initialValue,
-          }
-        ),
-        m(
-          `label[for=${id}]`,
-          { class: `${isLabelActive(opt.initialValue)}` },
-          opt.label
-        ),
-      ]
-    );
-  },
-});
+const inputField = (type: string) => (opt: IInputOptions) => {
+  const state = {} as { id: string };
+  return {
+    oninit: () => (state.id = uuid4()),
+    view: () => {
+      const id = state.id;
+      return m(
+        `.input-field${toDottedClassList(opt.classNames)}`,
+        { style: opt.style || '' },
+        [
+          opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
+          m(
+            `${type}[tabindex=0][id=${id}]${toProps(opt)}${opt.disabled ? '[disabled]' : ''}`,
+            {
+              onchange: m.withAttr('value', opt.onchange),
+              value: opt.initialValue,
+            }
+          ),
+          m(
+            `label[for=${id}]`,
+            { class: `${isLabelActive(opt.initialValue)}` },
+            opt.label
+          ),
+        ]
+      );
+    },
+  };
+};
 
+export const inputTextArea = (opt: IInputOptions) => {
+  const state = {} as { id: string };
+  return {
+    oninit: () => (state.id = uuid4()),
+    oncreate: () => {
+      const elem = document.querySelector('.materialize-textarea');
+      if (elem) {
+        M.textareaAutoResize(elem);
+      }
+    },
+    view: () => {
+      const id = state.id;
+      return m(
+        `.input-field${toDottedClassList(opt.classNames)}`,
+        { style: opt.style || '' },
+        [
+          opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
+          m(
+            `textarea.materialize-textarea[tabindex=0][id=${id}]${
+              opt.disabled ? '[disabled]' : ''
+            }`,
+            {
+              onchange: m.withAttr('value', opt.onchange),
+              value: opt.initialValue,
+            }
+          ),
+          m(
+            `label[for=${id}]`,
+            { class: `${isLabelActive(opt.initialValue)}` },
+            opt.label
+          ),
+        ]
+      );
+    },
+  };
+};
+
+export const inputUrl = inputField('input[type=url]');
+export const inputColor = inputField('input[type=color]');
+export const inputDate = inputField('input[type=date]');
 export const inputText = inputField('input[type=text]');
 export const inputNumber = inputField('input[type=number]');
 export const inputEmail = inputField('input[type=email]');
@@ -212,10 +249,12 @@ export const InputCheckbox = (opt: {
 export const InputRadios = (opt: {
   radios: Array<{ id: string | number; label: string }>;
   onchange: (id: string | number) => void;
-}) =>
-  ({
+}) => {
+  const state = {} as { id: string };
+  return {
+    oninit: () => (state.id = uuid4()),
     view: ({ attrs }) => {
-      const groupId = uuid4();
+      const groupId = state.id;
       const checkedId = attrs.checkedId;
       return opt.radios.map(r =>
         m(
@@ -230,7 +269,8 @@ export const InputRadios = (opt: {
         )
       );
     },
-  } as Component<{ checkedId: string | number | undefined }>);
+  } as Component<{ checkedId: string | number | undefined }>;
+};
 
 const InputRadio = (opt: {
   id: string | number;
