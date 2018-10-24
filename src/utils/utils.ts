@@ -3,6 +3,7 @@ import { Renderer, parse } from 'marked';
 // import { AppState } from '../models/app-state';
 import { Question } from '../models/specification/question';
 import { specSvc } from '../services/spec-service';
+import { storageSvc } from '../services/local-storage-service';
 
 /**
  * Create a GUID
@@ -232,7 +233,7 @@ export const setAnswer = (
   if (!answers.hasOwnProperty(id)) {
     answers[id] = {};
   }
-  if (typeof value === 'string' && /^\d+$/.test(value)) {
+  if (typeof value === 'string' && /^[0-9.]+$/.test(value)) {
     value = +value;
   }
   if (
@@ -245,6 +246,7 @@ export const setAnswer = (
     answers[id][index] = (presetName
       ? { presetName, value }
       : { value }) as IAnswer;
+    storageSvc.save();
   }
   if (
     options &&

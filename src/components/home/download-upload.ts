@@ -3,6 +3,7 @@ import { SelectSpec } from './../ui/select-spec';
 import m from 'mithril';
 import { specSvc } from '../../services/spec-service';
 import { button } from '../../utils/html';
+import { storageSvc } from '../../services/local-storage-service';
 
 const stopPropagation = (e: UIEvent) => {
   e.stopPropagation();
@@ -112,6 +113,14 @@ export const DownloadUpload = () => ({
             ),
           ]
         ),
+        button({
+          label: specSvc.templateInfo.deleteLocalStorageLabel,
+          iconName: 'delete_forever',
+          classNames: 'red',
+          ui: {
+            onclick: () => storageSvc.delete(),
+          },
+        }),
         specSvc.templateInfo.showTemplateSelector ? m(SelectSpec) : undefined,
       ])
     ),

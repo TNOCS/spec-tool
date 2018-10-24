@@ -26,6 +26,7 @@ import {
 } from '../models/specification/question';
 import { IDocumentInfo } from '../models/specification/document-info';
 import { ITemplateDefinition } from '../models/specification/language-definition';
+import { storageSvc } from './local-storage-service';
 
 class SpecificationService {
   public answers!: { [id: string]: { [repeat: string]: IAnswer } };
@@ -36,6 +37,7 @@ class SpecificationService {
   public specTitle!: string;
   private specification!: ISpecification;
 
+  /** Load a specification, either by name or from the supplied data. */
   public load(title: string, specification?: ISpecification) {
     if (title === this.specTitle) { return; }
     if (!specification) {
@@ -286,7 +288,7 @@ class SpecificationService {
       return;
     }
     const specification = this.specification as ISpecification;
-    this.answers = specification.answers || {};
+    this.answers = specification.answers || storageSvc.load();
     this.chapters = specification.chapters;
     this.introduction = specification.introduction
       ? specification.introduction instanceof Array
@@ -326,6 +328,7 @@ class SpecificationService {
         downloadJsonLabel: 'JSON',
         downloadMarkdownFilename: 'spectool.spec.md',
         downloadMarkdownLabel: 'DOC',
+        deleteLocalStorageLabel: 'CLEAR',
         uploadTemplateLabel: 'Upload',
         uploadTooltipLabel: 'Drop or upload a specification file.',
         emptySpecMessage: '-- PLEASE ANSWER THE QUESTIONS FIRST --',
