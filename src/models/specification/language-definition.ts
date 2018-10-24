@@ -37,6 +37,8 @@ export interface ITemplateDefinition {
   downloadMarkdownFilename: string;
   /** How to name the markdown download button */
   downloadMarkdownLabel: string;
+  /** How to name the delete local storage button */
+  deleteLocalStorageLabel: string;
   /** How to name the upload button */
   uploadTemplateLabel: string;
   /** Message to show when you hover above the upload area */
