@@ -27,6 +27,7 @@ Spec-tool is a web application to guide the end-user in creating a requirements 
 - You can apply pre-set answers, so when you select a radio or check an option, many other questions can be answered too.
 - If a title or a template question, i.e. a question that asks for inputs using the `_inputId_` placeholder, contains a `\n`, the first part of the title will be displayed as header, while the rest of the text will be displayed as ordinary text.
 - Each question can contain 'output' properties: this markdown text, after substitution of placeholders, will be used to generate the output document. If you start the output text with a dash, e.g. `- option1`, the output document will be formatted as a list. If you add two spaces before the dash, it will indent one level deeper.
+- Each question can contain data properties, e.g. to set the start value, to specify the type of input (text (default), textarea, number, date, color, url, email), or to specify additional properties, like min/max for numbers or minLength and maxLength for text.
 - Each template can be internationalized by adding the proper headers and labels to the template info section.
 
 ## To do
