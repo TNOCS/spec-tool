@@ -210,6 +210,22 @@
             },
             "description": "Attached data, e.g. for generating output or creating a table, etc.",
             "properties": {
+                "max": {
+                    "description": "When input type is a number, optionally specify the maximum value.",
+                    "type": "number"
+                },
+                "maxLength": {
+                    "description": "When input type is a text or text area, optionally specify the maximum length.",
+                    "type": "number"
+                },
+                "min": {
+                    "description": "When input type is a number, optionally specify the minimum value.",
+                    "type": "number"
+                },
+                "minLength": {
+                    "description": "When input type is a text or text area, optionally specify the minimum length.",
+                    "type": "number"
+                },
                 "presets": {
                     "description": "Optional list of answers that must be set when the question is selected.\nIf value is not supplied, the default (true) is used.",
                     "items": {
@@ -229,24 +245,18 @@
                     },
                     "type": "array"
                 },
-                "text": {
-                    "description": "Markdown text that is added to the specification document.\nHeaders are automatically adjusted, e.g. if the text is added.\n\nWhen the owning question is a parent, it can reference its children\nusing $1, $2, etc. or $$ to reference all.",
-                    "type": "string"
-                },
                 "type": {
+                    "description": "Type of input",
                     "enum": [
+                        "color",
+                        "date",
+                        "email",
                         "number",
                         "text",
-                        "textarea"
+                        "textarea",
+                        "url"
                     ],
                     "type": "string"
-                },
-                "value": {
-                    "type": [
-                        "string",
-                        "number",
-                        "boolean"
-                    ]
                 }
             },
             "type": "object"
