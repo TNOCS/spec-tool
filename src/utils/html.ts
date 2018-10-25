@@ -1,5 +1,7 @@
+import { InputType } from './../models/specification/question';
+import { CharacterCounter } from 'materialize-css';
 import m, { Lifecycle, Component } from 'mithril';
-import { uuid4 } from './utils';
+import { uniqueId } from './utils';
 
 export const compose = <F extends (d: any) => any, T>(...functions: F[]) => (
   data: T
@@ -123,6 +125,10 @@ export interface IInputOptions {
   minLength?: number;
   /** When input type is a text or text area, optionally specify the maximum length. */
   maxLength?: number;
+  /** Number of rows of a textarea */
+  rows?: number;
+  /** Number of cols of a textarea */
+  cols?: number;
   classNames?: string | string[];
 }
 const isLabelActive = (value: string | number | boolean | undefined) =>
@@ -130,7 +136,11 @@ const isLabelActive = (value: string | number | boolean | undefined) =>
 
 const toProps = (o: IInputOptions) =>
   Object.keys(o)
-    .filter(key => ['min', 'max', 'minLength', 'maxLength'].indexOf(key) >= 0)
+    .filter(
+      key =>
+        ['min', 'max', 'minLength', 'maxLength', 'rows', 'cols'].indexOf(key) >=
+        0
+    )
     .reduce(
       (p, c) => {
         const value = (o as any)[c];
@@ -141,10 +151,27 @@ const toProps = (o: IInputOptions) =>
     )
     .join('');
 
-const inputField = (type: string) => (opt: IInputOptions) => {
+/** Add a character counter when there is an input restriction. */
+const charCounter = (o: IInputOptions) =>
+  o.maxLength ? `[data-length=${o.maxLength}]` : '';
+
+/** Add the disabled attribute when required */
+const disabled = (o: IInputOptions) => (o.disabled ? '[disabled]' : '');
+
+/** Convert input options to a set of input attributes */
+const toAttrs = (o: IInputOptions) => toProps(o) + charCounter(o) + disabled(o);
+
+const inputField = (type: InputType) => (opt: IInputOptions) => {
   const state = {} as { id: string };
   return {
-    oninit: () => (state.id = uuid4()),
+    oninit: () => (state.id = uniqueId()),
+    oncreate: () => {
+      if (type !== 'text' || !opt.maxLength) { return; }
+      const elem = document.querySelector(`#${state.id}`);
+      if (elem) {
+        CharacterCounter.init(elem);
+      }
+    },
     view: () => {
       const id = state.id;
       return m(
@@ -152,13 +179,10 @@ const inputField = (type: string) => (opt: IInputOptions) => {
         { style: opt.style || '' },
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-          m(
-            `${type}[tabindex=0][id=${id}]${toProps(opt)}${opt.disabled ? '[disabled]' : ''}`,
-            {
-              onchange: m.withAttr('value', opt.onchange),
-              value: opt.initialValue,
-            }
-          ),
+          m(`input[type=${type}][tabindex=0][id=${id}]${toAttrs(opt)}`, {
+            onchange: m.withAttr('value', opt.onchange),
+            value: opt.initialValue,
+          }),
           m(
             `label[for=${id}]`,
             { class: `${isLabelActive(opt.initialValue)}` },
@@ -173,11 +197,12 @@ const inputField = (type: string) => (opt: IInputOptions) => {
 export const inputTextArea = (opt: IInputOptions) => {
   const state = {} as { id: string };
   return {
-    oninit: () => (state.id = uuid4()),
+    oninit: () => (state.id = uniqueId()),
     oncreate: () => {
-      const elem = document.querySelector('.materialize-textarea');
+      const elem = document.querySelector(`#${state.id}`);
       if (elem) {
         M.textareaAutoResize(elem);
+        if (opt.maxLength) { CharacterCounter.init(elem); }
       }
     },
     view: () => {
@@ -188,9 +213,9 @@ export const inputTextArea = (opt: IInputOptions) => {
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
           m(
-            `textarea.materialize-textarea[tabindex=0][id=${id}]${
-              opt.disabled ? '[disabled]' : ''
-            }`,
+            `textarea.materialize-textarea[tabindex=0][id=${id}]${toAttrs(
+              opt
+            )}`,
             {
               onchange: m.withAttr('value', opt.onchange),
               value: opt.initialValue,
@@ -207,12 +232,12 @@ export const inputTextArea = (opt: IInputOptions) => {
   };
 };
 
-export const inputUrl = inputField('input[type=url]');
-export const inputColor = inputField('input[type=color]');
-export const inputDate = inputField('input[type=date]');
-export const inputText = inputField('input[type=text]');
-export const inputNumber = inputField('input[type=number]');
-export const inputEmail = inputField('input[type=email]');
+export const inputUrl = inputField('url');
+export const inputColor = inputField('color');
+export const inputDate = inputField('date');
+export const inputText = inputField('text');
+export const inputNumber = inputField('number');
+export const inputEmail = inputField('email');
 export const inputBox = (opt: IInputOptions) =>
   opt.hasOwnProperty('initialValue') && typeof opt.initialValue === 'number'
     ? inputNumber(opt)
@@ -227,11 +252,12 @@ export const InputCheckbox = (opt: {
   onchange: (value: boolean) => void;
   label: string;
   disabled?: boolean;
+  classNames?: string;
 }) =>
   ({
     view: ({ attrs }) =>
       m(
-        'p',
+        `p${opt.classNames ? '.' + opt.classNames.replace(' ', '.') : ''}`,
         m('label', [
           m(
             `input[type=checkbox][tabindex=0]${
@@ -249,10 +275,11 @@ export const InputCheckbox = (opt: {
 export const InputRadios = (opt: {
   radios: Array<{ id: string | number; label: string }>;
   onchange: (id: string | number) => void;
+  classNames?: string;
 }) => {
   const state = {} as { id: string };
   return {
-    oninit: () => (state.id = uuid4()),
+    oninit: () => (state.id = uniqueId()),
     view: ({ attrs }) => {
       const groupId = state.id;
       const checkedId = attrs.checkedId;
@@ -260,6 +287,7 @@ export const InputRadios = (opt: {
         m(
           InputRadio({
             ...r,
+            classNames: opt.classNames,
             onchange: opt.onchange,
             groupId,
           }),
@@ -279,11 +307,12 @@ const InputRadio = (opt: {
   label: string;
   groupId: string;
   disabled?: boolean;
+  classNames?: string;
 }) =>
   ({
     view: ({ attrs }) =>
       m(
-        'p',
+        `div${opt.classNames ? '.' + opt.classNames.replace(' ', '.') : ''}`,
         m('label', [
           m(
             `input[type=radio][tabindex=0][name=${opt.groupId}]${
