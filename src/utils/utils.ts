@@ -21,6 +21,22 @@ export const uuid4 = () => {
   });
 };
 
+/**
+ * Create a unique ID
+ * @see https://stackoverflow.com/a/2117523/319711
+ *
+ * @returns RFC4122 version 4 compliant GUID
+ */
+export const uniqueId = () => {
+  return 'idxxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    // tslint:disable-next-line:no-bitwise
+    const r = (Math.random() * 16) | 0;
+    // tslint:disable-next-line:no-bitwise
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
 export const toLetters = (num: number): string => {
   const mod = num % 26;
   // tslint:disable-next-line:no-bitwise
@@ -141,7 +157,9 @@ const createMarkdownParser = () => {
 };
 export const markdown = createMarkdownParser();
 
-export const removeHtml = (s: string) => s.replace(/<\/?[0-9a-zA-Z=\[\]_ \-"]+>/gm, '');
+export const removeHtml = (s: string) => s
+  .replace(/<\/?[0-9a-zA-Z=\[\]_ \-"]+>/gm, '')
+  .replace(/&quot;/gi, '"');
 
 /**
  * Every chapter, section and question can be repeated. The index keeps track of the
@@ -177,10 +195,10 @@ export const updateIndex = (
 export const levelUpIndex = (index: string) => {
   const [c, s, q] = parseIndex(index);
   return q > 0 && s > 0
-      ? createIndex(c, s - 1, 0)
-      : c > 0
-        ? createIndex(c - 1, 0, 0)
-        : undefined;
+    ? createIndex(c, s - 1, 0)
+    : c > 0
+      ? createIndex(c - 1, 0, 0)
+      : undefined;
 };
 
 /** For radio buttons, provide a means to clear an answer */
@@ -235,6 +253,15 @@ export const setAnswer = (
   }
   if (typeof value === 'string' && /^[0-9.]+$/.test(value)) {
     value = +value;
+  } else if (
+    typeof value === 'string' &&
+    options &&
+    options.question &&
+    options.question.data &&
+    options.question.data.type &&
+    options.question.data.type === 'url'
+  ) {
+    value = /^https?:\/\//.test(value) ? value : `http://${value}`;
   }
   if (
     presetName &&
