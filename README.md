@@ -29,7 +29,11 @@ You can easily create your own questionnaire, upload and edit it, or you can for
 - You can apply pre-set answers, so when you select a radio or check an option, many other questions can be answered too.
 - If a title or a template question, i.e. a question that asks for inputs using the `_inputId_` placeholder, contains a `\n`, the first part of the title will be displayed as header, while the rest of the text will be displayed as ordinary text.
 - Each question can contain 'output' properties: this markdown text, after substitution of placeholders, will be used to generate the output document. If you start the output text with a dash, e.g. `- option1`, the output document will be formatted as a list. If you add two spaces before the dash, it will indent one level deeper.
-- Each question can contain data properties, e.g. to set the start value, to specify the type of input (text (default), textarea, number, date, color, url, email), or to specify additional properties, like min/max for numbers or minLength and maxLength for text.
+- Each question can contain data properties, e.g.
+  - to set the start value (by using the same name as the input property)
+  - to specify the type of input (text (default), textarea, number, date, color, url, email)
+  - to specify additional properties, like `min`, `max` for numbers or `minLength` and `maxLength` for text
+  - to control the occupied space, e.g. `classNames: 'col s4 m3 l2'`. This means that the reserved width is 4/12 on a mobile device, 3/12 on a medium device (tablet), and 2/12 on a large device. [See also materialize-css grid](https://materializecss.com/grid.html).
 - Each template can be internationalized by adding the proper headers and labels to the template info section.
 
 ## Build instructions

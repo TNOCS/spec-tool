@@ -60,7 +60,7 @@ export const QuestionView = () => {
               .map(x => updateIndex(i, x, 'question'))
               .map(index => m(v, { question, index, key: key(index) }));
     },
-  } as Component<{ question: Question; index?: string; }>;
+  } as Component<{ question: Question; index?: string }>;
 };
 
 /**
@@ -70,9 +70,12 @@ const OptionsView = () =>
   ({
     view: ({ attrs }) => {
       const question = attrs.question as IOption;
+      const data = question.data || {};
       const index = attrs.index;
       const options = question.options || [];
-      const title = removeHtml(replacePlaceholders(question.title, index)) + (question.mandatory ? mandatory : '');
+      const title =
+        removeHtml(replacePlaceholders(question.title, index)) +
+        (question.mandatory ? mandatory : '');
       const description = replacePlaceholders(question.description, index);
       const id = (option: Question) => newId(question.id, option.id);
       return m('.row', [
@@ -81,6 +84,7 @@ const OptionsView = () =>
         ...options.filter(o => isVisible(o, index)).map(o =>
           m(
             InputCheckbox({
+              classNames: data.classNames,
               onchange: v => setAnswer(id(o), v, index, { question: o }),
               label: replacePlaceholders(o.title, index),
             }),
@@ -98,9 +102,12 @@ const ChoicesView = () =>
   ({
     view: ({ attrs }) => {
       const question = attrs.question as ISelection;
+      const data = question.data || {};
       const index = attrs.index;
       const choices = question.choices || [];
-      const title = removeHtml(replacePlaceholders(question.title, index)) + (question.mandatory ? mandatory : '');
+      const title =
+        removeHtml(replacePlaceholders(question.title, index)) +
+        (question.mandatory ? mandatory : '');
       const description = replacePlaceholders(question.description, index);
       const id = (optionId: string | number) => newId(question.id, optionId);
       const checkedChoice = choices
@@ -116,6 +123,7 @@ const ChoicesView = () =>
         description ? m('p.description', m.trust(description)) : '',
         m(
           InputRadios({
+            classNames: data.classNames,
             onchange,
             radios: choices.map(c => ({
               id: c.id,
@@ -175,20 +183,34 @@ const TemplateView = () => {
       const description = replacePlaceholders(q.description, index);
       const inputType = (type: InputType, options: IInputOptions) => {
         switch (type) {
-          case 'number': return inputNumber(options);
-          case 'email': return inputEmail(options);
-          case 'url': return inputUrl(options);
-          case 'textarea': return inputTextArea(options);
-          case 'color': return inputColor(options);
-          case 'date': return inputDate(options);
-          default: return inputText(options);
+          case 'number':
+            return inputNumber(options);
+          case 'email':
+            return inputEmail(options);
+          case 'url':
+            return inputUrl(options);
+          case 'textarea':
+            return inputTextArea(options);
+          case 'color':
+            return inputColor(options);
+          case 'date':
+            return inputDate(options);
+          default:
+            return inputText(options);
         }
       };
       return m('div', [
         matches.reduce(
           (p, v, i) => {
-            p.push(m(i === 0 ? 'h3' : 'span', m.trust(v.fragment + (i === 0 && q.mandatory ? mandatory : ''))));
-            if (i === 0 && description) { p.push(m('p.description', m.trust(description))); }
+            p.push(
+              m(
+                i === 0 ? 'h3' : 'span',
+                m.trust(v.fragment + (i === 0 && q.mandatory ? mandatory : ''))
+              )
+            );
+            if (i === 0 && description) {
+              p.push(m('p.description', m.trust(description)));
+            }
             const label = v.key;
             if (label) {
               const key = newId(q.id, label);
@@ -206,7 +228,7 @@ const TemplateView = () => {
               const answer = getDirectAnswer(key, index);
               const initialValue = answer ? answer.value : givenValue;
               if (givenValue && (!answer || answer.value !== initialValue)) {
-                setAnswer(key, initialValue, index);
+                setAnswer(key, initialValue, index, { question: q });
                 setTimeout(() => m.redraw(), 0);
               }
               const options: IInputOptions = {
@@ -214,8 +236,11 @@ const TemplateView = () => {
                 id: label,
                 label,
                 initialValue,
-                style: type === 'textarea' || type === 'url' ? '' : 'display: inline-block',
-                onchange: value => setAnswer(key, value, index),
+                style:
+                  type === 'textarea' || type === 'url'
+                    ? ''
+                    : 'display: inline-block',
+                onchange: value => setAnswer(key, value, index, { question: q }),
               };
               p.push(m(inputType(type, options)));
             }
