@@ -6,7 +6,10 @@ import { defaultIndex, isVisible } from '../../utils/utils';
 import { NextPrevPage } from '../ui/next-prev-page';
 
 export const EditPage = () => {
-  const createLink = (c: IChapter) => `#!/${specSvc.specTitle}/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}`;
+  const createLink = (c: IChapter) =>
+    `#!/${specSvc.specTitle}/${specSvc.templateInfo.edit.label.toLowerCase()}/${
+      c.id
+    }`;
   return {
     view: () => {
       const id = m.route.param('id');
@@ -19,22 +22,26 @@ export const EditPage = () => {
           ? chapters.indexOf(selectedChapters[0]) - 1
           : -1;
       const prevChapter =
-        prevChapterIdx >= 0
-          ? chapters[prevChapterIdx]
-          : undefined;
+        prevChapterIdx >= 0 ? chapters[prevChapterIdx] : undefined;
       const nextChapterIdx =
         id && selectedChapters.length > 0
           ? chapters.indexOf(selectedChapters[0]) + 1
           : -1;
       const nextChapter =
-        nextChapterIdx < chapters.length
-          ? chapters[nextChapterIdx]
-          : undefined;
+        nextChapterIdx < chapters.length ? chapters[nextChapterIdx] : undefined;
       const next = nextChapter
-        ? { isNext: true, title: nextChapter.title, link: createLink(nextChapter) }
+        ? {
+            isNext: true,
+            title: nextChapter.title,
+            link: createLink(nextChapter),
+          }
         : undefined;
       const prev = prevChapter
-        ? { isNext: false, title: prevChapter.title, link: createLink(prevChapter) }
+        ? {
+            isNext: false,
+            title: prevChapter.title,
+            link: createLink(prevChapter),
+          }
         : undefined;
 
       return m('.edit-page', [
