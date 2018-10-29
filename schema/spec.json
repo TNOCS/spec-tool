@@ -210,6 +210,10 @@
             },
             "description": "Attached data, e.g. for generating output or creating a table, etc.",
             "properties": {
+                "classNames": {
+                    "description": "Classes that you wish to attach to a question, e.g. \"col s12 m6 l4 xl3\" to specify the size.",
+                    "type": "string"
+                },
                 "max": {
                     "description": "When input type is a number, optionally specify the maximum value.",
                     "type": "number"
@@ -252,6 +256,8 @@
                         "date",
                         "email",
                         "number",
+                        "radio",
+                        "select",
                         "text",
                         "textarea",
                         "url"
@@ -702,6 +708,10 @@
                 },
                 "createdLabel": {
                     "description": "Label for the created time",
+                    "type": "string"
+                },
+                "deleteLocalStorageLabel": {
+                    "description": "How to name the delete local storage button",
                     "type": "string"
                 },
                 "docInfoTitle": {
