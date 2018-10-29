@@ -69,7 +69,9 @@ export const iconPrefix = (iconName: string, attrs = {}) =>
 export const toDottedClassList = (classNames?: string | string[]) =>
   classNames instanceof Array && classNames.length > 0
     ? '.' + classNames.join('.')
-    : '';
+    : classNames && typeof classNames === 'string'
+      ? '.' + classNames.replace(' ', '.')
+      : '';
 
 const baseButton = (defaultClassNames: string[]) => <State, Attrs>(opt: {
   label?: string;
@@ -161,28 +163,77 @@ const disabled = (o: IInputOptions) => (o.disabled ? '[disabled]' : '');
 /** Convert input options to a set of input attributes */
 const toAttrs = (o: IInputOptions) => toProps(o) + charCounter(o) + disabled(o);
 
-const inputField = (type: InputType) => (opt: IInputOptions) => {
+const oncreateFactory = (
+  type: InputType,
+  state: { id: string },
+  opt: IInputOptions
+) => {
+  switch (type) {
+    case 'text':
+      return opt.maxLength
+        ? () => {
+            const elem = document.querySelector(`#${state.id}`);
+            if (elem) {
+              CharacterCounter.init(elem);
+            }
+          }
+        : undefined;
+    case 'date':
+      return () => {
+        const elem = document.querySelector(`#${state.id}`);
+        if (elem) {
+          M.Datepicker.init(elem, {
+            format: 'yyyy/mm/dd',
+            showClearBtn: true,
+            // defaultDate: opt.initialValue,
+            // setDefaultDate: true,
+            // defaultDate: opt.initialValue
+            //   ? new Date(opt.initialValue)
+            //   : undefined,
+          });
+        }
+      };
+    case 'time':
+      return () => {
+        const elem = document.querySelector(`#${state.id}`);
+        if (elem) {
+          M.Timepicker.init(elem, { twelveHour: false, showClearBtn: true });
+        }
+      };
+    default:
+      return undefined;
+  }
+};
+
+const inputField = (type: InputType, classNames = '') => (
+  opt: IInputOptions
+) => {
   const state = {} as { id: string };
+  const oncreate = oncreateFactory(type, state, opt);
   return {
-    oninit: () => (state.id = uniqueId()),
-    oncreate: () => {
-      if (type !== 'text' || !opt.maxLength) { return; }
-      const elem = document.querySelector(`#${state.id}`);
-      if (elem) {
-        CharacterCounter.init(elem);
-      }
+    oninit: () => {
+      state.id = uniqueId();
     },
+    oncreate,
     view: () => {
       const id = state.id;
+      const attrs = toAttrs(opt);
       return m(
-        `.input-field${toDottedClassList(opt.classNames)}`,
+        `.input-field${classNames}${toDottedClassList(opt.classNames)}`,
         { style: opt.style || '' },
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-          m(`input[type=${type}][tabindex=0][id=${id}]${toAttrs(opt)}`, {
-            onchange: m.withAttr('value', opt.onchange),
-            value: opt.initialValue,
-          }),
+          m(
+            `input[type=${
+              type === 'date' || type === 'time' ? 'text' : type
+            }][tabindex=0][id=${id}]${attrs}`,
+            {
+              onchange: m.withAttr('value', (v: string) => {
+                opt.onchange(v);
+              }),
+              value: opt.initialValue,
+            }
+          ),
           m(
             `label[for=${id}]`,
             { class: `${isLabelActive(opt.initialValue)}` },
@@ -202,25 +253,23 @@ export const inputTextArea = (opt: IInputOptions) => {
       const elem = document.querySelector(`#${state.id}`);
       if (elem) {
         M.textareaAutoResize(elem);
-        if (opt.maxLength) { CharacterCounter.init(elem); }
+        if (opt.maxLength) {
+          CharacterCounter.init(elem);
+        }
       }
     },
     view: () => {
       const id = state.id;
+      const attrs = toAttrs(opt);
       return m(
         `.input-field${toDottedClassList(opt.classNames)}`,
         { style: opt.style || '' },
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-          m(
-            `textarea.materialize-textarea[tabindex=0][id=${id}]${toAttrs(
-              opt
-            )}`,
-            {
-              onchange: m.withAttr('value', opt.onchange),
-              value: opt.initialValue,
-            }
-          ),
+          m(`textarea.materialize-textarea[tabindex=0][id=${id}]${attrs}`, {
+            onchange: m.withAttr('value', opt.onchange),
+            value: opt.initialValue,
+          }),
           m(
             `label[for=${id}]`,
             { class: `${isLabelActive(opt.initialValue)}` },
@@ -234,7 +283,8 @@ export const inputTextArea = (opt: IInputOptions) => {
 
 export const inputUrl = inputField('url');
 export const inputColor = inputField('color');
-export const inputDate = inputField('date');
+export const inputDate = inputField('date', '.datepicker');
+export const inputTime = inputField('time', '.timepicker');
 export const inputText = inputField('text');
 export const inputNumber = inputField('number');
 export const inputEmail = inputField('email');
@@ -244,8 +294,7 @@ export const inputBox = (opt: IInputOptions) =>
     : inputText(opt);
 
 /** Remove paragraphs <p> and </p> and the beginning and end of a string. */
-const removeParagraphs = (s: string) =>
-  s.replace(/^<p>/, '').replace(/<\/p>$/, '');
+const removeParagraphs = (s: string) => s.replace(/<\/?p>/g, '');
 
 export const InputCheckbox = (opt: {
   checked?: boolean;
@@ -257,7 +306,7 @@ export const InputCheckbox = (opt: {
   ({
     view: ({ attrs }) =>
       m(
-        `p${opt.classNames ? '.' + opt.classNames.replace(' ', '.') : ''}`,
+        `p${toDottedClassList(opt.classNames)}`,
         m('label', [
           m(
             `input[type=checkbox][tabindex=0]${
@@ -271,6 +320,48 @@ export const InputCheckbox = (opt: {
         ])
       ),
   } as Component<{ checked?: boolean }>);
+
+export const Select = (opt: {
+  label: string;
+  options: Array<{ id: string | number; label: string }>;
+  onchange: (id: string | number) => void;
+  classNames?: string;
+}) => {
+  const state = {} as { id: string };
+  return {
+    oninit: () => (state.id = uniqueId()),
+    oncreate: () => {
+      const elem = document.querySelector(`#${state.id}`);
+      if (elem) {
+        M.FormSelect.init(elem);
+      }
+    },
+    view: ({ attrs }) => {
+      const id = state.id;
+      const { checkedId } = attrs;
+      return m(`.input-field${toDottedClassList(opt.classNames)}`, [
+        m(
+          `select[id=${id}]`,
+          {
+            onchange: (e: Event) => {
+              if (e && e.currentTarget) {
+                const b = e.currentTarget as HTMLButtonElement;
+                opt.onchange(b.value);
+              }
+            },
+          },
+          opt.options.map(o =>
+            m(
+              `option[value=${o.id}]${checkedId === o.id ? '[selected]' : ''}`,
+              removeParagraphs(o.label).replace('&amp;', '&')
+            )
+          )
+        ),
+        m('label', m.trust(removeParagraphs(opt.label))),
+      ]);
+    },
+  } as Component<{ checkedId: string | number | undefined }>;
+};
 
 export const InputRadios = (opt: {
   radios: Array<{ id: string | number; label: string }>;
@@ -312,7 +403,7 @@ const InputRadio = (opt: {
   ({
     view: ({ attrs }) =>
       m(
-        `div${opt.classNames ? '.' + opt.classNames.replace(' ', '.') : ''}`,
+        `div${toDottedClassList(opt.classNames)}`,
         m('label', [
           m(
             `input[type=radio][tabindex=0][name=${opt.groupId}]${
