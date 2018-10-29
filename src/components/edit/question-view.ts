@@ -18,7 +18,9 @@ import {
   inputDate,
   mandatory,
   inputUrl,
-  inputEmail
+  inputTime,
+  inputEmail,
+  Select
 } from '../../utils/html';
 import {
   replacePlaceholders,
@@ -118,21 +120,35 @@ const ChoicesView = () =>
         const selected = choices.filter(c => c.id === selectedId).shift();
         setAnswer(id(selectedId), true, index, { question: selected });
       };
-      return m('.row', [
-        m('h3', m.trust(title)),
-        description ? m('p.description', m.trust(description)) : '',
-        m(
-          InputRadios({
-            classNames: data.classNames,
-            onchange,
-            radios: choices.map(c => ({
-              id: c.id,
-              label: replacePlaceholders(c.title, index),
-            })),
-          }),
-          { checkedId: checkedChoice ? checkedChoice.id : undefined }
-        ),
-      ]);
+      return data.type === 'select' ||
+        (data.type !== 'radio' && choices.length > 4)
+        ? m(
+            Select({
+              label: title,
+              classNames: data.classNames,
+              onchange,
+              options: choices.map(c => ({
+                id: c.id,
+                label: replacePlaceholders(c.title, index),
+              })),
+            }),
+            { checkedId: checkedChoice ? checkedChoice.id : undefined }
+          )
+        : m('div', [
+            m('h3', m.trust(title)),
+            description ? m('p.description', m.trust(description)) : '',
+            m(
+              InputRadios({
+                classNames: data.classNames,
+                onchange,
+                radios: choices.map(c => ({
+                  id: c.id,
+                  label: replacePlaceholders(c.title, index),
+                })),
+              }),
+              { checkedId: checkedChoice ? checkedChoice.id : undefined }
+            ),
+          ]);
     },
   } as Component<{ question: Question; index?: string }>);
 
@@ -195,6 +211,8 @@ const TemplateView = () => {
             return inputColor(options);
           case 'date':
             return inputDate(options);
+          case 'time':
+            return inputTime(options);
           default:
             return inputText(options);
         }
