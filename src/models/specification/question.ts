@@ -81,7 +81,17 @@ export interface IAnsweredQuestion extends IBaseQuestion {
   no?: IAnsweredQuestion;
 }
 
-export type InputType = 'text' | 'textarea' | 'number' | 'url' | 'email' | 'color' | 'date';
+export type InputType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'url'
+  | 'email'
+  | 'color'
+  | 'date'
+  | 'time'
+  | 'select'
+  | 'radio';
 
 /** Attached data, e.g. for generating output or creating a table, etc. */
 export interface IData {
@@ -100,6 +110,8 @@ export interface IData {
   maxLength?: number;
   /** Type of input */
   type?: InputType;
+  /** Classes that you wish to attach to a question, e.g. "col s12 m6 l4 xl3" to specify the size. */
+  classNames?: string;
   /** When you use a property `x` in your question, you can use x to provide an initial value. */
   [key: string]: any;
 }
