@@ -1,0 +1,763 @@
+{
+  "templateInfo": {
+    "author": "Dirk Stolk",
+    "created": "2018-10-23",
+    "version": "v0.0.1",
+    "tableOfContent": "Table of Content",
+    "and": "and",
+    "docInfoTitle": "Document info",
+    "authorLabel": "Author",
+    "releaseLabel": "Comments",
+    "versionLabel": "Version",
+    "createdLabel": "Created on",
+    "updatedLabel": "Updated on",
+    "nextLabel": "Next",
+    "prevLabel": "Previous",
+    "showTemplateSelector": true
+  },
+  "introduction": [
+    "# DRIVER+ Lessons Learned Framework",
+    "This questionnaire allows you to capture the lessons that you've learned while running a specific event or trial.",
+    "",
+    "TODO:",
+    "",
+    "- Add dropdown for country/event type input.",
+    "- Add link input (for external links, text should start with http or https)",
+    "- Enforce mandatory fields?.",
+    ""
+  ],
+  "chapters": [
+    {
+      "id": "intake",
+      "title": "Intake",
+      "description": "_Fields marked with a <span style='color: red;'>*</span> are mandatory._",
+      "output": ["# Intake"],
+      "questions": [
+        {
+          "id": "event",
+          "title": "Title and identification number of the evaluated event? _title_, _id_",
+          "description": "_Short name to indicate the event and its evaluation (max. 70 characters)._",
+          "mandatory": true,
+          "data": {
+            "maxLength": 70
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": "editor",
+          "title": "Editors",
+          "output": "## Editors",
+          "description": "_Please provide the details of the main editors._",
+          "questions": [
+            {
+              "id": "editors",
+              "title": "How many editors are there? _count_",
+              "data": {
+                "count": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "editor",
+          "title": "Editor $sectionIndex",
+          "output": "### Editor $sectionIndex.",
+          "repeat": "editors.count",
+          "questions": [
+            {
+              "id": "editor",
+              "title": "_name_, _organisation_, _country_",
+              "output": [
+                "- Name: &editor.name",
+                "- Organisation: &editor.organisation, _country_",
+                "- Country: &editor.country"
+              ],
+              "description": "_Name of the editor or analist, its organisation and country._"
+            },
+            {
+              "id": "edit",
+              "title": "Edited on: _date_",
+              "output": "- Edited on: &edit.date",
+              "data": {
+                "type": "date"
+              }
+            }
+          ]
+        },
+        {
+          "id": "info",
+          "title": "Additional info",
+          "output": "## Additional info",
+          "description": "_Free space for additional notes by the evaluators (max. 4 lines / 400 characters)._",
+          "questions": [
+            {
+              "id": "edit",
+              "title": "_notes_",
+              "output": "&info.notes",
+              "data": {
+                "type": "textarea",
+                "maxLength": 400
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "title": "Sources of information",
+      "output": "# Sources of information",
+      "questions": [
+        {
+          "id": "sources",
+          "title": "How many publications do you have? _count_",
+          "output": "## Publications & multimedia sources",
+          "data": {
+            "count": 1,
+            "min": 0
+          }
+        },
+        {
+          "id": "multimedia",
+          "title": "How many multimedia sources do you have? _count_",
+          "data": {
+            "count": 1,
+            "min": 0
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": "publications",
+          "title": "Publication $sectionIndex",
+          "repeat": "sources.count",
+          "questions": [
+            {
+              "id": "publication",
+              "title": "Title _english_ _original_",
+              "output": "### $sectionIndex. &publication.english (&publication.original)",
+              "description": "Provide the title in English and, if applicable, the original language.",
+              "data": {
+                "type": "textarea"
+              }
+            },
+            {
+              "id": "publication",
+              "title": "Language",
+              "choices": [
+                {
+                  "id": "en",
+                  "title": "English",
+                  "output": "- Language: English"
+                },
+                {
+                  "id": "de",
+                  "title": "German",
+                  "output": "- Language: German"
+                },
+                {
+                  "id": "fr",
+                  "title": "French",
+                  "output": "- Language: French"
+                },
+                {
+                  "id": "other",
+                  "title": "Other"
+                }
+              ]
+            },
+            {
+              "id": "other",
+              "title": "Other language: _language_",
+              "output": "- Language: &other.language",
+              "show": ["publication.other"]
+            },
+            {
+              "id": "author",
+              "title": "First author and/or organisation: _name_",
+              "output": "- Author or organisation: &author.name"
+            },
+            {
+              "id": "publication",
+              "title": "Year of publication: _year_",
+              "output": "- Year of publication: &publication.year",
+              "data": {
+                "year": 2018
+              }
+            },
+            {
+              "id": "publication",
+              "title": "Dissemination level",
+              "mandatory": true,
+              "choices": [
+                {
+                  "id": "public",
+                  "title": "Public",
+                  "output": "- Dissemination level: Public"
+                },
+                {
+                  "id": "restricted",
+                  "title": "Restricted",
+                  "output": "- Dissemination level: Restricted"
+                },
+                {
+                  "id": "secret",
+                  "title": "Secret",
+                  "output": "- Dissemination level: Secret"
+                }
+              ]
+            },
+            {
+              "id": "publication",
+              "title": "Link: _link_",
+              "output": "- [Link](&publication.link)",
+              "data": {
+                "type": "url"
+              }
+            }
+          ]
+        },
+        {
+          "id": "multimedia",
+          "title": "Multimedia $sectionIndex",
+          "repeat": "multimedia.count",
+          "questions": [
+            {
+              "id": "multimedia",
+              "title": "Short description: _info_",
+              "output": ["### $sectionIndex.", "&multimedia.info"],
+              "data": {
+                "type": "textarea"
+              }
+            },
+            {
+              "id": "owner",
+              "title": "Owner: _name_",
+              "output": "- Owner: &owner.name"
+            },
+            {
+              "id": "multimedia",
+              "title": "Link: _link_",
+              "output": "- [Link](&multimedia.link)",
+              "data": {
+                "type": "url"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "event",
+      "title": "Event: &event.title",
+      "output": "# Event: &event.title",
+      "sections": [
+        {
+          "id": "info",
+          "title": "General information",
+          "output": "## General information",
+          "questions": [
+            {
+              "id": "info",
+              "title": "Type of event",
+              "data": {
+                "classNames": "col s12 m6"
+              },
+              "choices": [
+                {
+                  "id": "none",
+                  "title": "Choose an option"
+                },
+                {
+                  "id": "risk",
+                  "title": "Risk analysis",
+                  "output": "- Type of event: Risk analysis"
+                },
+                {
+                  "id": "action",
+                  "title": "Preventive action",
+                  "output": "- Type of event: Preventive action"
+                },
+                {
+                  "id": "incident",
+                  "title": "Incident",
+                  "output": "- Type of event: Incident"
+                },
+                {
+                  "id": "disaster",
+                  "title": "Disaster",
+                  "output": "- Type of event: Disaster"
+                },
+                {
+                  "id": "training",
+                  "title": "Training",
+                  "output": "- Type of event: Training"
+                },
+                {
+                  "id": "exercise",
+                  "title": "Exercise",
+                  "output": "- Type of event: Exercise"
+                },
+                {
+                  "id": "test",
+                  "title": "Test",
+                  "output": "- Type of event: Test"
+                }
+              ]
+            },
+            {
+              "id": "event",
+              "title": "Concerned phase of the disaster management cycle:",
+              "data": {
+                "classNames": "col s12 m6"
+              },
+              "choices": [
+                {
+                  "id": "none",
+                  "title": "Choose an option"
+                },
+                {
+                  "id": "risk_assessment",
+                  "title": "Risk assessment",
+                  "output": "- Phase: Risk assessment"
+                },
+                {
+                  "id": "mi",
+                  "title": "Mitigation & Prevention",
+                  "output": "- Phase: Mitigation & Prevention"
+                },
+                {
+                  "id": "preparedness",
+                  "title": "Preparedness",
+                  "output": "- Phase: Preparedness"
+                },
+                {
+                  "id": "response",
+                  "title": "Response",
+                  "output": "- Phase: Response"
+                },
+                {
+                  "id": "recovery",
+                  "title": "Recovery",
+                  "output": "- Phase: Recovery"
+                }
+              ]
+            },
+            {
+              "id": "event",
+              "title": "Start and end date of the event: _start_ _end_",
+              "output": "- From &event.start - &event.end",
+              "data": {
+                "type": "date",
+                "classNames": "col s12 m6"
+              }
+            },
+            {
+              "id": "event",
+              "title": "Location of the event: _location_",
+              "output": "- Location of the event: &event.location",
+              "data": {
+                "classNames": "col s12 m6"
+              }
+            },
+            {
+              "id": "event",
+              "title": "Type of area:",
+              "data": {
+                "classNames": "col s6 m3"
+              },
+              "choices": [
+                {
+                  "id": "none",
+                  "title": "Choose an option"
+                },
+                {
+                  "id": "mixed",
+                  "title": "Mixed",
+                  "output": "- Type of area: Mixed"
+                },
+                {
+                  "id": "centre",
+                  "title": "City/town centre",
+                  "output": "- Type of area: City/town centre"
+                },
+                {
+                  "id": "residential",
+                  "title": "Residential area",
+                  "output": "- Type of area: Residential area"
+                },
+                {
+                  "id": "industrial",
+                  "title": "Industrial area",
+                  "output": "- Type of area: Industrial area"
+                },
+                {
+                  "id": "countryside",
+                  "title": "Countryside",
+                  "output": "- Type of area: Countryside"
+                },
+                {
+                  "id": "water",
+                  "title": "Water",
+                  "output": "- Type of area: Water"
+                }
+              ]
+            },
+            {
+              "id": "incident",
+              "title": "Incident category",
+              "data": {
+                "classNames": "col s6 m3"
+              },
+              "choices": [
+                {
+                  "id": "none",
+                  "title": "Choose an option"
+                },
+                {
+                  "id": "general",
+                  "title": "Incidents in general",
+                  "output": "- Incident category: Incidents in general"
+                },
+                {
+                  "id": "natural",
+                  "title": "Natural incidents",
+                  "output": "- Incident category: Natural incidents"
+                },
+                {
+                  "id": "technological",
+                  "title": "Technological incidents",
+                  "output": "- Incident category: Technological incidents"
+                },
+                {
+                  "id": "nattech",
+                  "title": "Natural and Technological incidents",
+                  "output": "- Incident category: Natural and Technological incidents"
+                },
+                {
+                  "id": "attacks",
+                  "title": "Intentional incidents / Attacks",
+                  "output": "- Incident category: Intentional incidents / Attacks"
+                }
+              ]
+            },
+            {
+              "id": "incident",
+              "title": "Select all the incident types that apply:",
+              "output": "- Specific incident types:",
+              "data": {
+                "classNames": "col s4 m3 l2"
+              },
+              "options": [
+                {
+                  "id": "earthquake",
+                  "title": "Earthquake",
+                  "output": "  - Earthquake"
+                },
+                {
+                  "id": "eruption",
+                  "title": "Volcanic eruption",
+                  "output": "  - Volcanic eruption"
+                },
+                {
+                  "id": "movement",
+                  "title": "Mass movement",
+                  "output": "  - Mass movement"
+                },
+                {
+                  "id": "storm",
+                  "title": "Storm",
+                  "output": "  -Storm "
+                },
+                {
+                  "id": "tornado",
+                  "title": "Tornado",
+                  "output": "  - Tornado"
+                },
+                {
+                  "id": "cold",
+                  "title": "Extreme cold",
+                  "output": "  - Extreme cold"
+                },
+                {
+                  "id": "heat",
+                  "title": "Extreme heat",
+                  "output": "  - Extreme heat"
+                },
+                {
+                  "id": "drought",
+                  "title": "Drought",
+                  "output": "  - Drought"
+                },
+                {
+                  "id": "wildfire",
+                  "title": "Wildfire",
+                  "output": "  - Wildfire"
+                },
+                {
+                  "id": "river",
+                  "title": "River flood",
+                  "output": "  - River flood"
+                },
+                {
+                  "id": "flash",
+                  "title": "Flash flood",
+                  "output": "  - Flash flood"
+                },
+                {
+                  "id": "coastal",
+                  "title": "Coastal flood",
+                  "output": "  - Coastal flood"
+                },
+                {
+                  "id": "landslide",
+                  "title": "Landslide",
+                  "output": "  - Landslide"
+                },
+                {
+                  "id": "epidemics",
+                  "title": "Epidemics/Pandemics",
+                  "output": "  - Epidemics/Pandemics"
+                },
+                {
+                  "id": "infestation",
+                  "title": "Insect infestation",
+                  "output": "  - Insect infestation"
+                },
+                {
+                  "id": "animal",
+                  "title": "Animal stampede",
+                  "output": "  - Animal stampede"
+                },
+                {
+                  "id": "asteroids",
+                  "title": "Asteroids",
+                  "output": "  - Asteroids"
+                },
+                {
+                  "id": "meteoroids",
+                  "title": "Meteoroids / Comets",
+                  "output": "  - Meteoroids / Comets"
+                },
+                {
+                  "id": "chemical",
+                  "title": "Chemical spill",
+                  "output": "  - Chemical spill"
+                },
+                {
+                  "id": "explosion",
+                  "title": "Explosion",
+                  "output": "  - Explosion"
+                },
+                {
+                  "id": "fire",
+                  "title": "Fire",
+                  "output": "  - Fire"
+                },
+                {
+                  "id": "gas",
+                  "title": "Gas leak",
+                  "output": "  - Gas leak"
+                },
+                {
+                  "id": "nuclear",
+                  "title": "Nuclear accident",
+                  "output": "  - Nuclear accident"
+                },
+                {
+                  "id": "aircrash",
+                  "title": "Air crash",
+                  "output": "  - Air crash"
+                },
+                {
+                  "id": "roadaccident",
+                  "title": "Road accident",
+                  "output": "  - Road accident"
+                },
+                {
+                  "id": "railaccident",
+                  "title": "Rail accident",
+                  "output": "  - Rail accident"
+                },
+                {
+                  "id": "wateraccident",
+                  "title": "Accident on water",
+                  "output": "  - Accident on water"
+                },
+                {
+                  "id": "infra",
+                  "title": "Collapse of infra",
+                  "output": "  - Collapse of infra"
+                },
+                {
+                  "id": "drinkingwater",
+                  "title": "Drinking water failure",
+                  "output": "  - Drinking water failure"
+                },
+                {
+                  "id": "energy_failure",
+                  "title": "Energy failure",
+                  "output": "  - Energy failure"
+                },
+                {
+                  "id": "ict_failure",
+                  "title": "Telecom/ICT failure",
+                  "output": "  - Telecom/ICT failure"
+                },
+                {
+                  "id": "bomb",
+                  "title": "Bomb attack",
+                  "output": "  - Bomb attack"
+                },
+                {
+                  "id": "cbrn",
+                  "title": "CBRN attack",
+                  "output": "  - CBRN attack"
+                },
+                {
+                  "id": "cyber_attack",
+                  "title": "Cyber attack",
+                  "output": "  - Cyber attack"
+                },
+                {
+                  "id": "cyber_crime",
+                  "title": "Cyber crime",
+                  "output": "  - Cyber crime"
+                }
+              ]
+            },
+            {
+              "id": "event",
+              "title": "Additional info: _info_",
+              "data": {
+                "type": "textarea",
+                "maxLength": 400,
+                "classNames": "col s12"
+              }
+            }
+          ]
+        },
+        {
+          "id": "geo",
+          "title": "Geographic scale of the event",
+          "output": "## Geographic scale of the event",
+          "questions": [
+            {
+              "id": "geo",
+              "title": "Inside and/or outside the EU",
+              "data": {
+                "type": "select",
+                "classNames": "col s6 m4"
+              },
+              "choices": [
+                {
+                  "id": "inside",
+                  "title": "Inside EU",
+                  "output": "- Inside the EU."
+                },
+                {
+                  "id": "inside_outside",
+                  "title": "Inside and outside EU",
+                  "output": "- Inside and outside the EU."
+                },
+                {
+                  "id": "europe",
+                  "title": "Elsewhere in Europe",
+                  "output": "- Elswhere in Europe."
+                },
+                {
+                  "id": "outside",
+                  "title": "Outside Europe",
+                  "output": "- Outside Europe."
+                }
+              ]
+            },
+            {
+              "id": "international",
+              "title": "International dimension",
+              "data": {
+                "type": "select",
+                "classNames": "col s6 m4"
+              },
+              "choices": [
+                {
+                  "id": "one_country",
+                  "title": "One country",
+                  "output": "- International dimension: One country."
+                },
+                {
+                  "id": "bi_tri",
+                  "title": "Bi/Tri national",
+                  "output": "- International dimension: Bi/Tri national."
+                },
+                {
+                  "id": "multi",
+                  "title": "Multi-national",
+                  "output": "- International dimension: Multi-national."
+                },
+                {
+                  "id": "pan_eu",
+                  "title": "Pan EU",
+                  "output": "- International dimension: Pan EU."
+                },
+                {
+                  "id": "european",
+                  "title": "European",
+                  "output": "- International dimension: European."
+                },
+                {
+                  "id": "extern_europe",
+                  "title": "Extern Europe",
+                  "output": "- International dimension: Extern Europe."
+                },
+                {
+                  "id": "worldwide",
+                  "title": "Worldwide",
+                  "output": "- International dimension: Worldwide."
+                }
+              ]
+            },
+            {
+              "id": "scale",
+              "title": "Scale",
+              "data": {
+                "type": "select",
+                "classNames": "col s6 m4"
+              },
+              "choices": [
+                {
+                  "id": "regional",
+                  "title": "Regional",
+                  "output": "- Scale: Regional"
+                },
+                {
+                  "id": "national",
+                  "title": "National",
+                  "output": "- Scale: National"
+                },
+                {
+                  "id": "pan_europe",
+                  "title": "Pan-Europe",
+                  "output": "- Scale: Pan-Europe"
+                },
+                {
+                  "id": "global",
+                  "title": "Global",
+                  "output": "- Scale: Global"
+                }
+              ]
+            }, {
+              "id": "scale",
+              "title": "Brief explanation: _explanation_",
+              "data": {
+                "type": "textarea",
+                "classNames": "col s12"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
