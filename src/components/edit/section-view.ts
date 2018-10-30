@@ -36,10 +36,10 @@ export const SectionView = (): Component<{
               description ? m('#', description) : '',
               ...questions
                 .filter(q => isVisible(q, i))
-                .map(q => {
-                  console.log(`${i}: ${q.title}`);
-                  return q;
-                })
+                // .map(q => {
+                //   console.log(`${i}: ${q.title}`);
+                //   return q;
+                // })
                 .map(question => m(QuestionView, { question, index: i, key: key(i) })),
             ])
           : range(0, repeat - 1)
