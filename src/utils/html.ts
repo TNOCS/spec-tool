@@ -262,7 +262,7 @@ export const inputTextArea = (opt: IInputOptions) => {
       const id = state.id;
       const attrs = toAttrs(opt);
       return m(
-        `.input-field${toDottedClassList(opt.classNames)}`,
+        `.input-field${toDottedClassList(opt.classNames || 'col s12')}`,
         { style: opt.style || '' },
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
