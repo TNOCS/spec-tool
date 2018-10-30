@@ -200,12 +200,12 @@ class SpecificationService {
   /** Keep all sections but only return the questions that have been answered */
   private pruneSection(section: ISection, index: string) {
     const pruneIndexedSection = (s: ISection, i: string) => {
-      if (!isVisible(s) || !checkPlaceholders(s.output)) {
+      if (!isVisible(s, i) || !checkPlaceholders(s.output, i)) {
         return undefined;
       }
-      const questions = this.pruneQuestions(section.questions, index);
+      const questions = this.pruneQuestions(section.questions, i);
       return questions.length
-        ? ({ ...s, index, questions } as ISection)
+        ? ({ ...s, index: i, questions } as ISection)
         : undefined;
     };
     const repeat = getRepeat(section, index) || 0;
