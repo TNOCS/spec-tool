@@ -1,8 +1,9 @@
+import { removeHtml } from './../../utils/utils';
 import { IChapter } from './../../models/specification/specification';
 import m, { Component } from 'mithril';
 import { specSvc } from '../../services/spec-service';
 import { ChapterView } from './chapter-view';
-import { defaultIndex, isVisible } from '../../utils/utils';
+import { defaultIndex, isVisible, replacePlaceholders } from '../../utils/utils';
 import { NextPrevPage } from '../ui/next-prev-page';
 
 export const EditPage = () => {
@@ -32,14 +33,14 @@ export const EditPage = () => {
       const next = nextChapter
         ? {
             isNext: true,
-            title: nextChapter.title,
+            title: removeHtml(replacePlaceholders(nextChapter.title)),
             link: createLink(nextChapter),
           }
         : undefined;
       const prev = prevChapter
         ? {
             isNext: false,
-            title: prevChapter.title,
+            title: removeHtml(replacePlaceholders(prevChapter.title)),
             link: createLink(prevChapter),
           }
         : undefined;
