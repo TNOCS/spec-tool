@@ -1,4 +1,3 @@
-import { removeHtml } from './../../utils/utils';
 import m, { Component } from 'mithril';
 import { IChapter } from '../../models/specification/specification';
 import { QuestionView } from './question-view';
@@ -25,13 +24,20 @@ export const ChapterView = (): Component<{
       const i = attrs.index || defaultIndex;
       const questions = chapter.questions || [];
       const sections = chapter.sections || [];
-      const repeat = attrs.canRepeat ? getRepeat(chapter, i) : 0;
-      const title = removeHtml(replacePlaceholders(chapter.title, i));
+      const repeat = attrs.canRepeat ? getRepeat(chapter, i) : 1;
+      if (repeat && repeat > 1) {
+        return range(0, repeat - 1)
+          .map(x => updateIndex(i, x, 'chapter'))
+          .filter(index => isVisible(chapter, index))
+          .map(index => m(ChapterView, { chapter, index, canRepeat: false }));
+      }
+      const title = replacePlaceholders(chapter.title, i, false);
       const description = chapter.description
         ? m.trust(replacePlaceholders(chapter.description, i))
         : '';
-      return !repeat || repeat <= 1
-        ? m('.row.spectool-chapter', [
+      return repeat === 0
+        ? undefined
+        : m('.row.spectool-chapter', [
             m(`h1[id=${chapter.id}]`, title),
             description ? m('#', description) : '',
             ...questions
@@ -42,11 +48,7 @@ export const ChapterView = (): Component<{
               .map(section =>
                 m(SectionView, { section, index: i, canRepeat: true })
               ),
-          ])
-        : range(0, repeat - 1)
-            .map(x => updateIndex(i, x, 'chapter'))
-            .filter(index => isVisible(chapter, index))
-            .map(index => m(ChapterView, { chapter, index, canRepeat: false }));
+          ]);
     },
-  } as Component<{ chapter: IChapter; index: string; canRepeat: boolean }>;
+  };
 };
