@@ -1,6 +1,6 @@
 import { IAnswer } from './answer';
 
-export type Question = IBaseQuestion | IYesNo | IOption | ISelection;
+export type Question = IBaseQuestion | IYesNo | IOption | ISelection | IQuestionGroup;
 
 /** Question with a template, e.g. for a textbox */
 export interface ITemplateQuestion extends IBaseQuestion {
@@ -21,6 +21,11 @@ export interface IOption extends IBaseQuestion {
 /** Question with only one allowed option (only one can be selected) */
 export interface ISelection extends IBaseQuestion {
   choices: IBaseQuestion[];
+}
+
+/** Question with a group of questions */
+export interface IQuestionGroup extends IBaseQuestion {
+  questions: Question[];
 }
 
 /** Generic question */
@@ -77,6 +82,7 @@ export interface IAnsweredQuestion extends IBaseQuestion {
   answer?: IAnswer;
   choices?: IAnsweredQuestion[];
   options?: IAnsweredQuestion[];
+  questions?: IAnsweredQuestion[];
   yes?: IAnsweredQuestion;
   no?: IAnsweredQuestion;
 }

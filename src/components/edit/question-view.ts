@@ -5,7 +5,8 @@ import {
   IOption,
   ISelection,
   IBaseQuestion,
-  InputType
+  InputType,
+  IQuestionGroup
 } from '../../models/specification/question';
 import {
   InputCheckbox,
@@ -41,9 +42,13 @@ const switchView = (question: Question) => {
   if (question.hasOwnProperty('choices')) {
     return ChoicesView;
   }
+  if (question.hasOwnProperty('questions')) {
+    return QuestionsView;
+  }
   return TemplateView;
 };
 
+/** Display one question */
 export const QuestionView = () => {
   return {
     view: ({ attrs }) => {
@@ -64,6 +69,28 @@ export const QuestionView = () => {
     },
   } as Component<{ question: Question; index?: string }>;
 };
+
+/** Display multiple question */
+const QuestionsView = (): Component<{ question: Question; index?: string }> =>
+  ({
+    view: ({ attrs }) => {
+      const q = attrs.question as IQuestionGroup;
+      const questions = q.questions;
+      const index = attrs.index;
+      return questions.map(question => m(QuestionView, { question, index }));
+      // return m('.row', [
+      //   m(`h2[id=${section.id}]`, title),
+      //   description ? m('#', description) : '',
+      //   ...questions
+      //     .filter(q => isVisible(q, i))
+      //     .map(q => {
+      //       console.log(`${i}: ${q.title}`);
+      //       return q;
+      //     })
+      //     .map(question => m(QuestionView, { question, index: i, key: key(i) })),
+      // ])
+  },
+});
 
 /**
  * Displays a question with several options

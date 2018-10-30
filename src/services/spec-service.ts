@@ -22,7 +22,8 @@ import {
   Question,
   IOption,
   ISelection,
-  IAnsweredQuestion
+  IAnsweredQuestion,
+  IQuestionGroup
 } from '../models/specification/question';
 import { IDocumentInfo } from '../models/specification/document-info';
 import { ITemplateDefinition } from '../models/specification/language-definition';
@@ -39,7 +40,9 @@ class SpecificationService {
 
   /** Load a specification, either by name or from the supplied data. */
   public load(title: string, specification?: ISpecification) {
-    if (title === this.specTitle) { return; }
+    if (title === this.specTitle) {
+      return;
+    }
     if (!specification) {
       const s = specificationCatalogue.find(title);
       specification = s ? s.data : undefined;
@@ -61,7 +64,10 @@ class SpecificationService {
     reader.onload = async (ev: ProgressEvent) => {
       if (ev.target) {
         const title = specFile.name.replace(/\.spec\.json/gi, '');
-        specificationCatalogue.add(title, JSON.parse((ev.target as any).result));
+        specificationCatalogue.add(
+          title,
+          JSON.parse((ev.target as any).result)
+        );
         this.load(title);
         cb();
       }
@@ -86,21 +92,28 @@ class SpecificationService {
       [] as IChapter[]
     );
     const printQuestion = (q: IAnsweredQuestion) => {
-      const group = [] as IAnsweredQuestion[];
-      group.push(q);
-      if (q.choices) {
-        q.choices.forEach(c => group.push(c));
-      }
-      if (q.options) {
-        q.options.forEach(o => group.push(o));
-      }
-      if (q.yes) {
-        group.push(q.yes);
-      }
-      if (q.no) {
-        group.push(q.no);
-      }
-      return group
+      const getQuestions = (aq: IAnsweredQuestion) => {
+        const group = [] as IAnsweredQuestion[];
+        group.push(aq);
+        if (aq.choices) {
+          aq.choices.forEach(c => group.push(c));
+        }
+        if (aq.options) {
+          aq.options.forEach(o => group.push(o));
+        }
+        if (aq.questions) {
+          aq.questions.forEach(o => group.push(...getQuestions(o)));
+        }
+        if (aq.yes) {
+          group.push(aq.yes);
+        }
+        if (aq.no) {
+          group.push(aq.no);
+        }
+        return group;
+      };
+      const allQuestions = getQuestions(q);
+      return allQuestions
         .map(i => replacePlaceholders(i.output, i.index, false))
         .join('\n');
     };
@@ -144,7 +157,7 @@ class SpecificationService {
   get report() {
     const docs = this.specs;
     const doc = docs instanceof Array ? docs.join('\n\n') : docs;
-    console.log(doc);
+    // console.log(doc);
     return markdown(doc);
   }
 
@@ -176,10 +189,7 @@ class SpecificationService {
             .map(x => updateIndex(index, x, 'chapter'))
             .reduce(
               (p, i) => {
-                const prunedChapter = pruneIndexedChapter(
-                  chapter,
-                  i
-                );
+                const prunedChapter = pruneIndexedChapter(chapter, i);
                 return prunedChapter ? [...p, prunedChapter] : p;
               },
               [] as IChapter[]
@@ -206,10 +216,7 @@ class SpecificationService {
             .map(x => updateIndex(index, x, 'section'))
             .reduce(
               (p, i) => {
-                const prunedSection = pruneIndexedSection(
-                  section,
-                  i
-                );
+                const prunedSection = pruneIndexedSection(section, i);
                 return prunedSection ? [...p, prunedSection] : p;
               },
               [] as ISection[]
@@ -231,10 +238,7 @@ class SpecificationService {
             .map(x => updateIndex(index, x, 'question'))
             .reduce(
               (p, i) => {
-                const prunedQuestion = pruneIndexedQuestion(
-                  question,
-                  i
-                );
+                const prunedQuestion = pruneIndexedQuestion(question, i);
                 return prunedQuestion ? [...p, prunedQuestion] : p;
               },
               [] as ISection[]
@@ -279,6 +283,17 @@ class SpecificationService {
         [] as IAnsweredQuestion[]
       );
       return options.length > 0 ? { ...q, options } : undefined;
+    }
+    if (q.hasOwnProperty('questions')) {
+      const groupedQuestion = q as IQuestionGroup;
+      const questions = groupedQuestion.questions.reduce(
+        (p, question) => {
+          const answer = this.cloneAnsweredQuestions(question, index);
+          return answer ? [...p, answer] : p;
+        },
+        [] as IAnsweredQuestion[]
+      );
+      return questions.length > 0 ? { ...q, questions } : undefined;
     }
     return { ...q, index, answer: undefined };
   }
@@ -347,4 +362,7 @@ class SpecificationService {
 }
 
 export const specSvc = new SpecificationService();
-specSvc.load(specificationCatalogue.default.title, specificationCatalogue.default.data);
+specSvc.load(
+  specificationCatalogue.default.title,
+  specificationCatalogue.default.data
+);

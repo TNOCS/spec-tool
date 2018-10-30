@@ -166,6 +166,9 @@
                             },
                             {
                                 "$ref": "#/definitions/ISelection"
+                            },
+                            {
+                                "$ref": "#/definitions/IQuestionGroup"
                             }
                         ]
                     },
@@ -260,6 +263,7 @@
                         "select",
                         "text",
                         "textarea",
+                        "time",
                         "url"
                     ],
                     "type": "string"
@@ -408,6 +412,106 @@
             },
             "type": "object"
         },
+        "IQuestionGroup": {
+            "description": "Question with a group of questions",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData",
+                    "description": "When the quesion is selected, the data contains the text that is added to the specification document."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Optional descriptive text, shown under the question. In case of an array, each string is\ntreated as a paragraph."
+                },
+                "id": {
+                    "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "index": {
+                    "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
+                    "type": "string"
+                },
+                "mandatory": {
+                    "description": "When true, mark the question as mandatory.",
+                    "type": "boolean"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "When the question is answered, the corresponding output is added to the report."
+                },
+                "questions": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IBaseQuestion"
+                            },
+                            {
+                                "$ref": "#/definitions/IYesNo"
+                            },
+                            {
+                                "$ref": "#/definitions/IOption"
+                            },
+                            {
+                                "$ref": "#/definitions/ISelection"
+                            },
+                            {
+                                "$ref": "#/definitions/IQuestionGroup"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "repeat": {
+                    "description": "By default, repeat is 0. In case it is 1 or more, it means that we can repeat\n(and delete) the question or group.\nIn case of a string, the resolved value should be a number too.",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "By default, show every question, except when this property is defined. In that case, show when:\n- show is a string with a questionID, and questionID is selected (as an answer)\n- show is a string array, and one of the questionIDs is selected [OR condition]\nWhen the string contains commas, separating questionIDs, only\nshow it when all of these questions have been selected."
+                },
+                "title": {
+                    "description": "Text that is shown in simple cases.\nIn more complicated cases, it may contain data annotations, e.g.\n- \"Give me your name: _name_?\"\" is converted to a string with input textbox.\n   The entered name is stored in the answer.\n- In \"&id.name, how old are your?: _age_\", the name is replaced with the entered name, and the age is captured.\n\nIn case the attached data object already contains a name or age property, its value is copied,\nand its type is used to determine the input type (e.g. if it is a string, use text input).",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "ISection": {
             "properties": {
                 "data": {
@@ -478,6 +582,9 @@
                             },
                             {
                                 "$ref": "#/definitions/ISelection"
+                            },
+                            {
+                                "$ref": "#/definitions/IQuestionGroup"
                             }
                         ]
                     },

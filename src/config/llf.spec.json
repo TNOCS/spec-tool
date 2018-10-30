@@ -754,6 +754,461 @@
                 "type": "textarea",
                 "classNames": "col s12"
               }
+            }, {
+              "id": "members",
+              "title": "Involved number of EU member states: _count_",
+              "data": {
+                "classNames": "col s12 m3",
+                "type": "number",
+                "count": 1,
+                "min": 0
+              }
+            }, {
+              "id": "members",
+              "title": "Involved EU member states, if any",
+              "repeat": "members.count",
+              "data": {
+                "classNames": "col s12 m3"
+              },
+              "choices": [
+                {
+                  "id": "none",
+                  "title": "Choose an option"
+                }, {
+                  "id": "na",
+                  "title": "N/A",
+                  "output": "- Involved EU member: N/A"
+                }, {
+                  "id": "austria",
+                  "title": "Austria",
+                  "output": "- Involved EU member: Austria"
+                }, {
+                  "id": "belgium",
+                  "title": "Belgium",
+                  "output": "- Involved EU member: Belgium"
+                }, {
+                  "id": "bulgaria",
+                  "title": "Bulgaria",
+                  "output": "- Involved EU member: Bulgaria"
+                }, {
+                  "id": "croatia",
+                  "title": "Croatia",
+                  "output": "- Involved EU member: Croatia"
+                }, {
+                  "id": "cyprus",
+                  "title": "Cyprus",
+                  "output": "- Involved EU member: Cyprus"
+                }, {
+                  "id": "czech_republic",
+                  "title": "Czech Republic",
+                  "output": "- Involved EU member: Czech Republic"
+                }, {
+                  "id": "denmark",
+                  "title": "Denmark",
+                  "output": "- Involved EU member: Denmark"
+                }, {
+                  "id": "estonia",
+                  "title": "Estonia",
+                  "output": "- Involved EU member: Estonia"
+                }, {
+                  "id": "finland",
+                  "title": "Finland",
+                  "output": "- Involved EU member: Finland"
+                }, {
+                  "id": "france",
+                  "title": "France",
+                  "output": "- Involved EU member: France"
+                }, {
+                  "id": "germany",
+                  "title": "Germany",
+                  "output": "- Involved EU member: Germany"
+                }, {
+                  "id": "greece",
+                  "title": "Greece",
+                  "output": "- Involved EU member: Greece"
+                }, {
+                  "id": "hungary",
+                  "title": "Hungary",
+                  "output": "- Involved EU member: Hungary"
+                }, {
+                  "id": "ireland",
+                  "title": "Ireland",
+                  "output": "- Involved EU member: Ireland"
+                }, {
+                  "id": "italy",
+                  "title": "Italy",
+                  "output": "- Involved EU member: Italy"
+                }, {
+                  "id": "latvia",
+                  "title": "Latvia",
+                  "output": "- Involved EU member: Latvia"
+                }, {
+                  "id": "lithuania",
+                  "title": "Lithuania",
+                  "output": "- Involved EU member: Lithuania"
+                }, {
+                  "id": "luxembourg",
+                  "title": "Luxembourg",
+                  "output": "- Involved EU member: Luxembourg"
+                }, {
+                  "id": "malta",
+                  "title": "Malta",
+                  "output": "- Involved EU member: Malta"
+                }, {
+                  "id": "netherlands",
+                  "title": "Netherlands",
+                  "output": "- Involved EU member: Netherlands"
+                }, {
+                  "id": "poland",
+                  "title": "Poland",
+                  "output": "- Involved EU member: Poland"
+                }, {
+                  "id": "portugal",
+                  "title": "Portugal",
+                  "output": "- Involved EU member: Portugal"
+                }, {
+                  "id": "romania",
+                  "title": "Romania",
+                  "output": "- Involved EU member: Romania"
+                }, {
+                  "id": "slovakia",
+                  "title": "Slovakia",
+                  "output": "- Involved EU member: Slovakia"
+                }, {
+                  "id": "slovenia",
+                  "title": "Slovenia",
+                  "output": "- Involved EU member: Slovenia"
+                }, {
+                  "id": "spain",
+                  "title": "Spain",
+                  "output": "- Involved EU member: Spain"
+                }, {
+                  "id": "sweden",
+                  "title": "Sweden",
+                  "output": "- Involved EU member: Sweden"
+                }, {
+                  "id": "united_kingdom",
+                  "title": "United Kingdom",
+                  "output": "- Involved EU member: United Kingdom"
+                }
+              ]
+            }, {
+              "id": "members",
+              "title": "Additional info: _info_",
+              "data": {
+                "type": "textarea"
+              }
+            }, {
+              "id": "cip",
+              "title": "Involved critical infrastructure",
+              "data": {
+                "classNames": "col s6 m3"
+              },
+              "options": [
+                { 
+                  "id": "-",
+                  "title": "-",
+                  "output": "- Involved critical infrastructure: -"
+                },
+                { 
+                  "id": "drinking water",
+                  "title": "Drinking water",
+                  "output": "- Involved critical infrastructure: Drinking water"
+                },
+                { 
+                  "id": "electricity",
+                  "title": "Electricity",
+                  "output": "- Involved critical infrastructure: Electricity"
+                },
+                { 
+                  "id": "gas supply",
+                  "title": "Gas supply",
+                  "output": "- Involved critical infrastructure: Gas supply"
+                },
+                { 
+                  "id": "public health",
+                  "title": "Public Health",
+                  "output": "- Involved critical infrastructure: Public Health"
+                },
+                { 
+                  "id": "telecom/ict",
+                  "title": "Telecom/ICT",
+                  "output": "- Involved critical infrastructure: Telecom/ICT"
+                },
+                { 
+                  "id": "transport - air",
+                  "title": "Transport - Air",
+                  "output": "- Involved critical infrastructure: Transport - Air"
+                },
+                { 
+                  "id": "transport - rail",
+                  "title": "Transport - Rail",
+                  "output": "- Involved critical infrastructure: Transport - Rail"
+                },
+                { 
+                  "id": "transport - rivers",
+                  "title": "Transport - Rivers",
+                  "output": "- Involved critical infrastructure: Transport - Rivers"
+                },
+                { 
+                  "id": "transport - sea",
+                  "title": "Transport - Sea",
+                  "output": "- Involved critical infrastructure: Transport - Sea"
+                },
+                { 
+                  "id": "water management",
+                  "title": "Water management",
+                  "output": "- Involved critical infrastructure: Water management"
+                },
+                { 
+                  "id": "other",
+                  "title": "Other",
+                  "output": "- Involved critical infrastructure: Other"
+                }
+              ]
+            }, {
+              "id": "cip",
+              "title": "Brief explanation, if needed _info_",
+              "output": "- Critical infrastructure: &cip.info",
+              "data": {
+                "type": "textarea"
+              }
+            }, {
+              "id": "cip",
+              "title": "Other involved critical infrastructure or societal sectors (if any) _additional_",
+              "output": "- Critical infrastructure: &cip.additional",
+              "data": {
+                "type": "textarea"
+              }
+            }, {
+              "id": "org",
+              "title": "How many organisations were involved? _count_",
+              "output": "## Organisations that were involved in executing CM functions",
+              "data": {
+                "classNames": "col s12",
+                "type": "number",
+                "count": 1,
+                "min": 0
+              }
+            }, {
+              "id": "org",
+              "title": "Organisations that were involved in executing CM functions",
+              "repeat": "org.count",
+              "questions": [
+                {
+                  "id": "org",
+                  "title": "Organisation: _name_",
+                  "data": {
+                    "classNames": "col s12 m3"
+                  },
+                  "output": "- Organisation name: &org.name"
+                }, {
+                  "id": "org",
+                  "title": "Type of organisation",
+                  "data": {
+                    "classNames": "col s12 m5"
+                  },
+                  "choices": [
+                    {
+                      "id": "none",
+                      "title": "Choose one option"
+                    },
+                    {
+                      "id": "firebrigade",
+                      "title": "Firebrigade/Civil Prot.",
+                      "output": "  Type of organisation: Firebrigade/Civil Prot."
+                    },
+                    {
+                      "id": "police_military",
+                      "title": "Police / Military",
+                      "output": "  Type of organisation: Police / Military"
+                    },
+                    {
+                      "id": "medical_services",
+                      "title": "Medical services",
+                      "output": "  Type of organisation: Medical services"
+                    },
+                    {
+                      "id": "search_and_rescue",
+                      "title": "Search and Rescue",
+                      "output": "  Type of organisation: Search and Rescue"
+                    },
+                    {
+                      "id": "coastguard",
+                      "title": "Coastguard",
+                      "output": "  Type of organisation: Coastguard"
+                    },
+                    {
+                      "id": "ngo_volunteer_org.",
+                      "title": "NGO / Volunteer org.",
+                      "output": "  Type of organisation: NGO / Volunteer org."
+                    },
+                    {
+                      "id": "monitoring_institutes",
+                      "title": "Monitoring institutes",
+                      "output": "  Type of organisation: Monitoring institutes"
+                    },
+                    {
+                      "id": "public_services",
+                      "title": "Public services",
+                      "output": "  Type of organisation: Public services"
+                    },
+                    {
+                      "id": "critical_infrastructures",
+                      "title": "Critical Infrastructures",
+                      "output": "  Type of organisation: Critical Infrastructures"
+                    },
+                    {
+                      "id": "command_centres",
+                      "title": "Command centres",
+                      "output": "  Type of organisation: Command centres"
+                    },
+                    {
+                      "id": "policy_authorities",
+                      "title": "Policy / Authorities",
+                      "output": "  Type of organisation: Policy / Authorities"
+                    },
+                    {
+                      "id": "international_agency",
+                      "title": "International agency",
+                      "output": "  Type of organisation: International agency"
+                    },
+                    {
+                      "id": "other",
+                      "title": "Other",
+                      "output": "  Type of organisation: Other"
+                    }
+                  ]
+                }, {
+                  "id": "country",
+                  "title": "EU country",
+                  "data": {
+                    "classNames": "col s12 m4"
+                  },
+                  "choices": [
+                    {
+                      "id": "none",
+                      "title": "Choose one option"
+                    }, {
+                      "id": "na",
+                      "title": "N/A",
+                      "output": "  EU country: N/A"
+                    }, {
+                      "id": "austria",
+                      "title": "Austria",
+                      "output": "  EU country: Austria"
+                    }, {
+                      "id": "belgium",
+                      "title": "Belgium",
+                      "output": "  EU country: Belgium"
+                    }, {
+                      "id": "bulgaria",
+                      "title": "Bulgaria",
+                      "output": "  EU country: Bulgaria"
+                    }, {
+                      "id": "croatia",
+                      "title": "Croatia",
+                      "output": "  EU country: Croatia"
+                    }, {
+                      "id": "cyprus",
+                      "title": "Cyprus",
+                      "output": "  EU country: Cyprus"
+                    }, {
+                      "id": "czech_republic",
+                      "title": "Czech Republic",
+                      "output": "  EU country: Czech Republic"
+                    }, {
+                      "id": "denmark",
+                      "title": "Denmark",
+                      "output": "  EU country: Denmark"
+                    }, {
+                      "id": "estonia",
+                      "title": "Estonia",
+                      "output": "  EU country: Estonia"
+                    }, {
+                      "id": "finland",
+                      "title": "Finland",
+                      "output": "  EU country: Finland"
+                    }, {
+                      "id": "france",
+                      "title": "France",
+                      "output": "  EU country: France"
+                    }, {
+                      "id": "germany",
+                      "title": "Germany",
+                      "output": "  EU country: Germany"
+                    }, {
+                      "id": "greece",
+                      "title": "Greece",
+                      "output": "  EU country: Greece"
+                    }, {
+                      "id": "hungary",
+                      "title": "Hungary",
+                      "output": "  EU country: Hungary"
+                    }, {
+                      "id": "ireland",
+                      "title": "Ireland",
+                      "output": "  EU country: Ireland"
+                    }, {
+                      "id": "italy",
+                      "title": "Italy",
+                      "output": "  EU country: Italy"
+                    }, {
+                      "id": "latvia",
+                      "title": "Latvia",
+                      "output": "  EU country: Latvia"
+                    }, {
+                      "id": "lithuania",
+                      "title": "Lithuania",
+                      "output": "  EU country: Lithuania"
+                    }, {
+                      "id": "luxembourg",
+                      "title": "Luxembourg",
+                      "output": "  EU country: Luxembourg"
+                    }, {
+                      "id": "malta",
+                      "title": "Malta",
+                      "output": "  EU country: Malta"
+                    }, {
+                      "id": "netherlands",
+                      "title": "Netherlands",
+                      "output": "  EU country: Netherlands"
+                    }, {
+                      "id": "poland",
+                      "title": "Poland",
+                      "output": "  EU country: Poland"
+                    }, {
+                      "id": "portugal",
+                      "title": "Portugal",
+                      "output": "  EU country: Portugal"
+                    }, {
+                      "id": "romania",
+                      "title": "Romania",
+                      "output": "  EU country: Romania"
+                    }, {
+                      "id": "slovakia",
+                      "title": "Slovakia",
+                      "output": "  EU country: Slovakia"
+                    }, {
+                      "id": "slovenia",
+                      "title": "Slovenia",
+                      "output": "  EU country: Slovenia"
+                    }, {
+                      "id": "spain",
+                      "title": "Spain",
+                      "output": "  EU country: Spain"
+                    }, {
+                      "id": "sweden",
+                      "title": "Sweden",
+                      "output": "  EU country: Sweden"
+                    }, {
+                      "id": "united_kingdom",
+                      "title": "United Kingdom",
+                      "output": "  EU country: United Kingdom"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
