@@ -12,9 +12,12 @@ You can easily create your own questionnaire, upload and edit it, or you can for
 ## Features
 
 - A specification is divided into chapters. Each chapter is divided into sections. Both can contain one or more questions.
-- Questions can be of different kind:
-  - Choices (radio buttons)
-  - Options (check boxes)
+- Questions can be of different kind and have:
+  - `choices`:
+    - Radio buttons when the number of choices is less than 4 or the type === `radio`
+    - Pulldown menu when type ===  `select` or choices is more than 4
+  - `options` (check boxes)
+  - `questions`: a group of related questions that are treated, and can be repeated, as a whole.
   - Text inputs (strings and numbers), where placeholders like `_name_` or `_count_` in the question's title will be converted to input boxes, making `questionId.name` or `questionId.count` available for show or repeat instructions and for the output.
   - Additionally, the placeholder `$index` (note the dollar sign) is replaced with the current repeat number (starting at `1`). Similarly, `$indexStr` is replaced by a letter (starting at `a`).
 - Each chapter, section and question has a title and description. For each, markdown can be used.
