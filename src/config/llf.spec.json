@@ -18,12 +18,6 @@
   "introduction": [
     "# DRIVER+ Lessons Learned Framework",
     "This questionnaire allows you to capture the lessons that you've learned while running a specific event or trial.",
-    "",
-    "TODO:",
-    "",
-    "- Add dropdown for country/event type input.",
-    "- Add link input (for external links, text should start with http or https)",
-    "- Enforce mandatory fields?.",
     ""
   ],
   "chapters": [
@@ -747,14 +741,16 @@
                   "output": "- Scale: Global"
                 }
               ]
-            }, {
+            },
+            {
               "id": "scale",
               "title": "Brief explanation: _explanation_",
               "data": {
                 "type": "textarea",
                 "classNames": "col s12"
               }
-            }, {
+            },
+            {
               "id": "members",
               "title": "Involved number of EU member states: _count_",
               "data": {
@@ -763,7 +759,8 @@
                 "count": 1,
                 "min": 0
               }
-            }, {
+            },
+            {
               "id": "members",
               "title": "Involved EU member states, if any",
               "repeat": "members.count",
@@ -774,213 +771,247 @@
                 {
                   "id": "none",
                   "title": "Choose an option"
-                }, {
+                },
+                {
                   "id": "na",
                   "title": "N/A",
                   "output": "- Involved EU member: N/A"
-                }, {
+                },
+                {
                   "id": "austria",
                   "title": "Austria",
                   "output": "- Involved EU member: Austria"
-                }, {
+                },
+                {
                   "id": "belgium",
                   "title": "Belgium",
                   "output": "- Involved EU member: Belgium"
-                }, {
+                },
+                {
                   "id": "bulgaria",
                   "title": "Bulgaria",
                   "output": "- Involved EU member: Bulgaria"
-                }, {
+                },
+                {
                   "id": "croatia",
                   "title": "Croatia",
                   "output": "- Involved EU member: Croatia"
-                }, {
+                },
+                {
                   "id": "cyprus",
                   "title": "Cyprus",
                   "output": "- Involved EU member: Cyprus"
-                }, {
+                },
+                {
                   "id": "czech_republic",
                   "title": "Czech Republic",
                   "output": "- Involved EU member: Czech Republic"
-                }, {
+                },
+                {
                   "id": "denmark",
                   "title": "Denmark",
                   "output": "- Involved EU member: Denmark"
-                }, {
+                },
+                {
                   "id": "estonia",
                   "title": "Estonia",
                   "output": "- Involved EU member: Estonia"
-                }, {
+                },
+                {
                   "id": "finland",
                   "title": "Finland",
                   "output": "- Involved EU member: Finland"
-                }, {
+                },
+                {
                   "id": "france",
                   "title": "France",
                   "output": "- Involved EU member: France"
-                }, {
+                },
+                {
                   "id": "germany",
                   "title": "Germany",
                   "output": "- Involved EU member: Germany"
-                }, {
+                },
+                {
                   "id": "greece",
                   "title": "Greece",
                   "output": "- Involved EU member: Greece"
-                }, {
+                },
+                {
                   "id": "hungary",
                   "title": "Hungary",
                   "output": "- Involved EU member: Hungary"
-                }, {
+                },
+                {
                   "id": "ireland",
                   "title": "Ireland",
                   "output": "- Involved EU member: Ireland"
-                }, {
+                },
+                {
                   "id": "italy",
                   "title": "Italy",
                   "output": "- Involved EU member: Italy"
-                }, {
+                },
+                {
                   "id": "latvia",
                   "title": "Latvia",
                   "output": "- Involved EU member: Latvia"
-                }, {
+                },
+                {
                   "id": "lithuania",
                   "title": "Lithuania",
                   "output": "- Involved EU member: Lithuania"
-                }, {
+                },
+                {
                   "id": "luxembourg",
                   "title": "Luxembourg",
                   "output": "- Involved EU member: Luxembourg"
-                }, {
+                },
+                {
                   "id": "malta",
                   "title": "Malta",
                   "output": "- Involved EU member: Malta"
-                }, {
+                },
+                {
                   "id": "netherlands",
                   "title": "Netherlands",
                   "output": "- Involved EU member: Netherlands"
-                }, {
+                },
+                {
                   "id": "poland",
                   "title": "Poland",
                   "output": "- Involved EU member: Poland"
-                }, {
+                },
+                {
                   "id": "portugal",
                   "title": "Portugal",
                   "output": "- Involved EU member: Portugal"
-                }, {
+                },
+                {
                   "id": "romania",
                   "title": "Romania",
                   "output": "- Involved EU member: Romania"
-                }, {
+                },
+                {
                   "id": "slovakia",
                   "title": "Slovakia",
                   "output": "- Involved EU member: Slovakia"
-                }, {
+                },
+                {
                   "id": "slovenia",
                   "title": "Slovenia",
                   "output": "- Involved EU member: Slovenia"
-                }, {
+                },
+                {
                   "id": "spain",
                   "title": "Spain",
                   "output": "- Involved EU member: Spain"
-                }, {
+                },
+                {
                   "id": "sweden",
                   "title": "Sweden",
                   "output": "- Involved EU member: Sweden"
-                }, {
+                },
+                {
                   "id": "united_kingdom",
                   "title": "United Kingdom",
                   "output": "- Involved EU member: United Kingdom"
                 }
               ]
-            }, {
+            },
+            {
               "id": "members",
               "title": "Additional info: _info_",
               "data": {
                 "type": "textarea"
               }
-            }, {
+            },
+            {
               "id": "cip",
               "title": "Involved critical infrastructure",
               "data": {
                 "classNames": "col s6 m3"
               },
               "options": [
-                { 
+                {
                   "id": "-",
                   "title": "-",
                   "output": "- Involved critical infrastructure: -"
                 },
-                { 
+                {
                   "id": "drinking water",
                   "title": "Drinking water",
                   "output": "- Involved critical infrastructure: Drinking water"
                 },
-                { 
+                {
                   "id": "electricity",
                   "title": "Electricity",
                   "output": "- Involved critical infrastructure: Electricity"
                 },
-                { 
+                {
                   "id": "gas supply",
                   "title": "Gas supply",
                   "output": "- Involved critical infrastructure: Gas supply"
                 },
-                { 
+                {
                   "id": "public health",
                   "title": "Public Health",
                   "output": "- Involved critical infrastructure: Public Health"
                 },
-                { 
+                {
                   "id": "telecom/ict",
                   "title": "Telecom/ICT",
                   "output": "- Involved critical infrastructure: Telecom/ICT"
                 },
-                { 
+                {
                   "id": "transport - air",
                   "title": "Transport - Air",
                   "output": "- Involved critical infrastructure: Transport - Air"
                 },
-                { 
+                {
                   "id": "transport - rail",
                   "title": "Transport - Rail",
                   "output": "- Involved critical infrastructure: Transport - Rail"
                 },
-                { 
+                {
                   "id": "transport - rivers",
                   "title": "Transport - Rivers",
                   "output": "- Involved critical infrastructure: Transport - Rivers"
                 },
-                { 
+                {
                   "id": "transport - sea",
                   "title": "Transport - Sea",
                   "output": "- Involved critical infrastructure: Transport - Sea"
                 },
-                { 
+                {
                   "id": "water management",
                   "title": "Water management",
                   "output": "- Involved critical infrastructure: Water management"
                 },
-                { 
+                {
                   "id": "other",
                   "title": "Other",
                   "output": "- Involved critical infrastructure: Other"
                 }
               ]
-            }, {
+            },
+            {
               "id": "cip",
               "title": "Brief explanation, if needed _info_",
               "output": "- Critical infrastructure: &cip.info",
               "data": {
                 "type": "textarea"
               }
-            }, {
+            },
+            {
               "id": "cip",
               "title": "Other involved critical infrastructure or societal sectors (if any) _additional_",
               "output": "- Critical infrastructure: &cip.additional",
               "data": {
                 "type": "textarea"
               }
-            }, {
+            },
+            {
               "id": "org",
               "title": "How many organisations were involved? _count_",
               "output": "## Organisations that were involved in executing CM functions",
@@ -990,7 +1021,8 @@
                 "count": 1,
                 "min": 0
               }
-            }, {
+            },
+            {
               "id": "org",
               "title": "Organisations that were involved in executing CM functions",
               "repeat": "org.count",
@@ -1002,7 +1034,8 @@
                     "classNames": "col s12 m3"
                   },
                   "output": "- Organisation name: &org.name"
-                }, {
+                },
+                {
                   "id": "org",
                   "title": "Type of organisation",
                   "data": {
@@ -1079,7 +1112,8 @@
                       "output": "  Type of organisation: Other"
                     }
                   ]
-                }, {
+                },
+                {
                   "id": "country",
                   "title": "EU country",
                   "data": {
@@ -1089,125 +1123,837 @@
                     {
                       "id": "none",
                       "title": "Choose one option"
-                    }, {
+                    },
+                    {
                       "id": "na",
                       "title": "N/A",
                       "output": "  EU country: N/A"
-                    }, {
+                    },
+                    {
                       "id": "austria",
                       "title": "Austria",
                       "output": "  EU country: Austria"
-                    }, {
+                    },
+                    {
                       "id": "belgium",
                       "title": "Belgium",
                       "output": "  EU country: Belgium"
-                    }, {
+                    },
+                    {
                       "id": "bulgaria",
                       "title": "Bulgaria",
                       "output": "  EU country: Bulgaria"
-                    }, {
+                    },
+                    {
                       "id": "croatia",
                       "title": "Croatia",
                       "output": "  EU country: Croatia"
-                    }, {
+                    },
+                    {
                       "id": "cyprus",
                       "title": "Cyprus",
                       "output": "  EU country: Cyprus"
-                    }, {
+                    },
+                    {
                       "id": "czech_republic",
                       "title": "Czech Republic",
                       "output": "  EU country: Czech Republic"
-                    }, {
+                    },
+                    {
                       "id": "denmark",
                       "title": "Denmark",
                       "output": "  EU country: Denmark"
-                    }, {
+                    },
+                    {
                       "id": "estonia",
                       "title": "Estonia",
                       "output": "  EU country: Estonia"
-                    }, {
+                    },
+                    {
                       "id": "finland",
                       "title": "Finland",
                       "output": "  EU country: Finland"
-                    }, {
+                    },
+                    {
                       "id": "france",
                       "title": "France",
                       "output": "  EU country: France"
-                    }, {
+                    },
+                    {
                       "id": "germany",
                       "title": "Germany",
                       "output": "  EU country: Germany"
-                    }, {
+                    },
+                    {
                       "id": "greece",
                       "title": "Greece",
                       "output": "  EU country: Greece"
-                    }, {
+                    },
+                    {
                       "id": "hungary",
                       "title": "Hungary",
                       "output": "  EU country: Hungary"
-                    }, {
+                    },
+                    {
                       "id": "ireland",
                       "title": "Ireland",
                       "output": "  EU country: Ireland"
-                    }, {
+                    },
+                    {
                       "id": "italy",
                       "title": "Italy",
                       "output": "  EU country: Italy"
-                    }, {
+                    },
+                    {
                       "id": "latvia",
                       "title": "Latvia",
                       "output": "  EU country: Latvia"
-                    }, {
+                    },
+                    {
                       "id": "lithuania",
                       "title": "Lithuania",
                       "output": "  EU country: Lithuania"
-                    }, {
+                    },
+                    {
                       "id": "luxembourg",
                       "title": "Luxembourg",
                       "output": "  EU country: Luxembourg"
-                    }, {
+                    },
+                    {
                       "id": "malta",
                       "title": "Malta",
                       "output": "  EU country: Malta"
-                    }, {
+                    },
+                    {
                       "id": "netherlands",
                       "title": "Netherlands",
                       "output": "  EU country: Netherlands"
-                    }, {
+                    },
+                    {
                       "id": "poland",
                       "title": "Poland",
                       "output": "  EU country: Poland"
-                    }, {
+                    },
+                    {
                       "id": "portugal",
                       "title": "Portugal",
                       "output": "  EU country: Portugal"
-                    }, {
+                    },
+                    {
                       "id": "romania",
                       "title": "Romania",
                       "output": "  EU country: Romania"
-                    }, {
+                    },
+                    {
                       "id": "slovakia",
                       "title": "Slovakia",
                       "output": "  EU country: Slovakia"
-                    }, {
+                    },
+                    {
                       "id": "slovenia",
                       "title": "Slovenia",
                       "output": "  EU country: Slovenia"
-                    }, {
+                    },
+                    {
                       "id": "spain",
                       "title": "Spain",
                       "output": "  EU country: Spain"
-                    }, {
+                    },
+                    {
                       "id": "sweden",
                       "title": "Sweden",
                       "output": "  EU country: Sweden"
-                    }, {
+                    },
+                    {
                       "id": "united_kingdom",
                       "title": "United Kingdom",
                       "output": "  EU country: United Kingdom"
                     }
                   ]
                 }
+              ]
+            },
+            {
+              "id": "org",
+              "title": "Other involved organisations (if any) _additional_",
+              "output": "- Other involved organisations: &org.additional",
+              "data": {
+                "type": "textarea"
+              }
+            }
+          ]
+        },
+        {
+          "id": "event",
+          "title": "Description of the event",
+          "output": "## Description of the event",
+          "questions": [
+            {
+              "id": "event",
+              "title": "Text describing the evaluated event, challenges, problems, roles of the involved organisations: _description_",
+              "output": "&event.description",
+              "data": {
+                "type": "textarea",
+                "maxLength": 1000
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lesson",
+      "title": "Lessons",
+      "output": "# Lessons",
+      "questions": [
+        {
+          "id": "lesson",
+          "title": "How many lessons did you discover? _count_",
+          "data": {
+            "classNames": "col s12",
+            "type": "number",
+            "count": 1,
+            "min": 1
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": "lesson",
+          "title": "$sectionIndex. Lesson overview",
+          "repeat": "lesson.count",
+          "output": "## $sectionIndex. Lesson overview: &lesson.name",
+          "questions": [
+            {
+              "id": "lesson",
+              "title": "Short name of the lesson _name_"
+            },
+            {
+              "id": "status",
+              "title": "Status of the lesson",
+              "choices": [
+                {
+                  "id": "identified",
+                  "title": "Identified",
+                  "output": "- Status of the lesson: Identified"
+                },
+                {
+                  "id": "learned",
+                  "title": "Learned",
+                  "output": "- Status of the lesson: Learned"
+                },
+                {
+                  "id": "implemented",
+                  "title": "Implemented",
+                  "output": "- Status of the lesson: Implemented"
+                }
+              ]
+            },
+            {
+              "id": "status",
+              "title": "Explanation of the status: _explanation_",
+              "output": "  **Explanation:** &status.explanation",
+              "data": {
+                "type": "textarea",
+                "maxLength": 200
+              }
+            },
+            {
+              "id": "status",
+              "title": "Future development: _futureDev_",
+              "output": "  **Future development:** &status.futureDev",
+              "data": {
+                "type": "textarea",
+                "maxLength": 200
+              }
+            },
+            {
+              "id": "applicability",
+              "title": "Applicability of the lesson",
+              "output": "- Applicability of the lesson:",
+              "data": {
+                "classNames": "col s12"
+              },
+              "choices": [
+                {
+                  "id": "general",
+                  "title": "Incidents in general",
+                  "output": "  - Incidents in general"
+                },
+                {
+                  "id": "natural",
+                  "title": "Natural incidents",
+                  "output": "  - Natural incidents"
+                },
+                {
+                  "id": "technological",
+                  "title": "Technological incidents",
+                  "output": "  - Technological incidents"
+                },
+                {
+                  "id": "nattech",
+                  "title": "Natural and Technological incidents",
+                  "output": "  - Natural and Technological incidents"
+                },
+                {
+                  "id": "intentional",
+                  "title": "Intentional incidents / attacks",
+                  "output": "  - Intentional incidents / attacks"
+                }
+              ]
+            },
+            {
+              "id": "lesson",
+              "title": "Select all the incident types that apply (up to 4):",
+              "output": "- Specific incident types:",
+              "data": {
+                "classNames": "col s4 m3 l2"
+              },
+              "options": [
+                {
+                  "id": "earthquake",
+                  "title": "Earthquake",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Earthquake"
+                },
+                {
+                  "id": "eruption",
+                  "title": "Volcanic eruption",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Volcanic eruption"
+                },
+                {
+                  "id": "movement",
+                  "title": "Mass movement",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Mass movement"
+                },
+                {
+                  "id": "storm",
+                  "title": "Storm",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  -Storm "
+                },
+                {
+                  "id": "tornado",
+                  "title": "Tornado",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Tornado"
+                },
+                {
+                  "id": "cold",
+                  "title": "Extreme cold",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Extreme cold"
+                },
+                {
+                  "id": "heat",
+                  "title": "Extreme heat",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Extreme heat"
+                },
+                {
+                  "id": "drought",
+                  "title": "Drought",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Drought"
+                },
+                {
+                  "id": "wildfire",
+                  "title": "Wildfire",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Wildfire"
+                },
+                {
+                  "id": "river",
+                  "title": "River flood",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - River flood"
+                },
+                {
+                  "id": "flash",
+                  "title": "Flash flood",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Flash flood"
+                },
+                {
+                  "id": "coastal",
+                  "title": "Coastal flood",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Coastal flood"
+                },
+                {
+                  "id": "landslide",
+                  "title": "Landslide",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Landslide"
+                },
+                {
+                  "id": "epidemics",
+                  "title": "Epidemics / Pandemics",
+                  "show": [
+                    "applicability.general",
+                    "applicability.natural",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Epidemics/Pandemics"
+                },
+                {
+                  "id": "infestation",
+                  "title": "Insect infestation",
+                  "show": [
+                    "applicability.general",
+                    "applicability.natural",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Insect infestation"
+                },
+                {
+                  "id": "animal",
+                  "title": "Animal stampede",
+                  "show": [
+                    "applicability.general",
+                    "applicability.natural",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Animal stampede"
+                },
+                {
+                  "id": "asteroids",
+                  "title": "Asteroids",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Asteroids"
+                },
+                {
+                  "id": "meteoroids",
+                  "title": "Meteoroids / Comets",
+                  "show": ["applicability.general", "applicability.natural", "applicability.nattech"],
+                  "output": "  - Meteoroids / Comets"
+                },
+                {
+                  "id": "chemical",
+                  "title": "Chemical spill",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Chemical spill"
+                },
+                {
+                  "id": "explosion",
+                  "title": "Explosion",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Explosion"
+                },
+                {
+                  "id": "fire",
+                  "title": "Fire",
+                  "output": "  - Fire"
+                },
+                {
+                  "id": "gas",
+                  "title": "Gas leak",
+                  "output": "  - Gas leak"
+                },
+                {
+                  "id": "nuclear",
+                  "title": "Nuclear accident",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Nuclear accident"
+                },
+                {
+                  "id": "aircrash",
+                  "title": "Air crash",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Air crash"
+                },
+                {
+                  "id": "roadaccident",
+                  "title": "Road accident",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Road accident"
+                },
+                {
+                  "id": "railaccident",
+                  "title": "Rail accident",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Rail accident"
+                },
+                {
+                  "id": "wateraccident",
+                  "title": "Accident on water",
+                  "show": [
+                    "applicability.general",
+                    "applicability.natural",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Accident on water"
+                },
+                {
+                  "id": "infra",
+                  "title": "Collapse of infra",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Collapse of infra"
+                },
+                {
+                  "id": "drinkingwater",
+                  "title": "Drinking water failure",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Drinking water failure"
+                },
+                {
+                  "id": "energy_failure",
+                  "title": "Energy failure",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Energy failure"
+                },
+                {
+                  "id": "ict_failure",
+                  "title": "Telecom/ICT failure",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Telecom/ICT failure"
+                },
+                {
+                  "id": "bomb",
+                  "title": "Bomb attack",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Bomb attack"
+                },
+                {
+                  "id": "cbrn",
+                  "title": "CBRN attack",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - CBRN attack"
+                },
+                {
+                  "id": "cyber_attack",
+                  "title": "Cyber attack",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Cyber attack"
+                },
+                {
+                  "id": "cyber_crime",
+                  "title": "Cyber crime",
+                  "show": [
+                    "applicability.general",
+                    "applicability.technological",
+                    "applicability.nattech",
+                    "applicability.intentional"
+                  ],
+                  "output": "  - Cyber crime"
+                }
+              ]
+            },
+            {
+              "id": "lesson",
+              "title": "Geographical scale of interest",
+              "data": {
+                "type": "select",
+                "classNames": "col s12"
+              },
+              "choices": [
+                {
+                  "id": "regional",
+                  "title": "Regional",
+                  "output": "- Geographical scale: Regional"
+                },
+                {
+                  "id": "national",
+                  "title": "National",
+                  "output": "- Geographical scale: National"
+                },
+                {
+                  "id": "pan_europe",
+                  "title": "Pan-Europe",
+                  "output": "- Geographical scale: Pan-Europe"
+                },
+                {
+                  "id": "global",
+                  "title": "Global",
+                  "output": "- Geographical scale: Global"
+                }
+              ]
+            },
+            {
+              "id": "lesson",
+              "title": "Applicable Crisis Mgmt functions (up to 4)",
+              "output": "- Applicable Crisis Mgmt functions:",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "options": [
+                {
+                  "id": "risk_assessment",
+                  "title": "Risk assessment",
+                  "output": "  - Risk assessment"
+                },
+                {
+                  "id": "protection_prevention",
+                  "title": "Protection/Prevention",
+                  "output": "  - Protection/Prevention"
+                },
+                {
+                  "id": "contingency_planning",
+                  "title": "Contingency planning",
+                  "output": "  - Contingency planning"
+                },
+                {
+                  "id": "collaboration_planning",
+                  "title": "Collaboration planning",
+                  "output": "  - Collaboration planning"
+                },
+                {
+                  "id": "education_training",
+                  "title": "Education & Training",
+                  "output": "  - Education & Training"
+                },
+                {
+                  "id": "asset_management",
+                  "title": "Asset management",
+                  "output": "  - Asset management"
+                },
+                {
+                  "id": "detection_surveillance",
+                  "title": "Detection/Surveillance",
+                  "output": "  - Detection/Surveillance"
+                },
+                {
+                  "id": "risk_communication",
+                  "title": "Risk communication",
+                  "output": "  - Risk communication"
+                },
+                {
+                  "id": "alerting",
+                  "title": "Alerting, incl. 112",
+                  "output": "  - Alerting, incl. 112"
+                },
+                {
+                  "id": "crisis_communication",
+                  "title": "Crisis communication",
+                  "output": "  - Crisis communication"
+                },
+                {
+                  "id": "source_fighting",
+                  "title": "Source fighting",
+                  "output": "  - Source fighting"
+                },
+                {
+                  "id": "rescue_operations",
+                  "title": "Rescue operations",
+                  "output": "  - Rescue operations"
+                },
+                {
+                  "id": "law_enforcement",
+                  "title": "Law enforcement",
+                  "output": "  - Law enforcement"
+                },
+                {
+                  "id": "evacuation_shelter",
+                  "title": "Evacuation & Shelter",
+                  "output": "  - Evacuation & Shelter"
+                },
+                {
+                  "id": "medical_treatment",
+                  "title": "Medical treatment",
+                  "output": "  - Medical treatment"
+                },
+                {
+                  "id": "clear_incident_area",
+                  "title": "Clear incident area",
+                  "output": "  - Clear incident area"
+                },
+                {
+                  "id": "basic_needs_supply",
+                  "title": "Basic needs supply",
+                  "output": "  - Basic needs supply"
+                },
+                {
+                  "id": "c4i",
+                  "title": "C4I",
+                  "output": "  -C4I "
+                },
+                {
+                  "id": "situation_assessment",
+                  "title": "Situation Assessment",
+                  "output": "  - Situation Assessment"
+                },
+                {
+                  "id": "collect_incident_data",
+                  "title": "Collect incident data",
+                  "output": "  - Collect incident data"
+                },
+                {
+                  "id": "social_media_mining",
+                  "title": "Social media mining",
+                  "output": "  - Social media mining"
+                },
+                {
+                  "id": "volunteer_mgt",
+                  "title": "Volunteer mgt.",
+                  "output": "  - Volunteer mgt."
+                },
+                {
+                  "id": "logistics",
+                  "title": "Logistics",
+                  "output": "  - Logistics"
+                },
+                {
+                  "id": "humanitarian_recovery",
+                  "title": "Humanitarian recovery",
+                  "output": "  - Humanitarian recovery"
+                },
+                {
+                  "id": "environment_recovery",
+                  "title": "Environment recovery",
+                  "output": "  - Environment recovery"
+                },
+                {
+                  "id": "infrastr",
+                  "title": "Re-establish infrastr.",
+                  "output": "  - Re-establish infrastr."
+                }
+              ]
+            }, 
+            {
+              "id": "lesson",
+              "title": "Applicable Crisis Mgmt sectors (up to 4)",
+              "output": "- Applicable Crisis Mgmt sectors:",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "options": [
+                {
+                  "id": "firebrigade",
+                  "title": "Firebrigade/Civil Prot.",
+                  "output": "  - Firebrigade/Civil Prot."
+                },
+                {
+                  "id": "police_military",
+                  "title": "Police / Military",
+                  "output": "  - Police / Military"
+                },
+                {
+                  "id": "medical_services",
+                  "title": "Medical services",
+                  "output": "  - Medical services"
+                },
+                {
+                  "id": "search_and_rescue",
+                  "title": "Search and Rescue",
+                  "output": "  - Search and Rescue"
+                },
+                {
+                  "id": "coastguard",
+                  "title": "Coastguard",
+                  "output": "  - Coastguard"
+                },
+                {
+                  "id": "ngo_volunteer_org.",
+                  "title": "NGO / Volunteer org.",
+                  "output": "  - NGO / Volunteer org."
+                },
+                {
+                  "id": "monitoring_institutes",
+                  "title": "Monitoring institutes",
+                  "output": "  - Monitoring institutes"
+                },
+                {
+                  "id": "public_services",
+                  "title": "Public services",
+                  "output": "  - Public services"
+                },
+                {
+                  "id": "critical_infrastructures",
+                  "title": "Critical Infrastructures",
+                  "output": "  - Critical Infrastructures"
+                },
+                {
+                  "id": "command_centres",
+                  "title": "Command centres",
+                  "output": "  - Command centres"
+                },
+                {
+                  "id": "policy_authorities",
+                  "title": "Policy / Authorities",
+                  "output": "  - Policy / Authorities"
+                },
+                {
+                  "id": "international_agency",
+                  "title": "International agency",
+                  "output": "  - International agency"
+                },
+                {
+                  "id": "other",
+                  "title": "Other",
+                  "output": "  - Other"
+                }            
               ]
             }
           ]

@@ -19,7 +19,7 @@ You can easily create your own questionnaire, upload and edit it, or you can for
   - `options` (check boxes)
   - `questions`: a group of related questions that are treated, and can be repeated, as a whole.
   - Text inputs (strings and numbers), where placeholders like `_name_` or `_count_` in the question's title will be converted to input boxes, making `questionId.name` or `questionId.count` available for show or repeat instructions and for the output.
-  - Additionally, the placeholder `$index` (note the dollar sign) is replaced with the current repeat number (starting at `1`). Similarly, `$indexStr` is replaced by a letter (starting at `a`).
+  - Additionally, the placeholder `$chapterIndex`, `$sectionIndex` and `$questionIndex` (note the dollar sign) is replaced with the current repeat number (starting at `1`). Similarly, `$chapterIndexStr` etc. is replaced by a letter (starting at `a`).
 - Each chapter, section and question has a title and description. For each, markdown can be used.
 - Each chapter, section and question may contain placeholders that reference another question, e.g.
   - In the title `Project &project.name`, `&project.name` is replaced by the value of the previously requested input. As long as `project.name` is undefined, the question will be hidden.
