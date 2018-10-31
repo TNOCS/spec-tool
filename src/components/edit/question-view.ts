@@ -213,6 +213,8 @@ const TemplateView = () => {
           }
           i = j + fullMatch.length;
         });
+      } else {
+        if (matches.length === 0) { matches.push({ fragment: title }); }
       }
     } while (r !== null);
     return matches;
