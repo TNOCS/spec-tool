@@ -1,4 +1,4 @@
-import { updateIndex, removeHtml } from './../../utils/utils';
+import { updateIndex, removeHtml, unCamelCase } from './../../utils/utils';
 import m, { Component, Vnode } from 'mithril';
 import {
   Question,
@@ -71,24 +71,26 @@ export const QuestionView = () => {
 };
 
 /** Display multiple question */
-const QuestionsView = (): Component<{ question: Question; index?: string }> =>
-  ({
-    view: ({ attrs }) => {
-      const q = attrs.question as IQuestionGroup;
-      const questions = q.questions;
-      const index = attrs.index;
-      return questions.map(question => m(QuestionView, { question, index }));
-      // return m('.row', [
-      //   m(`h2[id=${section.id}]`, title),
-      //   description ? m('#', description) : '',
-      //   ...questions
-      //     .filter(q => isVisible(q, i))
-      //     .map(q => {
-      //       console.log(`${i}: ${q.title}`);
-      //       return q;
-      //     })
-      //     .map(question => m(QuestionView, { question, index: i, key: key(i) })),
-      // ])
+const QuestionsView = (): Component<{
+  question: Question;
+  index?: string;
+}> => ({
+  view: ({ attrs }) => {
+    const q = attrs.question as IQuestionGroup;
+    const questions = q.questions;
+    const index = attrs.index;
+    return questions.map(question => m(QuestionView, { question, index }));
+    // return m('.row', [
+    //   m(`h2[id=${section.id}]`, title),
+    //   description ? m('#', description) : '',
+    //   ...questions
+    //     .filter(q => isVisible(q, i))
+    //     .map(q => {
+    //       console.log(`${i}: ${q.title}`);
+    //       return q;
+    //     })
+    //     .map(question => m(QuestionView, { question, index: i, key: key(i) })),
+    // ])
   },
 });
 
@@ -214,7 +216,9 @@ const TemplateView = () => {
           i = j + fullMatch.length;
         });
       } else {
-        if (matches.length === 0) { matches.push({ fragment: title }); }
+        if (matches.length === 0) {
+          matches.push({ fragment: title });
+        }
       }
     } while (r !== null);
     return matches;
@@ -246,9 +250,9 @@ const TemplateView = () => {
             return inputText(options);
         }
       };
-      return m('div', [
-        matches.reduce(
-          (p, v, i) => {
+      return matches.reduce(
+        (p, v, i) => {
+          if (v.fragment) {
             p.push(
               m(
                 i === 0 ? 'h3' : 'span',
@@ -256,47 +260,47 @@ const TemplateView = () => {
                 m.trust(v.fragment + (i === 0 && q.mandatory ? mandatory : ''))
               )
             );
-            if (i === 0 && description) {
-              p.push(m('p.description', m.trust(description)));
-            }
-            const label = v.key;
-            if (label) {
-              const key = newId(q.id, label);
-              const givenValue =
-                q.data && q.data.hasOwnProperty(label)
-                  ? q.data[label]
-                  : undefined;
-              const type = q.data
+          }
+          if (i === 0 && description) {
+            p.push(m('p.description', m.trust(description)));
+          }
+          const label = unCamelCase(v.key);
+          if (label) {
+            const key = newId(q.id, label);
+            const givenValue =
+              q.data && q.data.hasOwnProperty(label)
+                ? q.data[label]
+                : undefined;
+            const type = q.data
+              ? q.data.type
                 ? q.data.type
-                  ? q.data.type
-                  : typeof givenValue === 'number'
-                    ? 'number'
-                    : 'text'
-                : 'text';
-              const answer = getDirectAnswer(key, index);
-              const initialValue = answer ? answer.value : givenValue;
-              if (givenValue && (!answer || answer.value !== initialValue)) {
-                setAnswer(key, initialValue, index, { question: q });
-                setTimeout(() => m.redraw(), 0);
-              }
-              const options: IInputOptions = {
-                ...q.data,
-                id: label,
-                label,
-                initialValue,
-                style:
-                  type === 'textarea' || type === 'url'
-                    ? ''
-                    : 'display: inline-block',
-                onchange: value => setAnswer(key, value, index, { question: q }),
-              };
-              p.push(m(inputType(type, options)));
+                : typeof givenValue === 'number'
+                  ? 'number'
+                  : 'text'
+              : 'text';
+            const answer = getDirectAnswer(key, index);
+            const initialValue = answer ? answer.value : givenValue;
+            if (givenValue && (!answer || answer.value !== initialValue)) {
+              setAnswer(key, initialValue, index, { question: q });
+              setTimeout(() => m.redraw(), 0);
             }
-            return p;
-          },
-          [] as Vnode[]
-        ),
-      ]);
+            const options: IInputOptions = {
+              ...q.data,
+              id: label,
+              label,
+              initialValue,
+              style:
+                type === 'textarea' || type === 'url'
+                  ? ''
+                  : 'display: inline-block',
+              onchange: value => setAnswer(key, value, index, { question: q }),
+            };
+            p.push(m(inputType(type, options)));
+          }
+          return p;
+        },
+        [] as Vnode[]
+      );
     },
   } as Component<{ question: Question; index?: string }>;
 };
