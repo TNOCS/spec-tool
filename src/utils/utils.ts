@@ -121,6 +121,18 @@ export const titleAndDescriptionFilter = (filterValue: string) => {
       content.description.toLowerCase().indexOf(filterValue) >= 0);
 };
 
+/**
+ * Convert strings like XmlHTTPRequest to Xml HTTP Request
+ * @see https://stackoverflow.com/a/6229124/319711
+ */
+export const unCamelCase = (str?: string) =>
+  str
+    ? str
+        .replace(/([a-z])([A-Z])/g, '$1 $2') // insert a space between lower & upper
+        .replace(/\b([A-Z]+)([A-Z])([a-z])/, '$1 $2$3') // space before last upper in a sequence followed by lower
+        .replace(/^./, char => char.toUpperCase()) // uppercase the first character
+    : '';
+
 export const deepEqual = <T extends { [key: string]: any }>(
   x?: T,
   y?: T
@@ -157,9 +169,8 @@ const createMarkdownParser = () => {
 };
 export const markdown = createMarkdownParser();
 
-export const removeHtml = (s: string) => s
-  .replace(/<\/?[0-9a-zA-Z=\[\]_ \-"]+>/gm, '')
-  .replace(/&quot;/gi, '"');
+export const removeHtml = (s: string) =>
+  s.replace(/<\/?[0-9a-zA-Z=\[\]_ \-"]+>/gm, '').replace(/&quot;/gi, '"');
 
 /**
  * Every chapter, section and question can be repeated. The index keeps track of the
