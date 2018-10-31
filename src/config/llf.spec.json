@@ -1743,8 +1743,8 @@
             },
             {
               "id": "lesson",
-              "title": "Applicable Crisis Mgmt functions (up to 4)",
-              "output": "- Applicable Crisis Mgmt functions:",
+              "title": "Applicable Crisis Management functions (up to 4)",
+              "output": "- Applicable Crisis Management functions:",
               "data": {
                 "classNames": "col s6 m3 l2"
               },
@@ -1883,8 +1883,8 @@
             }, 
             {
               "id": "lesson",
-              "title": "Applicable Crisis Mgmt sectors (up to 4)",
-              "output": "- Applicable Crisis Mgmt sectors:",
+              "title": "Applicable Crisis Management sectors (up to 4)",
+              "output": "- Applicable Crisis Management sectors:",
               "data": {
                 "classNames": "col s6 m3 l2"
               },
@@ -1955,6 +1955,1070 @@
                   "output": "  - Other"
                 }            
               ]
+            }, 
+            {
+              "id": "lesson",
+              "title": "Applicable Critical Infrastructures (up to 4)",
+              "output": "- Applicable Critical Infrastructures:",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "options": [
+                {
+                  "id": "drinking_water",
+                  "title": "Drinking water",
+                  "output": "  - Drinking water"
+                },
+                {
+                  "id": "electricity",
+                  "title": "Electricity",
+                  "output": "  - Electricity"
+                },
+                {
+                  "id": "gas_supply",
+                  "title": "Gas supply",
+                  "output": "  - Gas supply"
+                },
+                {
+                  "id": "public_health",
+                  "title": "Public Health",
+                  "output": "  - Public Health"
+                },
+                {
+                  "id": "telecom_ict",
+                  "title": "Telecom/ICT",
+                  "output": "  - Telecom/ICT"
+                },
+                {
+                  "id": "transport_air",
+                  "title": "Transport - Air",
+                  "output": "  - Transport - Air"
+                },
+                {
+                  "id": "transport_rail",
+                  "title": "Transport - Rail",
+                  "output": "  - Transport - Rail"
+                },
+                {
+                  "id": "transport_rivers",
+                  "title": "Transport - Rivers",
+                  "output": "  - Transport - Rivers"
+                },
+                {
+                  "id": "transport_sea",
+                  "title": "Transport - Sea",
+                  "output": "  - Transport - Sea"
+                },
+                {
+                  "id": "water_management",
+                  "title": "Water management",
+                  "output": "  - Water management"
+                },
+                {
+                  "id": "other",
+                  "title": "Other",
+                  "output": "  - Other"
+                }
+              ]
+            },
+            {
+              "id": "lesson",
+              "title": "Aspects of interest (up to 4)",
+              "output": "- Aspects of interest:",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "options": [
+                {
+                  "id": "personnel",
+                  "title": "Personnel",
+                  "output": "  - Personnel"
+                },
+                {
+                  "id": "equipment/tools",
+                  "title": "Equipment/Tools",
+                  "output": "  - Equipment/Tools"
+                },
+                {
+                  "id": "ict",
+                  "title": "ICT",
+                  "output": "  - ICT"
+                },
+                {
+                  "id": "fixed assets",
+                  "title": "Fixed assets",
+                  "output": "  - Fixed assets"
+                },
+                {
+                  "id": "organisation",
+                  "title": "Organisation",
+                  "output": "  - Organisation"
+                },
+                {
+                  "id": "procedures",
+                  "title": "Procedures",
+                  "output": "  - Procedures"
+                }
+              ]
+            },
+            {
+              "id": "observation",
+              "title": "Short description of the underlying observations _brief_",
+              "description": "_Describe the observation that leads/has led to the lesson._",
+              "output": "- **Brief description of the underlying observations:** &observation.brief",
+              "data": {
+                "type": "textarea",
+                "maxLength": 300
+              }
+            },
+            {
+              "id": "observation",
+              "title": "Detailed description of the underlying observations _details_",
+              "description": "_Describe the observation in detail that leads/has led to the lesson._",
+              "output": "- **Details:** &observation.details",
+              "data": {
+                "type": "textarea",
+                "maxLength": 1000
+              }
+            },
+            {
+              "id": "performance",
+              "title": "Performance of the Crisis Management function",
+              "output": "### Performance of the Crisis Management function"
+            },
+            {
+              "id": "logistics",
+              "title": "Logistics",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Logistics: Unknown"
+                },
+                {
+                  "id": "very_poor",
+                  "title": "Very poor",
+                  "output": "- Logistics: Very poor"
+                },
+                {
+                  "id": "poor",
+                  "title": "Poor",
+                  "output": "- Logistics: Poor"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Logistics: Neutral"
+                },
+                {
+                  "id": "good",
+                  "title": "Good",
+                  "output": "- Logistics: Good"
+                },
+                {
+                  "id": "very_good",
+                  "title": "Very good",
+                  "output": "- Logistics: Very good"
+                }
+              ]
+            },
+            {
+              "id": "source_fighting",
+              "title": "Source fighting",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Source fighting: Unknown"
+                },
+                {
+                  "id": "very_poor",
+                  "title": "Very poor",
+                  "output": "- Source fighting: Very poor"
+                },
+                {
+                  "id": "poor",
+                  "title": "Poor",
+                  "output": "- Source fighting: Poor"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Source fighting: Neutral"
+                },
+                {
+                  "id": "good",
+                  "title": "Good",
+                  "output": "- Source fighting: Good"
+                },
+                {
+                  "id": "very_good",
+                  "title": "Very good",
+                  "output": "- Source fighting: Very good"
+                }
+              ]
+            },
+            {
+              "id": "volunteers",
+              "title": "Volunteer management",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Volunteer management: Unknown"
+                },
+                {
+                  "id": "very_poor",
+                  "title": "Very poor",
+                  "output": "- Volunteer management: Very poor"
+                },
+                {
+                  "id": "poor",
+                  "title": "Poor",
+                  "output": "- Volunteer management: Poor"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Volunteer management: Neutral"
+                },
+                {
+                  "id": "good",
+                  "title": "Good",
+                  "output": "- Volunteer management: Good"
+                },
+                {
+                  "id": "very_good",
+                  "title": "Very good",
+                  "output": "- Volunteer management: Very good"
+                }
+              ]
+            },
+            {
+              "id": "societal",
+              "title": "Societal impact of incidents",
+              "output": "### Societal impact of incidents",
+              "data": {
+                "classNames": "clear"
+              }
+            },
+            {
+              "id": "victims",
+              "title": "Numbers of victims/casualties",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Numbers of victims/casualties: Unknown"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Numbers of victims/casualties: Very high"
+                },
+                {
+                  "id": "high",
+                  "title": "High",
+                  "output": "- Numbers of victims/casualties: High"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Numbers of victims/casualties: Neutral"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Numbers of victims/casualties: Limited"
+                },
+                {
+                  "id": "very_limited",
+                  "title": "Very limited",
+                  "output": "- Numbers of victims/casualties: Very limited"
+                }
+              ]
+            },
+            {
+              "id": "material_damage",
+              "title": "Material damage",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Material damage: Unknown"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Material damage: Very high"
+                },
+                {
+                  "id": "high",
+                  "title": "High",
+                  "output": "- Material damage: High"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Material damage: Neutral"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Material damage: Limited"
+                },
+                {
+                  "id": "very_limited",
+                  "title": "Very limited",
+                  "output": "- Material damage: Very limited"
+                }
+              ]
+            },
+            {
+              "id": "ci_loss",
+              "title": "Loss of (critical) infrastructure services",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Loss of (critical) infrastructure services: Unknown"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Loss of (critical) infrastructure services: Very high"
+                },
+                {
+                  "id": "high",
+                  "title": "High",
+                  "output": "- Loss of (critical) infrastructure services: High"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Loss of (critical) infrastructure services: Neutral"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Loss of (critical) infrastructure services: Limited"
+                },
+                {
+                  "id": "very_limited",
+                  "title": "Very limited",
+                  "output": "- Loss of (critical) infrastructure services: Very limited"
+                }
+              ]
+            },
+            {
+              "id": "soc_eco_disruption",
+              "title": "Social / Economic disruption",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Social / Economic disruption: Unknown"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Social / Economic disruption: Very high"
+                },
+                {
+                  "id": "high",
+                  "title": "High",
+                  "output": "- Social / Economic disruption: High"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Social / Economic disruption: Neutral"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Social / Economic disruption: Limited"
+                },
+                {
+                  "id": "very_limited",
+                  "title": "Very limited",
+                  "output": "- Social / Economic disruption: Very limited"
+                }
+              ]
+            },
+            {
+              "id": "environmental_degradation",
+              "title": "Environmental degradation",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Environmental degradation: Unknown"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Environmental degradation: Very high"
+                },
+                {
+                  "id": "high",
+                  "title": "High",
+                  "output": "- Environmental degradation: High"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Environmental degradation: Neutral"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Environmental degradation: Limited"
+                },
+                {
+                  "id": "very_limited",
+                  "title": "Very limited",
+                  "output": "- Environmental degradation: Very limited"
+                }
+              ]
+            },
+            {
+              "id": "other_consequences",
+              "title": "Other consequences",
+              "output": "### Other consequences",
+              "data": {
+                "classNames": "clear"
+              }
+            },
+            {
+              "id": "responders",
+              "title": "Responder health and safety",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Responder health and safety: Unknown"
+                },
+                {
+                  "id": "very_poor",
+                  "title": "Very poor",
+                  "output": "- Responder health and safety: Very poor"
+                },
+                {
+                  "id": "poor",
+                  "title": "Poor",
+                  "output": "- Responder health and safety: Poor"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Responder health and safety: Neutral"
+                },
+                {
+                  "id": "good",
+                  "title": "Good",
+                  "output": "- Responder health and safety: Good"
+                },
+                {
+                  "id": "very_good",
+                  "title": "Very good",
+                  "output": "- Responder health and safety: Very good"
+                }
+              ]
+            },
+            {
+              "id": "responders",
+              "title": "_explanation_",
+              "output": "  Explanation: &responders.explanation",
+              "data": {
+                "type": "textarea",
+                "maxLength": 150,
+                "classNames": "col s6 m9 l10"
+              }
+            },
+            {
+              "id": "costs",
+              "title": "Costs concerned CM functions",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Costs concerned CM functions: Unknown"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Costs concerned CM functions: Very high"
+                },
+                {
+                  "id": "high",
+                  "title": "High",
+                  "output": "- Costs concerned CM functions: High"
+                },
+                {
+                  "id": "neutral",
+                  "title": "Neutral",
+                  "output": "- Costs concerned CM functions: Neutral"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Costs concerned CM functions: Limited"
+                },
+                {
+                  "id": "very_limited",
+                  "title": "Very limited",
+                  "output": "- Costs concerned CM functions: Very limited"
+                }
+              ]
+            }, {
+              "id": "costs",
+              "title": "Absolute costs",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Absolute costs: Unknown"
+                },
+                {
+                  "id": "less_then_100000",
+                  "title": "Less then 100.000",
+                  "output": "- Absolute costs: Less then 100.000"
+                },
+                {
+                  "id": "between_100_200_thousand",
+                  "title": "100 - 200 thousand",
+                  "output": "- Absolute costs: 100 - 200 thousand"
+                },
+                {
+                  "id": "between_200_500_thousand",
+                  "title": "200 - 500 thousand",
+                  "output": "- Absolute costs: 200 - 500 thousand"
+                },
+                {
+                  "id": "more_than_half_million",
+                  "title": "0,5 - 1 million",
+                  "output": "- Absolute costs: 0,5 - 1 million"
+                },
+                {
+                  "id": "one_to_two_million",
+                  "title": "1 - 2 million",
+                  "output": "- Absolute costs: 1 - 2 million"
+                },
+                {
+                  "id": "two_to_five_million",
+                  "title": "2 - 5 million",
+                  "output": "- Absolute costs: 2 - 5 million"
+                },
+                {
+                  "id": "five_to_ten_million",
+                  "title": "5 - 10 million",
+                  "output": "- Absolute costs: 5 - 10 million"
+                },
+                {
+                  "id": "more_then_10_million",
+                  "title": "More then 10 million",
+                  "output": "- Absolute costs: More then 10 million"
+                }
+              ]
+            },
+            {
+              "id": "costs",
+              "title": "_explanation_",
+              "output": "  Explanation: &costs.explanation",
+              "data": {
+                "type": "textarea",
+                "maxLength": 120,
+                "classNames": "col s12 m6 l8"
+              }
+            },
+            {
+              "title": "Lesson, including its potential expected effect",
+              "output": "### Lesson, including its potential expected effect",
+              "data": {
+                "classNames": "clear"
+              }
+            },
+            {
+              "id": "lesson",
+              "title": "_briefDescription_",
+              "output": "- **Brief description of the lesson:** &lesson.briefDescription",
+              "data": {
+                "type": "textarea",
+                "maxLength": 300
+              }
+            },
+            {
+              "id": "lesson",
+              "title": "_detailedDescription_",
+              "output": "- **Details:** &lesson.detailedDescription",
+              "data": {
+                "type": "textarea",
+                "maxLength": 1000
+              }
+            },
+            {
+              "title": "Performance of the Crisis Management function",
+              "description": "_Estimated or expected potential impact of the lesson once implemented._",
+              "output": "### Performance of the Crisis Management function"
+            },
+            {
+              "id": "logistics_improvements",
+              "title": "Logistics",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Logistics: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Logistics: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Logistics: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Logistics: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Logistics: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Logistics: Very high"
+                }
+              ]
+            },
+            {
+              "id": "source_fighting_improvements",
+              "title": "Source fighting",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Source fighting: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Source fighting: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Source fighting: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Source fighting: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Source fighting: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Source fighting: Very high"
+                }
+              ]
+            },
+            {
+              "id": "volunteers_improvements",
+              "title": "Volunteer management",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Volunteer management: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Volunteer management: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Volunteer management: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Volunteer management: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Volunteer management: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Volunteer management: Very high"
+                }
+              ]
+            },
+            {
+              "title": "Societal impact of incidents",
+              "output": "### Societal impact of incidents",
+              "data": {
+                "classNames": "clear"
+              }
+            },
+            {
+              "id": "victims_improvements",
+              "title": "Numbers of victims/casualties",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Numbers of victims/casualties: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Numbers of victims/casualties: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Numbers of victims/casualties: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Numbers of victims/casualties: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Numbers of victims/casualties: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Numbers of victims/casualties: Very high"
+                }
+              ]
+            },
+            {
+              "id": "material_damage_improvements",
+              "title": "Material damage",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Material damage: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Material damage: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Material damage: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Material damage: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Material damage: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Material damage: Very high"
+                }
+              ]
+            },
+            {
+              "id": "ci_loss_improvements",
+              "title": "Loss of (critical) infrastructure services",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Loss of (critical) infrastructure services: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Loss of (critical) infrastructure services: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Loss of (critical) infrastructure services: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Loss of (critical) infrastructure services: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Loss of (critical) infrastructure services: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Loss of (critical) infrastructure services: Very high"
+                }
+              ]
+            },
+            {
+              "id": "soc_eco_disruption_improvements",
+              "title": "Social / Economic disruption",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Social / Economic disruption: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Social / Economic disruption: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Social / Economic disruption: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Social / Economic disruption: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Social / Economic disruption: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Social / Economic disruption: Very high"
+                }
+              ]
+            },
+            {
+              "id": "environmental_degradation_improvements",
+              "title": "Environmental degradation",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Environmental degradation: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Environmental degradation: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Environmental degradation: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Environmental degradation: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Environmental degradation: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Environmental degradation: Very high"
+                }
+              ]
+            },
+            {
+              "id": "other_consequences",
+              "title": "Other consequences",
+              "output": "### Other consequences",
+              "data": {
+                "classNames": "clear"
+              }
+            },
+            {
+              "id": "responders_improvements",
+              "title": "Responder health and safety",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Responder health and safety: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Responder health and safety: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Responder health and safety: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Responder health and safety: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Responder health and safety: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Responder health and safety: Very high"
+                }
+              ]
+            },
+            {
+              "id": "responders_improvements",
+              "title": "_explanation_",
+              "output": "  Explanation: &responders.explanation",
+              "data": {
+                "type": "textarea",
+                "maxLength": 150,
+                "classNames": "col s6 m9 l10"
+              }
+            },
+            {
+              "id": "costs_improvements",
+              "title": "Costs concerned CM functions",
+              "data": {
+                "classNames": "col s6 m3 l2"
+              },
+              "choices": [
+                {
+                  "id": "unknown",
+                  "title": "Unknown",
+                  "output": "- Costs concerned CM functions: Unknown"
+                },
+                {
+                  "id": "none",
+                  "title": "None",
+                  "output": "- Costs concerned CM functions: None"
+                },
+                {
+                  "id": "limited",
+                  "title": "Limited",
+                  "output": "- Costs concerned CM functions: Limited"
+                },
+                {
+                  "id": "moderate",
+                  "title": "Moderate",
+                  "output": "- Costs concerned CM functions: Moderate"
+                },
+                {
+                  "id": "considerable",
+                  "title": "Considerable",
+                  "output": "- Costs concerned CM functions: Considerable"
+                },
+                {
+                  "id": "very_high",
+                  "title": "Very high",
+                  "output": "- Costs concerned CM functions: Very high"
+                }
+              ]
+            },
+            {
+              "id": "costs_improvements",
+              "title": "_explanation_",
+              "output": "  Explanation: &costs.explanation",
+              "data": {
+                "type": "textarea",
+                "maxLength": 120,
+                "classNames": "col s12 m9 l10"
+              }
             }
           ]
         }
