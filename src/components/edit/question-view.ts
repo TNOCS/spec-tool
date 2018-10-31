@@ -252,6 +252,7 @@ const TemplateView = () => {
             p.push(
               m(
                 i === 0 ? 'h3' : 'span',
+                { class: q.data ? q.data.classNames : undefined },
                 m.trust(v.fragment + (i === 0 && q.mandatory ? mandatory : ''))
               )
             );

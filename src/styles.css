@@ -51,6 +51,17 @@
   height: auto;
 }
 
+.clear, .clear-10, .clear-15 {
+  clear: both;
+  overflow: hidden; /* Précaution pour IE 7 */
+}
+.clear-10 {
+  margin-bottom: 10px
+}
+.clear-15 {
+  margin-bottom: 15px
+}
+
 .drop-area {
   display: inline-block;
   border: 2px solid gray;
