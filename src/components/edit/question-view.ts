@@ -264,12 +264,13 @@ const TemplateView = () => {
           if (i === 0 && description) {
             p.push(m('p.description', m.trust(description)));
           }
-          const label = unCamelCase(v.key);
-          if (label) {
-            const key = newId(q.id, label);
+          const vkey = v.key;
+          if (vkey) {
+            const label = unCamelCase(vkey);
+            const key = newId(q.id, vkey);
             const givenValue =
-              q.data && q.data.hasOwnProperty(label)
-                ? q.data[label]
+              q.data && q.data.hasOwnProperty(vkey)
+                ? q.data[vkey]
                 : undefined;
             const type = q.data
               ? q.data.type
