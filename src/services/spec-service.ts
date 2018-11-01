@@ -154,7 +154,7 @@ class SpecificationService {
     return doc.length > 0 ? doc : this.templateInfo.emptySpecMessage;
   }
 
-  get report() {
+  public get report() {
     const docs = this.specs;
     const doc = docs instanceof Array ? docs.join('\n\n') : docs;
     // console.log(doc);

@@ -1,6 +1,12 @@
+import { ChapterLink } from './../layout';
 import m from 'mithril';
 import { specSvc } from '../../services/spec-service';
-import { replacePlaceholders, isVisible, markdown, removeHtml } from '../../utils/utils';
+import {
+  replacePlaceholders,
+  isVisible,
+  markdown,
+  removeHtml
+} from '../../utils/utils';
 import { DownloadUpload } from './download-upload';
 
 export const HomePage = () => ({
@@ -25,18 +31,7 @@ export const HomePage = () => ({
         m('ul.collection', [
           specSvc.chapters
             .filter(c => isVisible(c))
-            .map(c =>
-              m(
-                'li.collection-item',
-                m(
-                  `a[href=/${specSvc.specTitle}/${specSvc.templateInfo.edit.label.toLowerCase()}/${
-                    c.id
-                  }]`,
-                  { oncreate: m.route.link },
-                  removeHtml(replacePlaceholders(c.title))
-                )
-              )
-            ),
+            .map(c => m('li.collection-item', m(ChapterLink, c))),
         ]),
       ]),
     ]),

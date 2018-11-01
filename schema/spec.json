@@ -41,10 +41,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
@@ -118,10 +115,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
@@ -318,10 +312,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
@@ -435,10 +426,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
@@ -534,10 +522,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
@@ -647,10 +632,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",
@@ -738,10 +720,7 @@
                 },
                 "id": {
                     "description": "Unique identifier: in case the question has a parent, e.g. in a yes/no question,\nits ID is combined with the parent ID to create a unique ID. E.g. if the parent\nID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                    "type": "string"
                 },
                 "index": {
                     "description": "Internal property. When duplicating questions, index refers to the duplication index, e.g. 0 is the first, etc.",

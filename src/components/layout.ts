@@ -1,22 +1,51 @@
-import m, { Vnode } from 'mithril';
+import { IDashboard } from './../models/dashboard';
+import m, { Vnode, Component } from 'mithril';
 import background from '../assets/document.jpg';
 import icon from '../assets/spec-tool.svg';
 import tno from '../assets/tno.png';
 import { dashboardSvc } from '../services/dashboard-service';
 import M from 'materialize-css';
 import { specSvc } from '../services/spec-service';
-import { removeHtml, replacePlaceholders } from '../utils/utils';
+import { removeHtml, replacePlaceholders, isVisible } from '../utils/utils';
 
 const isActive = (path: string) =>
   m.route.get().indexOf(path) >= 0 ? '.active' : '';
 
+const isEditMenu = (route: string) =>
+  route.indexOf(specSvc.templateInfo.edit.label.toLowerCase()) > 0;
+
+// const convertEditMenuToDropdown = (d: IDashboard) => {
+//   if (! /`\/${specSvc.templateInfo.edit.label.toLowerCase()}\/`/.test(d.route)) { return d; }
+
+// };
+
+/** Create a chapter link */
+export const ChapterLink = (): Component<{ id: string; title: string }> => ({
+  view: ({ attrs }) =>
+    m(
+      `a[href=/${
+        specSvc.specTitle
+      }/${specSvc.templateInfo.edit.label.toLowerCase()}/${attrs.id}]`,
+      { oncreate: m.route.link },
+      removeHtml(replacePlaceholders(attrs.title))
+    ),
+});
+
 export const Layout = () => ({
   oncreate: () => {
-    const elems = document.querySelectorAll('.sidenav');
-    M.Sidenav.init(elems);
+    const sidenav = document.querySelectorAll('.sidenav');
+    M.Sidenav.init(sidenav);
+    const dropdown = document.querySelectorAll('.dropdown-trigger');
+    M.Dropdown.init(dropdown, { constrainWidth: false, hover: true });
   },
   view: (vnode: Vnode) =>
     m('container', [
+      m(
+        'ul.dropdown-content[id=editmenu]',
+        specSvc.chapters
+          .filter(c => isVisible(c))
+          .map(c => m('li', m(ChapterLink, c)))
+      ),
       m(
         'nav',
         m('.nav-wrapper', [
@@ -38,11 +67,20 @@ export const Layout = () => ({
               .map(d =>
                 m(
                   `li${isActive(d.route)}`,
-                  m(
-                    `a[href="${d.route}"]`,
-                    { oncreate: m.route.link },
-                    d.icon ? m('i.material-icons', d.icon) : d.title
-                  )
+                  isEditMenu(d.route)
+                    ? m(
+                        'a.dropdown-trigger[href=!#][data-target=editmenu]',
+                        d.icon ? m('i.material-icons', d.icon) : d.title
+                      )
+                    : m(
+                        'a',
+                        { href: d.route, oncreate: m.route.link },
+                        m(
+                          'i.material-icons.right',
+                          d.icon ? m('i.material-icons', d.icon) : d.title,
+                          'arrow_drop_down'
+                        )
+                      )
                 )
               )
           ),
@@ -65,17 +103,9 @@ export const Layout = () => ({
             ),
           ])
         ),
-        ...specSvc.chapters.map(c =>
-          m(
-            'li',
-            m(
-              `a[href=#!/${
-                specSvc.specTitle
-              }/${specSvc.templateInfo.edit.label.toLowerCase()}/${c.id}]`,
-              removeHtml(replacePlaceholders(c.title))
-            )
-          )
-        ),
+        ...specSvc.chapters
+          .filter(c => isVisible(c))
+          .map(c => m('li', m(ChapterLink, c))),
       ]),
       m('section.main', vnode.children),
     ]),

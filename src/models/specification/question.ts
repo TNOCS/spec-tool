@@ -35,7 +35,7 @@ export interface IBaseQuestion {
    * its ID is combined with the parent ID to create a unique ID. E.g. if the parent
    * ID = 1, and the sub-question is ID = 'a', you can refer to it as '1a'.
    */
-  id: string | number;
+  id: string;
   /**
    * Text that is shown in simple cases.
    * In more complicated cases, it may contain data annotations, e.g.
