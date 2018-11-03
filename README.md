@@ -35,8 +35,9 @@ You can easily create your own questionnaire, upload and edit it, or you can for
 - Each question can contain data properties, e.g.
   - to set the start value (by using the same name as the input property)
   - to specify the type of input (text (default), textarea, number, date, color, url, email)
+  - if `break` is true, start a new line.
   - to specify additional properties, like `min`, `max` for numbers or `minLength` and `maxLength` for text
-  - to control the occupied space, e.g. `classNames: 'col s4 m3 l2'`. This means that the reserved width is 4/12 on a mobile device, 3/12 on a medium device (tablet), and 2/12 on a large device. [See also materialize-css grid](https://materializecss.com/grid.html).
+  - to control the occupied space, e.g. `contentClass: 'col s4 m3 l2'`. This means that the reserved width is 4/12 on a mobile device, 3/12 on a medium device (tablet), and 2/12 on a large device. [See also materialize-css grid](https://materializecss.com/grid.html).
 - Each template can be internationalized by adding the proper headers and labels to the template info section.
 
 ## Build instructions
