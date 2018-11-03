@@ -207,7 +207,11 @@
             },
             "description": "Attached data, e.g. for generating output or creating a table, etc.",
             "properties": {
-                "classNames": {
+                "break": {
+                    "description": "If true, break to a new line",
+                    "type": "boolean"
+                },
+                "contentClass": {
                     "description": "Classes that you wish to attach to a question, e.g. \"col s12 m6 l4 xl3\" to specify the size.",
                     "type": "string"
                 },
@@ -245,6 +249,10 @@
                         "type": "object"
                     },
                     "type": "array"
+                },
+                "titleClass": {
+                    "description": "Classes that you wish to attach to the title of a question, e.g. \"col s12 m6 l4 xl3\" to specify the size.",
+                    "type": "string"
                 },
                 "type": {
                     "description": "Type of input",
