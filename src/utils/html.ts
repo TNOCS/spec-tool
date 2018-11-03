@@ -64,13 +64,13 @@ export const iconPrefix = (iconName: string, attrs = {}) =>
 
 /**
  * Convert a list of class names to mithril syntax, e.g. .class1.class2.class3
- * @param classNames
+ * @param contentClass
  */
-export const toDottedClassList = (classNames?: string | string[]) =>
-  classNames instanceof Array && classNames.length > 0
-    ? '.' + classNames.join('.')
-    : classNames && typeof classNames === 'string'
-      ? '.' + classNames.replace(' ', '.')
+export const toDottedClassList = (contentClass?: string | string[]) =>
+  contentClass instanceof Array && contentClass.length > 0
+    ? '.' + contentClass.join('.')
+    : contentClass && typeof contentClass === 'string'
+      ? '.' + contentClass.replace(' ', '.')
       : '';
 
 const baseButton = (defaultClassNames: string[]) => <State, Attrs>(opt: {
@@ -79,11 +79,11 @@ const baseButton = (defaultClassNames: string[]) => <State, Attrs>(opt: {
   attr?: IHtmlAttributes;
   tooltip?: string;
   ui?: IHtmlInputEvents<State, Attrs>;
-  classNames?: string;
+  contentClass?: string;
 }) =>
   m(
     `${defaultClassNames.join('.')}${
-      opt.classNames ? '.' + opt.classNames : ''
+      opt.contentClass ? '.' + opt.contentClass : ''
     }${
       opt.tooltip
         ? '.tooltipped[data-position=top][data-tooltip=' + opt.tooltip + ']'
@@ -116,6 +116,8 @@ export interface IInputOptions {
   initialValue?: string;
   onchange: (value: string | number | boolean) => void;
   label: string;
+  placeholder?: string;
+  helperText?: string;
   iconName?: string;
   disabled?: boolean;
   style?: string;
@@ -131,18 +133,34 @@ export interface IInputOptions {
   rows?: number;
   /** Number of cols of a textarea */
   cols?: number;
-  classNames?: string | string[];
+  /** If true, break to a new line */
+  break?: boolean;
+  /** Classes that you wish to attach to a question, e.g. "col s12 m6 l4 xl3" to specify the size. */
+  contentClass?: string | string[];
 }
 const isLabelActive = (value: string | number | boolean | undefined) =>
   typeof value === 'undefined' ? '' : 'active';
 
-const toProps = (o: IInputOptions) =>
-  Object.keys(o)
-    .filter(
-      key =>
-        ['min', 'max', 'minLength', 'maxLength', 'rows', 'cols'].indexOf(key) >=
-        0
-    )
+/** Options that we want to convert to attributes  */
+const inputAttributes = [
+  'min',
+  'max',
+  'minLength',
+  'maxLength',
+  'rows',
+  'cols',
+  'placeholder',
+];
+
+const isInputAttribute = (key: string) => inputAttributes.indexOf(key) >= 0;
+const isDefinedAttribute = (opt: IInputOptions) => (key: string) =>
+  typeof (opt as any)[key] !== 'undefined';
+
+const toProps = (o: IInputOptions) => {
+  const isAttributeDefined = isDefinedAttribute(o);
+  return Object.keys(o)
+    .filter(isInputAttribute)
+    .filter(isAttributeDefined)
     .reduce(
       (p, c) => {
         const value = (o as any)[c];
@@ -152,6 +170,7 @@ const toProps = (o: IInputOptions) =>
       [] as string[]
     )
     .join('');
+};
 
 /** Add a character counter when there is an input restriction. */
 const charCounter = (o: IInputOptions) =>
@@ -205,40 +224,31 @@ const oncreateFactory = (
   }
 };
 
-const inputField = (type: InputType, classNames = '') => (
+const inputField = (type: InputType, defaultClass = '') => (
   opt: IInputOptions
-) => {
-  const state = {} as { id: string };
+): Component<{}> => {
+  const state = { id: uniqueId() };
   const oncreate = oncreateFactory(type, state, opt);
+  const onchange = m.withAttr('value', (v: string) => opt.onchange(v));
   return {
-    oninit: () => {
-      state.id = uniqueId();
-    },
     oncreate,
     view: () => {
       const id = state.id;
       const attrs = toAttrs(opt);
+      const finalType = type === 'date' || type === 'time' ? 'text' : type;
       return m(
-        `.input-field${classNames}${toDottedClassList(opt.classNames)}`,
-        { style: opt.style || '' },
+        `.input-field${
+          opt.break ? '.clear' : ''
+        }${defaultClass}${toDottedClassList(opt.contentClass)}`,
+        // { style: opt.style },
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
-          m(
-            `input[type=${
-              type === 'date' || type === 'time' ? 'text' : type
-            }][tabindex=0][id=${id}]${attrs}`,
-            {
-              onchange: m.withAttr('value', (v: string) => {
-                opt.onchange(v);
-              }),
-              value: opt.initialValue,
-            }
-          ),
-          m(
-            `label[for=${id}]`,
-            { class: `${isLabelActive(opt.initialValue)}` },
-            opt.label
-          ),
+          m(`input[type=${finalType}][tabindex=0][id=${id}]${attrs}`, {
+            onchange,
+            value: opt.initialValue,
+          }),
+          m(`label.active[for=${id}]`, m.trust(opt.label)),
+          opt.helperText ? m('span', opt.helperText) : undefined,
         ]
       );
     },
@@ -246,9 +256,8 @@ const inputField = (type: InputType, classNames = '') => (
 };
 
 export const inputTextArea = (opt: IInputOptions) => {
-  const state = {} as { id: string };
+  const state = { id: uniqueId() };
   return {
-    oninit: () => (state.id = uniqueId()),
     oncreate: () => {
       const elem = document.querySelector(`#${state.id}`);
       if (elem) {
@@ -262,7 +271,7 @@ export const inputTextArea = (opt: IInputOptions) => {
       const id = state.id;
       const attrs = toAttrs(opt);
       return m(
-        `.input-field${toDottedClassList(opt.classNames || 'col s12')}`,
+        `.input-field${toDottedClassList(opt.contentClass || 'col s12')}`,
         { style: opt.style || '' },
         [
           opt.iconName ? m('i.material-icons.prefix', opt.iconName) : '',
@@ -270,11 +279,7 @@ export const inputTextArea = (opt: IInputOptions) => {
             onchange: m.withAttr('value', opt.onchange),
             value: opt.initialValue,
           }),
-          m(
-            `label[for=${id}]`,
-            { class: `${isLabelActive(opt.initialValue)}` },
-            opt.label
-          ),
+          m(`label.active[for=${id}]`, opt.label),
         ]
       );
     },
@@ -301,12 +306,12 @@ export const InputCheckbox = (opt: {
   onchange: (value: boolean) => void;
   label: string;
   disabled?: boolean;
-  classNames?: string;
-}) =>
-  ({
+  contentClass?: string;
+}) => {
+  return {
     view: ({ attrs }) =>
       m(
-        `p${toDottedClassList(opt.classNames)}`,
+        `div${toDottedClassList(opt.contentClass)}`,
         m('label', [
           m(
             `input[type=checkbox][tabindex=0]${
@@ -319,17 +324,19 @@ export const InputCheckbox = (opt: {
           m('span', m.trust(removeParagraphs(opt.label))),
         ])
       ),
-  } as Component<{ checked?: boolean }>);
+  } as Component<{ checked?: boolean }>;
+};
 
 export const Select = (opt: {
   label: string;
   options: Array<{ id: string | number; label: string }>;
   onchange: (id: string | number) => void;
-  classNames?: string;
+  break?: boolean;
+  contentClass?: string;
 }) => {
-  const state = {} as { id: string };
+  const state = { id: uniqueId() };
+  const clear = opt.break ? '.clear' : '';
   return {
-    oninit: () => (state.id = uniqueId()),
     oncreate: () => {
       const elem = document.querySelector(`#${state.id}`);
       if (elem) {
@@ -339,7 +346,7 @@ export const Select = (opt: {
     view: ({ attrs }) => {
       const id = state.id;
       const { checkedId } = attrs;
-      return m(`.input-field${toDottedClassList(opt.classNames)}`, [
+      return m(`.input-field${clear}${toDottedClassList(opt.contentClass)}`, [
         m(
           `select[id=${id}]`,
           {
@@ -366,26 +373,33 @@ export const Select = (opt: {
 export const InputRadios = (opt: {
   radios: Array<{ id: string | number; label: string }>;
   onchange: (id: string | number) => void;
-  classNames?: string;
+  label: string;
+  description?: string;
+  break?: boolean;
+  contentClass?: string;
 }) => {
-  const state = {} as { id: string };
+  const state = { id: uniqueId() };
+  const clear = opt.break ? '.clear' : '';
   return {
-    oninit: () => (state.id = uniqueId()),
     view: ({ attrs }) => {
       const groupId = state.id;
       const checkedId = attrs.checkedId;
-      return opt.radios.map(r =>
-        m(
-          InputRadio({
-            ...r,
-            classNames: opt.classNames,
-            onchange: opt.onchange,
-            groupId,
-          }),
-          {
-            checked: r.id === checkedId,
-          }
-        )
+      return m(
+        `.input-field${clear}${toDottedClassList(opt.contentClass)}`, [
+        m('h3', m.trust(opt.label)),
+        opt.description ? m('p.description', m.trust(opt.description)) : '',
+        ...opt.radios.map(r =>
+          m(
+            InputRadio({
+              ...r,
+              onchange: opt.onchange,
+              groupId,
+            }),
+            {
+              checked: r.id === checkedId,
+            }
+          )
+        )]
       );
     },
   } as Component<{ checkedId: string | number | undefined }>;
@@ -398,12 +412,12 @@ const InputRadio = (opt: {
   label: string;
   groupId: string;
   disabled?: boolean;
-  classNames?: string;
+  contentClass?: string;
 }) =>
   ({
     view: ({ attrs }) =>
       m(
-        `div${toDottedClassList(opt.classNames)}`,
+        `div${toDottedClassList(opt.contentClass)}`,
         m('label', [
           m(
             `input[type=radio][tabindex=0][name=${opt.groupId}]${

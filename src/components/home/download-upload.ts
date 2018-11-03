@@ -116,7 +116,7 @@ export const DownloadUpload = () => ({
         button({
           label: specSvc.templateInfo.deleteLocalStorageLabel,
           iconName: 'delete_forever',
-          classNames: 'red',
+          contentClass: 'red',
           ui: {
             onclick: () => storageSvc.delete(),
           },

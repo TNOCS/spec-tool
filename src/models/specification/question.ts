@@ -101,6 +101,8 @@ export type InputType =
 
 /** Attached data, e.g. for generating output or creating a table, etc. */
 export interface IData {
+  /** If true, break to a new line */
+  break?: boolean;
   /**
    * Optional list of answers that must be set when the question is selected.
    * If value is not supplied, the default (true) is used.
@@ -117,7 +119,9 @@ export interface IData {
   /** Type of input */
   type?: InputType;
   /** Classes that you wish to attach to a question, e.g. "col s12 m6 l4 xl3" to specify the size. */
-  classNames?: string;
+  contentClass?: string;
+  /** Classes that you wish to attach to the title of a question, e.g. "col s12 m6 l4 xl3" to specify the size. */
+  titleClass?: string;
   /** When you use a property `x` in your question, you can use x to provide an initial value. */
   [key: string]: any;
 }

@@ -39,10 +39,10 @@ export const SectionView = (): Component<{
       const title = replacePlaceholders(section.title, i, false);
       const description = section.description
         ? m.trust(replacePlaceholders(section.description, i))
-        : '';
+        : undefined;
       return repeat === 0
         ? undefined
-        : m('.row.spectool-section', [
+        : m('.row.spectool-section.clear', [
             m(`h2[id=${section.id}]`, title),
             description ? m('#', description) : '',
             ...questions

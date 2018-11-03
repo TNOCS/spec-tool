@@ -157,7 +157,7 @@ class SpecificationService {
   public get report() {
     const docs = this.specs;
     const doc = docs instanceof Array ? docs.join('\n\n') : docs;
-    // console.log(doc);
+    console.log(doc);
     return markdown(doc);
   }
 
