@@ -38,23 +38,46 @@
         {
           "id": "HOVD",
           "title": "HOVD _naam_",
-          "output": "## HOVD: &HOVD.naam"
+          "output": "## HOVD: &HOVD.naam",
+          "data": {
+            "contentClass": "col s12 m6"
+          }
         },
         {
           "id": "leden",
-          "title": "Hoeveel overige leden heeft het team: _aantal_",
+          "title": "Teamleden _aantal_",
+          "output": "## Teamleaden",
           "description": "_Eventueel kunnen we hier ook de vaste rollen neerzetten._",
-          "output": "## Overige leden",
           "data": {
+            "break": true,
             "aantal": 4,
+            "contentClass": "col s12 m6",
             "type": "number"
           }
         },
         {
-          "id": "lid",
-          "title": "$questionIndex. Rol en naam: _rol_, _naam_",
           "repeat": "leden.aantal",
-          "output": "- &lid.rol: &lid.naam"
+          "data": {
+            "break": true
+          },
+          "questions": [
+            {
+              "id": "lid",
+              "title": "$questionIndex. Rol _rol_",
+              "output": "- &lid.rol: ",
+              "data": {
+                "contentClass": "col s6 m4"
+              }
+            },
+            {
+              "id": "lid",
+              "title": "Naam _naam_",
+              "output": "&lid.naam",
+              "data": {
+                "contentClass": "col s6 m8"
+              }
+            }
+          ]
         }
       ]
     },

@@ -36,7 +36,10 @@
         {
           "id": "user",
           "title": "What is your name? _name_",
-          "output": "My name is &user.name."
+          "output": "My name is &user.name.",
+          "data": {
+            "contentClass": "col s6"
+          }
         },
         {
           "id": "desc",
