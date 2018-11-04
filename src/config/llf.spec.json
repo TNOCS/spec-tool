@@ -297,13 +297,12 @@
             },
             {
               "title": "$questionIndex. Publication",
-              "output": "### $questionIndex. Publication",
               "repeat": "sources.count",
               "questions": [
                 {
                   "id": "publication",
                   "title": "English title _englishTitle_",
-                  "output": "### $sectionIndex. &publication.englishTitle",
+                  "output": "### $questionIndex. &publication.englishTitle",
                   "data": {
                     "contentClass": "col s12 m6",
                     "type": "textarea"
@@ -328,7 +327,7 @@
                 },
                 {
                   "id": "publication",
-                  "title": "Year of publication: _year_",
+                  "title": "Year of publication _year_",
                   "output": "- Year of publication: &publication.year",
                   "data": {
                     "contentClass": "col s6 m3",
@@ -2667,7 +2666,7 @@
                   "id": "responders",
                   "title": "Responder health and safety",
                   "data": {
-                    "contentClass": "col s6 m3 l2"
+                    "contentClass": "col s6 m4 l3"
                   },
                   "choices": [
                     {
@@ -2709,14 +2708,14 @@
                   "data": {
                     "type": "textarea",
                     "maxLength": 150,
-                    "contentClass": "col s6 m9 l10"
+                    "contentClass": "col s6 m8 l9"
                   }
                 },
                 {
                   "id": "costs",
                   "title": "Costs concerned CM functions",
                   "data": {
-                    "contentClass": "col s6 m3 l2"
+                    "contentClass": "col s6 m4 l3"
                   },
                   "choices": [
                     {
@@ -2754,7 +2753,7 @@
                   "id": "costs",
                   "title": "Absolute costs",
                   "data": {
-                    "contentClass": "col s6 m3 l2"
+                    "contentClass": "col s6 m4 l3"
                   },
                   "choices": [
                     {
@@ -2811,7 +2810,7 @@
                   "data": {
                     "type": "textarea",
                     "maxLength": 120,
-                    "contentClass": "col s12 m6 l8"
+                    "contentClass": "col s12 m4 l6"
                   }
                 }                    
               ]
@@ -3183,7 +3182,7 @@
                   "id": "responders_improvements",
                   "title": "Responder health and safety",
                   "data": {
-                    "contentClass": "col s6 m3 l2"
+                    "contentClass": "col s6 m4 l3"
                   },
                   "choices": [
                     {
@@ -3225,14 +3224,14 @@
                   "data": {
                     "type": "textarea",
                     "maxLength": 150,
-                    "contentClass": "col s6 m9 l10"
+                    "contentClass": "col s6 m8 l9"
                   }
                 },
                 {
                   "id": "costs_improvements",
                   "title": "Costs concerned CM functions",
                   "data": {
-                    "contentClass": "col s6 m3 l2"
+                    "contentClass": "col s6 m4 l3"
                   },
                   "choices": [
                     {
@@ -3274,7 +3273,7 @@
                   "data": {
                     "type": "textarea",
                     "maxLength": 120,
-                    "contentClass": "col s12 m9 l10"
+                    "contentClass": "col s6 m8 l9"
                   }
                 }
               ]
