@@ -1,3 +1,4 @@
+import { checkPlaceholders } from './../utils/utils';
 import { specificationCatalogue } from './specification-catalogue';
 import {
   ISpecification,
@@ -15,7 +16,6 @@ import {
   range,
   replacePlaceholders,
   markdown,
-  checkPlaceholders,
   updateIndex
 } from '../utils/utils';
 import {
@@ -115,6 +115,7 @@ class SpecificationService {
       const allQuestions = getQuestions(q);
       return allQuestions
         .map(i => replacePlaceholders(i.output, i.index, false))
+        .filter(s => s)
         .join('\n');
     };
     const printSection = (s: ISection) => {
@@ -155,9 +156,12 @@ class SpecificationService {
   }
 
   public get report() {
+    const breakHeaders = (d: string, i: number) =>
+      i > 0 && /#/.test(d) ? `\n${d}` : d;
     const docs = this.specs;
-    const doc = docs instanceof Array ? docs.join('\n\n') : docs;
-    console.log(doc);
+    const doc =
+      docs instanceof Array ? docs.map(breakHeaders).join('\n') : docs;
+    // console.log(doc);
     return markdown(doc);
   }
 
@@ -241,7 +245,7 @@ class SpecificationService {
                 const prunedQuestion = pruneIndexedQuestion(question, i);
                 return prunedQuestion ? [...p, prunedQuestion] : p;
               },
-              [] as ISection[]
+              [] as Question[]
             );
     return pruned.filter(p => p);
   }
@@ -282,18 +286,24 @@ class SpecificationService {
         },
         [] as IAnsweredQuestion[]
       );
-      return options.length > 0 ? { ...q, options } : undefined;
+      return options.length > 0 ? { ...q, index, options } : undefined;
     }
     if (q.hasOwnProperty('questions')) {
       const groupedQuestion = q as IQuestionGroup;
-      const questions = groupedQuestion.questions.reduce(
-        (p, question) => {
-          const answer = this.cloneAnsweredQuestions(question, index);
-          return answer ? [...p, answer] : p;
-        },
-        [] as IAnsweredQuestion[]
-      );
-      return questions.length > 0 ? { ...q, questions } : undefined;
+      const questions = groupedQuestion.questions
+        .filter(
+          question =>
+            isVisible(question, index) &&
+            checkPlaceholders(question.output, index)
+        )
+        .reduce(
+          (p, question) => {
+            const answer = this.cloneAnsweredQuestions(question, index);
+            return answer ? [...p, answer] : p;
+          },
+          [] as IAnsweredQuestion[]
+        );
+      return questions.length > 0 ? { ...q, index, questions } : undefined;
     }
     return { ...q, index, answer: undefined };
   }
