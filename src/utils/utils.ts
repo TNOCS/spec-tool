@@ -402,7 +402,7 @@ export const isVisible = (question: Question, index = defaultIndex) => {
   return show.some(v => checkAnswers(v));
 };
 
-const repeatRegex = /(\$chapterIndex)|(\$sectionIndex)|(\$questionIndex)/g;
+const repeatRegex = /(\$chapterIndex)|(\$sectionIndex)|(\$questionIndex)/;
 
 /**
  * Replace the $chapterIndex, $sectionIndex and $questionIndex with a number.
