@@ -1,7 +1,7 @@
 import { InputType } from './../models/specification/question';
 import { CharacterCounter } from 'materialize-css';
 import m, { Lifecycle, Component } from 'mithril';
-import { uniqueId } from './utils';
+import { uniqueId, removeParagraphs } from './utils';
 
 export const compose = <F extends (d: any) => any, T>(...functions: F[]) => (
   data: T
@@ -248,7 +248,7 @@ const inputField = (type: InputType, defaultClass = '') => (
             value: opt.initialValue,
           }),
           m(`label.active[for=${id}]`, m.trust(opt.label)),
-          opt.helperText ? m('span', opt.helperText) : undefined,
+          opt.helperText ? m('span', m.trust(opt.helperText)) : undefined,
         ]
       );
     },
@@ -297,9 +297,6 @@ export const inputBox = (opt: IInputOptions) =>
   opt.hasOwnProperty('initialValue') && typeof opt.initialValue === 'number'
     ? inputNumber(opt)
     : inputText(opt);
-
-/** Remove paragraphs <p> and </p> and the beginning and end of a string. */
-const removeParagraphs = (s: string) => s.replace(/<\/?p>/g, '');
 
 export const InputCheckbox = (opt: {
   checked?: boolean;

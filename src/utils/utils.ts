@@ -169,6 +169,9 @@ const createMarkdownParser = () => {
 };
 export const markdown = createMarkdownParser();
 
+/** Remove paragraphs <p> and </p> and the beginning and end of a string. */
+export const removeParagraphs = (s: string) => s.replace(/<\/?p>/g, '');
+
 export const removeHtml = (s: string) =>
   s.replace(/<\/?[0-9a-zA-Z=\[\]_ \-"]+>/gm, '').replace(/&quot;/gi, '"');
 

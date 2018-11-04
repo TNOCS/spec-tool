@@ -3,7 +3,8 @@ import {
   removeHtml,
   unCamelCase,
   parseIndex,
-  defaultIndex
+  defaultIndex,
+  removeParagraphs
 } from './../../utils/utils';
 import m, { Component, Vnode } from 'mithril';
 import {
@@ -288,7 +289,7 @@ const TemplateView = () => {
               id,
               label: requireInput(label, q.mandatory),
               placeholder,
-              helperText: removeHtml(description),
+              helperText: removeParagraphs(description),
               initialValue,
               style:
                 type === 'textarea' || type === 'url'
