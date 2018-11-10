@@ -405,7 +405,7 @@
                   "title": "Link (optional) _link_",
                   "output": "- [Link](&publication.link)",
                   "data": {
-                    "contentClass": "col s12",
+                    "contentClass": "col s9",
                     "type": "url"
                   }
                 }
@@ -420,7 +420,7 @@
           "questions": [
             {
               "id": "multimedia",
-              "title": "How many multimedia sources do you have? _count_",
+              "title": "How many sources do you have? _count_",
               "data": {
                 "titleClass": "col s6 m8",
                 "contentClass": "col s6 m4",
@@ -672,7 +672,7 @@
               "title": "Select all the incident types that apply:",
               "output": "- Specific incident types:",
               "data": {
-                "contentClass": "col s4 m3 l2"
+                "contentClass": "col s4 l3"
               },
               "options": [
                 {
@@ -1605,7 +1605,7 @@
               "output": "  **Future development:** &status.futureDev",
               "data": {
                 "type": "textarea",
-                "titleClass": "clear",
+                "newLine": true,
                 "maxLength": 200
               }
             },
@@ -1646,10 +1646,40 @@
             },
             {
               "id": "lesson",
+              "title": "Geographical scale of interest",
+              "data": {
+                "type": "select",
+                "contentClass": "col s6 m4"
+              },
+              "choices": [
+                {
+                  "id": "regional",
+                  "title": "Regional",
+                  "output": "- Geographical scale: Regional"
+                },
+                {
+                  "id": "national",
+                  "title": "National",
+                  "output": "- Geographical scale: National"
+                },
+                {
+                  "id": "pan_europe",
+                  "title": "Pan-Europe",
+                  "output": "- Geographical scale: Pan-Europe"
+                },
+                {
+                  "id": "global",
+                  "title": "Global",
+                  "output": "- Geographical scale: Global"
+                }
+              ]
+            },
+            {
+              "id": "lesson",
               "title": "Select all the incident types that apply (up to 4):",
               "output": "- Specific incident types:",
               "data": {
-                "titleClass": "clear",
+                "newLine": true,
                 "contentClass": "col s4 m4 l3"
               },
               "options": [
@@ -1956,40 +1986,9 @@
             },
             {
               "id": "lesson",
-              "title": "Geographical scale of interest",
-              "data": {
-                "type": "select",
-                "contentClass": "col s6 m4 l3"
-              },
-              "choices": [
-                {
-                  "id": "regional",
-                  "title": "Regional",
-                  "output": "- Geographical scale: Regional"
-                },
-                {
-                  "id": "national",
-                  "title": "National",
-                  "output": "- Geographical scale: National"
-                },
-                {
-                  "id": "pan_europe",
-                  "title": "Pan-Europe",
-                  "output": "- Geographical scale: Pan-Europe"
-                },
-                {
-                  "id": "global",
-                  "title": "Global",
-                  "output": "- Geographical scale: Global"
-                }
-              ]
-            },
-            {
-              "id": "lesson",
               "title": "Applicable Crisis Management functions (up to 4)",
               "output": "- Applicable Crisis Management functions:",
               "data": {
-                "titleClass": "clear",
                 "contentClass": "col s6 m4 l3"
               },
               "options": [
@@ -2270,7 +2269,7 @@
               "title": "Aspects of interest (up to 4)",
               "output": "- Aspects of interest:",
               "data": {
-                "contentClass": "col s6 m3 l2"
+                "contentClass": "col s6 m3"
               },
               "options": [
                 {
@@ -2454,7 +2453,7 @@
               "title": "Societal impact of incidents",
               "output": "### Societal impact of incidents",
               "data": {
-                "titleClass": "clear"
+                "newLine": true
               },
               "questions": [
                 {
@@ -2659,7 +2658,7 @@
               "title": "Other consequences",
               "output": "### Other consequences",
               "data": {
-                "titleClass": "clear"
+                "newLine": true
               },
               "questions": [
                 {
@@ -2715,6 +2714,7 @@
                   "id": "costs",
                   "title": "Costs concerned CM functions",
                   "data": {
+                    "newLine": true,
                     "contentClass": "col s6 m4 l3"
                   },
                   "choices": [
@@ -2819,7 +2819,7 @@
               "title": "Lesson, including its potential expected effect",
               "output": "### Lesson, including its potential expected effect",
               "data": {
-                "titleClass": "clear"
+                "newLine": true
               },
               "questions": [
                 {
@@ -2970,7 +2970,7 @@
               "title": "Societal impact of incidents",
               "output": "### Societal impact of incidents",
               "data": {
-                "titleClass": "clear"
+                "newLine": true
               },
               "questions": [
                 {
@@ -3175,7 +3175,7 @@
               "title": "Other consequences",
               "output": "### Other consequences",
               "data": {
-                "titleClass": "clear"
+                "newLine": true
               },
               "questions": [
                 {
@@ -3231,6 +3231,7 @@
                   "id": "costs_improvements",
                   "title": "Costs concerned CM functions",
                   "data": {
+                    "newLine": true,
                     "contentClass": "col s6 m4 l3"
                   },
                   "choices": [

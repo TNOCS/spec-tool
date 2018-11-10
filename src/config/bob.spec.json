@@ -49,7 +49,7 @@
           "output": "## Teamleaden",
           "description": "_Eventueel kunnen we hier ook de vaste rollen neerzetten._",
           "data": {
-            "break": true,
+            "newLine": true,
             "aantal": 4,
             "contentClass": "col s12 m6",
             "type": "number"
@@ -58,7 +58,7 @@
         {
           "repeat": "leden.aantal",
           "data": {
-            "break": true
+            "newLine": true
           },
           "questions": [
             {
