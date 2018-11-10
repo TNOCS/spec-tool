@@ -1,11 +1,4 @@
-import {
-  updateIndex,
-  removeHtml,
-  unCamelCase,
-  parseIndex,
-  defaultIndex,
-  removeParagraphs
-} from './../../utils/utils';
+import { updateIndex, removeHtml, unCamelCase, parseIndex, defaultIndex, removeParagraphs } from './../../utils/utils';
 import m, { Component, Vnode } from 'mithril';
 import {
   Question,
@@ -13,22 +6,23 @@ import {
   ISelection,
   IBaseQuestion,
   InputType,
-  IQuestionGroup
+  IQuestionGroup,
 } from '../../models/specification/question';
 import {
-  InputCheckbox,
   InputRadios,
-  inputText,
+  TextInput,
   IInputOptions,
-  inputNumber,
-  inputTextArea,
-  inputColor,
-  inputDate,
+  NumberInput,
+  TextArea,
+  ColorInput,
   mandatory,
-  inputUrl,
-  inputTime,
-  inputEmail,
-  Select
+  UrlInput,
+  TimePicker,
+  EmailInput,
+  Select,
+  Options,
+  IInputOption,
+  DatePicker,
 } from '../../utils/html';
 import {
   replacePlaceholders,
@@ -38,7 +32,7 @@ import {
   getAnswer,
   getRepeat,
   newId,
-  getDirectAnswer
+  getDirectAnswer,
 } from '../../utils/utils';
 
 const switchView = (question: Question) => {
@@ -59,6 +53,12 @@ export const QuestionView = () => {
   return {
     view: ({ attrs }) => {
       const { question } = attrs;
+      if (!question.data) {
+        question.data = {};
+      }
+      if (!question.data.contentClass) {
+        question.data.contentClass = 'col s12';
+      }
       const i = attrs.index || defaultIndex;
       const key = (index: string) => `${question.id}_${index}`;
       const v = switchView(question);
@@ -66,12 +66,12 @@ export const QuestionView = () => {
       return repeat === 0
         ? undefined
         : repeat === 1
-          ? isVisible(question, i)
-            ? m(v, { question, index: i, key: key(i) })
-            : undefined
-          : range(0, repeat - 1)
-              .map(x => updateIndex(i, x, 'question'))
-              .map(index => m(v, { question, index, key: key(index) }));
+        ? isVisible(question, i)
+          ? m(v, { question, index: i, key: key(i) })
+          : undefined
+        : range(0, repeat - 1)
+            .map(x => updateIndex(i, x, 'question'))
+            .map(index => m(v, { question, index, key: key(index) }));
     },
   } as Component<{ question: Question; index?: string }>;
 };
@@ -86,9 +86,7 @@ const QuestionsView = (): Component<{
     const index = attrs.index;
     const questions = q.questions;
     const title = replacePlaceholders(q.title, index, false);
-    const description = q.description
-      ? m.trust(replacePlaceholders(q.description, index))
-      : undefined;
+    const description = q.description ? m.trust(replacePlaceholders(q.description, index)) : undefined;
     return m('.row', [
       m(`h3.clear`, title),
       description ? m('#', description) : '',
@@ -104,33 +102,37 @@ const OptionsView = () =>
   ({
     view: ({ attrs }) => {
       const question = attrs.question as IOption;
+      const createId = (option: Question) => newId(question.id, option.id);
       const data = question.data || {};
+      const titleClass = data.titleClass;
+      const contentClass = data.contentClass;
       const index = attrs.index || defaultIndex;
-      const options = question.options || [];
-      const title =
-        removeHtml(replacePlaceholders(question.title, index)) +
-        (question.mandatory ? mandatory : '');
+      const qOptions = question.options || [];
+      const options = qOptions
+        .filter(o => isVisible(o, index))
+        .map(
+          o =>
+            ({
+              id: createId(o),
+              label: replacePlaceholders(o.title, index),
+              isChecked: getAnswer(createId(o), index) ? true : false,
+            } as IInputOption)
+        );
+      const label = removeHtml(replacePlaceholders(question.title, index)) + (question.mandatory ? mandatory : '');
       const description = replacePlaceholders(question.description, index);
-      const id = (option: Question) => newId(question.id, option.id);
       const questionIndex = parseIndex(index)[2];
-      const clear = questionIndex === 0 && data.break ? '.clear' : '';
-      return m(
-        `.row${clear}`,
-        m('.col.s12', [
-          m('h3', { class: data.titleClass }, m.trust(title)),
-          description ? m('p.description', m.trust(description)) : '',
-          ...options.filter(o => isVisible(o, index)).map(o =>
-            m(
-              InputCheckbox({
-                contentClass: data.contentClass,
-                onchange: v => setAnswer(id(o), v, index, { question: o }),
-                label: replacePlaceholders(o.title, index),
-              }),
-              { checked: getAnswer(id(o), index) as boolean | undefined }
-            )
-          ),
-        ])
-      );
+      const newLine = questionIndex === 0 && data.newLine;
+      const onchange = (v: boolean, id: string) =>
+        setAnswer(id, v, index, { question: qOptions.filter(o => o.id === id).shift() });
+      return m(Options, {
+        label,
+        contentClass,
+        titleClass,
+        options,
+        description,
+        onchange,
+        newLine,
+      });
     },
   } as Component<{ question: Question; index?: string }>);
 
@@ -144,55 +146,47 @@ const ChoicesView = () =>
       const data = question.data || {};
       const index = attrs.index || defaultIndex;
       const choices = question.choices || [];
-      const title =
-        removeHtml(replacePlaceholders(question.title, index)) +
-        (question.mandatory ? mandatory : '');
-      const description = replacePlaceholders(question.description, index);
+      const title = removeHtml(replacePlaceholders(question.title, index)) + (question.mandatory ? mandatory : '');
+      const description = removeParagraphs(replacePlaceholders(question.description, index));
       const id = (optionId: string | number) => newId(question.id, optionId);
-      const checkedChoice = choices
-        .filter(c => getAnswer(id(c.id), index))
-        .shift();
+      const checkedChoice = choices.filter(c => getAnswer(id(c.id), index)).shift();
       const onchange = (selectedId: string | number) => {
         choices.forEach(c => setAnswer(id(c.id), false, index));
         const selected = choices.filter(c => c.id === selectedId).shift();
         setAnswer(id(selectedId), true, index, { question: selected });
       };
       const questionIndex = parseIndex(index)[2];
-      const isBreak = questionIndex === 0 && data.break;
-      return data.type === 'select' ||
-        (data.type !== 'radio' && choices.length > 4)
-        ? m(
-            Select({
-              break: isBreak,
-              label: title,
-              contentClass: data.contentClass,
-              onchange,
-              options: choices.map(c => ({
-                id: c.id,
-                label: replacePlaceholders(c.title, index),
-              })),
-            }),
-            { checkedId: checkedChoice ? checkedChoice.id : undefined }
-          )
-        : m(
-            InputRadios({
-              label: title,
-              break: isBreak,
-              contentClass: data.contentClass,
-              onchange,
-              radios: choices.map(c => ({
-                id: c.id,
-                label: replacePlaceholders(c.title, index),
-              })),
-            }),
-            { checkedId: checkedChoice ? checkedChoice.id : undefined }
-          );
+      const newLine = questionIndex === 0 && data.newLine;
+      return data.type === 'select' || (data.type !== 'radio' && choices.length > 4)
+        ? m(Select, {
+            label: title,
+            onchange,
+            checkedId: checkedChoice ? checkedChoice.id : undefined,
+            newLine,
+            description,
+            contentClass: data.contentClass,
+            options: choices.map(c => ({
+              id: c.id,
+              label: replacePlaceholders(c.title, index),
+            })),
+          })
+        : m(InputRadios, {
+            label: title,
+            onchange,
+            newLine,
+            description,
+            contentClass: data.contentClass,
+            radios: choices.map(c => ({
+              id: c.id,
+              label: replacePlaceholders(c.title, index),
+            })),
+            checkedId: checkedChoice ? checkedChoice.id : undefined,
+          });
     },
   } as Component<{ question: Question; index?: string }>);
 
 /** Helper function that adds a mandatory symbol if required. */
-const requireInput = (label: string, isMandatory = false) =>
-  isMandatory ? label + mandatory : label;
+const requireInput = (label: string, isMandatory = false) => (isMandatory ? label + mandatory : label);
 
 /**
  * Displays a question with a text box
@@ -243,40 +237,40 @@ const TemplateView = () => {
       const title = replacePlaceholders(q.title, index, false);
       const matches = replaceInputs(title);
       const description = replacePlaceholders(q.description, index);
-      const inputType = (type: InputType, options: IInputOptions) => {
+      const inputType = (type: InputType) => {
         switch (type) {
           case 'number':
-            return inputNumber(options);
+            return NumberInput;
           case 'email':
-            return inputEmail(options);
+            return EmailInput;
           case 'url':
-            return inputUrl(options);
+            return UrlInput;
           case 'textarea':
-            return inputTextArea(options);
+            return TextArea;
           case 'color':
-            return inputColor(options);
+            return ColorInput;
           case 'date':
-            return inputDate(options);
+            return DatePicker;
           case 'time':
-            return inputTime(options);
+            return TimePicker;
           default:
-            return inputText(options);
+            return TextInput;
         }
       };
       return matches.reduce(
-        (p, v, i) => {
-          const { id, label } = v;
+        (p, v) => {
+          const { id } = v;
           if (id) {
-            const placeholder = unCamelCase(id);
+            const label = v.label || unCamelCase(id);
+            const placeholder = q.data && q.data.placeholder ? q.data.placeholder : undefined;
             const key = newId(q.id, id);
-            const givenValue =
-              q.data && q.data.hasOwnProperty(id) ? q.data[id] : undefined;
+            const givenValue = q.data && q.data.hasOwnProperty(id) ? q.data[id] : undefined;
             const type = q.data
               ? q.data.type
                 ? q.data.type
                 : typeof givenValue === 'number'
-                  ? 'number'
-                  : 'text'
+                ? 'number'
+                : 'text'
               : 'text';
             const answer = getDirectAnswer(key, index);
             const initialValue = answer ? answer.value : givenValue;
@@ -291,17 +285,14 @@ const TemplateView = () => {
               placeholder,
               helperText: removeParagraphs(description),
               initialValue,
-              style:
-                type === 'textarea' || type === 'url'
-                  ? ''
-                  : 'display: inline-block',
+              // style: type === 'textarea' || type === 'url' ? '' : 'display: inline-block',
               onchange: value => setAnswer(key, value, index, { question: q }),
             };
-            p.push(m(inputType(type, options)));
+            p.push(m(inputType(type), options));
           }
           return p;
         },
-        [] as Vnode[]
+        [] as Array<Vnode<IInputOptions>>
       );
     },
   } as Component<{ question: Question; index?: string }>;
