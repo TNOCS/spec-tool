@@ -102,7 +102,9 @@ export type InputType =
 /** Attached data, e.g. for generating output or creating a table, etc. */
 export interface IData {
   /** If true, break to a new line */
-  break?: boolean;
+  newLine?: boolean;
+  /** Can be used as a placeholder for text inputs */
+  placeholder?: string;
   /**
    * Optional list of answers that must be set when the question is selected.
    * If value is not supplied, the default (true) is used.
