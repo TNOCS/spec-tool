@@ -229,9 +229,9 @@ class SpecificationService {
   }
 
   /** Only return a clone of the questions that have been answered, optionally repeating them. */
-  private pruneQuestion(question: Question, index: string, repeating = false) {
+  private pruneQuestion(question: Question, index: string, ignoreShow = false) {
     const pruneIndexedQuestion = (q: Question, i: string) =>
-      isVisible(q, i, repeating) && checkPlaceholders(q.output, i)
+      isVisible(q, i, ignoreShow) && checkPlaceholders(q.output, i)
         ? this.cloneAnsweredQuestions(q, i)
         : undefined;
     const repeat = getRepeat(question, index) || 0;
