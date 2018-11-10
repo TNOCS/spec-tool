@@ -3,8 +3,10 @@ import example from '../config/example.spec.json';
 import bob from '../config/bob.spec.json';
 import llf from '../config/llf.spec.json';
 import repeat from '../config/repeat.spec.json';
+// import vmg from '../config/vmg.spec.json';
 
 const specs: Array<{ title: string; data: ISpecification }> = [
+  // { title: 'VMG', data: vmg as ISpecification },
   { title: 'Example', data: example as ISpecification },
   { title: 'BOB', data: bob as ISpecification },
   { title: 'LLF', data: llf as ISpecification },
