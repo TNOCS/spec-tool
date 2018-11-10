@@ -253,7 +253,7 @@ const clearPresets = (presetName: string | undefined) => {
 /** Set an answer */
 export const setAnswer = (
   id: string,
-  value: boolean | string | number,
+  value: boolean | string | number | Date,
   index = defaultIndex,
   options?: {
     presetName?: string;
@@ -377,14 +377,14 @@ export const getRepeat = (question: Question, index = defaultIndex) => {
  * Is the chapter, section or question visible, i.e. are all injected variables (&) provided,
  * and are all referenced (show) questions given.
  */
-export const isVisible = (question: Question, index = defaultIndex) => {
+export const isVisible = (question: Question, index = defaultIndex, ignoreShow = false) => {
   if (
     !checkPlaceholders(question.title, index) ||
     !checkPlaceholders(question.description, index)
   ) {
     return false;
   }
-  if (!question.show) {
+  if (ignoreShow || !question.show) {
     return true;
   }
   const isSet = (a: any) =>
