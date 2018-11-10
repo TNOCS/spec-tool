@@ -207,10 +207,6 @@
             },
             "description": "Attached data, e.g. for generating output or creating a table, etc.",
             "properties": {
-                "break": {
-                    "description": "If true, break to a new line",
-                    "type": "boolean"
-                },
                 "contentClass": {
                     "description": "Classes that you wish to attach to a question, e.g. \"col s12 m6 l4 xl3\" to specify the size.",
                     "type": "string"
@@ -230,6 +226,14 @@
                 "minLength": {
                     "description": "When input type is a text or text area, optionally specify the minimum length.",
                     "type": "number"
+                },
+                "newLine": {
+                    "description": "If true, break to a new line",
+                    "type": "boolean"
+                },
+                "placeholder": {
+                    "description": "Can be used as a placeholder for text inputs",
+                    "type": "string"
                 },
                 "presets": {
                     "description": "Optional list of answers that must be set when the question is selected.\nIf value is not supplied, the default (true) is used.",
