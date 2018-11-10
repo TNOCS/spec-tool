@@ -167,7 +167,7 @@ export const TextArea = () => {
           onchange: m.withAttr('value', onchange),
           value: initialValue,
         }),
-        m(`label[for=${id}]`, label),
+        m(`label${isLabelActive(initialValue)}[for=${id}]`, label),
       ]);
     },
   } as Component<IInputOptions>;
