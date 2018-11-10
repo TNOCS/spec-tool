@@ -1,10 +1,9 @@
-import { IDashboard } from './../models/dashboard';
 import m, { Vnode, Component } from 'mithril';
+import M from 'materialize-css';
 import background from '../assets/document.jpg';
 import icon from '../assets/spec-tool.svg';
 import tno from '../assets/tno.png';
 import { dashboardSvc } from '../services/dashboard-service';
-import M from 'materialize-css';
 import { specSvc } from '../services/spec-service';
 import { removeHtml, replacePlaceholders, isVisible } from '../utils/utils';
 
@@ -13,11 +12,6 @@ const isActive = (path: string) =>
 
 const isEditMenu = (route: string) =>
   route.indexOf(specSvc.templateInfo.edit.label.toLowerCase()) > 0;
-
-// const convertEditMenuToDropdown = (d: IDashboard) => {
-//   if (! /`\/${specSvc.templateInfo.edit.label.toLowerCase()}\/`/.test(d.route)) { return d; }
-
-// };
 
 /** Create a chapter link */
 export const ChapterLink = (): Component<{ id: string; title: string }> => ({
@@ -36,7 +30,7 @@ export const Layout = () => ({
     const sidenav = document.querySelectorAll('.sidenav');
     M.Sidenav.init(sidenav);
     const dropdown = document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(dropdown, { constrainWidth: false, hover: true });
+    M.Dropdown.init(dropdown, { constrainWidth: false });
   },
   view: (vnode: Vnode) =>
     m('container', [
