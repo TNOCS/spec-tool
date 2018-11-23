@@ -82,14 +82,51 @@
       ]
     },
     {
-      "id": "beeld",
-      "title": "Beeldvorming",
-      "description": "_Vat het huidige beeld samen._",
-      "questions": [
+      "id": "pre",
+      "title": "Afwegingen",
+      "description": [
+        "_Wanneer BOB-overleg?._",
+        "",
+        "_Leidende principes:",
+        "- Levens redden staat voorop.",
+        "- We vallen altijd terug op de basis: 'Protocol gaat je redden'",
+        "- We lopen niet weg tijdens het overleg.",
+        "- We beginnen op een vast tijdstip, en iedereen is aanwezig.",
+        "- We escaleren indien nodig - we gaan niet oneindig wachten.",
+        "- ..._"
+      ],
+      "questions": [{
+        "id": "geweld",
+        "title": "Is er sprake van grof geweld of levensgevaar?",
+        "choices": [{
+          "id": "onbekend",
+          "title": "Maak een keuze..."
+        }, {
+          "id": "levensgevaar",
+          "title": "Levensgevaar"
+        }, {
+          "id": "grof_geweld",
+          "title": "Grof geweld"
+        }, {
+          "id": "geen",
+          "title": "Nee."
+        }],
+        "data": {
+          "type": "select"
+        }
+      }, {
+        "id": "raakvlakken",
+        "title": "Raakt jouw operatie mogelijk een van de andere BOB-leden?",
+        "choices": [{ "id": "onbekend", "title": "Maak een keuze..." }, { "id": "ja", "title": "Ja." }, { "id": "nee", "title": "Nee." }],
+        "data": {
+          "type": "select"
+        }
+      },
         {
           "id": "lead",
           "title": "Wie heeft de lead?",
           "output": "# Lead",
+          "show": ["geweld.levensgevaar", "geweld.grof_geweld"],
           "choices": [
             {
               "id": "wij",
@@ -109,6 +146,64 @@
           "show": ["lead.zij"]
         }
       ]
+    }, {
+      "id": "beeld",
+      "title": "Beeldvorming",
+      "description": "_Deel je beeld op hoofdlijnen_",
+      "questions": [{
+        "id": "niveau",
+        "title": "Rood of groen?",
+        "choices": [{ "id": "onbekend", "title": "Maak een keuze..." }, { "id": "rood", "title": "Rood" }, { "id": "groen", "title": "Groen" }],
+        "data": {
+          "contentClass": "col s12 m4 l3",
+          "type": "select"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Wat is de dreiging of het incident? _dreiging_",
+        "data": {
+          "type": "textarea"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Wat willen we met prioriteit nog weten? _behoeften_",
+        "data": {
+          "type": "textarea"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Wat is onze slagkracht? _slagkracht_",
+        "data": {
+          "type": "textarea"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Welke experise kunnen we nu bieden? _expertise_",
+        "show": "niveau.groen",
+        "data": {
+          "type": "textarea"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Wie is waarvoor verantwoordelijk? _verantwoordelijk_",
+        "show": "niveau.groen",
+        "data": {
+          "type": "textarea"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Stand van zaken van besluiten vorig BOB overleg? _svz_",
+        "show": "niveau.groen",
+        "data": {
+          "type": "textarea"
+        }
+      }, {
+        "id": "beeld",
+        "title": "Welke besluiten moeten we nu nemen? _besluiten_",
+        "data": {
+          "type": "textarea"
+        }
+      }]
     },
     {
       "id": "oordeel",
@@ -119,9 +214,15 @@
       ],
       "questions": [
         {
-          "id": "user",
-          "title": "What is your name? _name_",
-          "output": "My name is &user.name."
+          "id": "oordeel",
+          "title": "Wat zijn de belangrijkste risico's? _name_",
+          "options": [
+            { "id": "risico1", "title": "Risico 1" },
+            { "id": "risico2", "title": "Risico 2" },
+            { "id": "risico3", "title": "Risico 3" },
+            { "id": "risico4", "title": "Risico 4" },
+            { "id": "risico5", "title": "Risico 5" }
+          ]
         },
         {
           "id": "desc",
