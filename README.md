@@ -40,6 +40,17 @@ You can easily create your own questionnaire, upload and edit it, or you can for
   - to control the occupied space, e.g. `contentClass: 'col s4 m3 l2'`. This means that the reserved width is 4/12 on a mobile device, 3/12 on a medium device (tablet), and 2/12 on a large device. [See also materialize-css grid](https://materializecss.com/grid.html).
 - Each template can be internationalized by adding the proper headers and labels to the template info section.
 
+## Proposed changes
+
+- Use arrays for repeating items instead of the keys 0.0.0
+- Use objects for storing information
+- Use id to specify the object.property to set, e.g. member.name and member.role => member = { name: '', role: '' }.
+- Use objects for default values
+- Remove the output elements: use handlebars, marko or mithril to render the content to an output
+- Use predefined components, e.g. to specify the country, you don't want to include the list of country names each time. Alternatively, allow to specify predefined options so we can easily reuse them.
+- Add storage so we can store the results
+- Add search and filter, so we can search through existing results
+
 ## Build instructions
 
 During development, you can just use `npm start` to get going.

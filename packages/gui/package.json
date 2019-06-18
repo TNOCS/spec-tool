@@ -1,0 +1,41 @@
+{
+  "name": "spec-tool",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Specification tool.",
+  "scripts": {
+    "link": "npm link mithril-ui-form",
+    "start": "parcel index.html",
+    "clean": "rm -fr dist",
+    "gen:schema": "typescript-json-schema.cmd tsconfig.json ISpecification > ./schema/spec.json",
+    "build:domain": "rm -fr ../../docs && parcel build index.html --out-dir ../../docs --public-url https://tnocs.github.io/spec-tool && cp favicon.ico ../../docs/",
+    "build:dist": "parcel build index.html",
+    "build": "npm run clean && npm run build:dist"
+  },
+  "keywords": [
+    "dynamic questionnaire",
+    "specification",
+    "requirements",
+    "design",
+    "user requirements"
+  ],
+  "author": "Erik Vullings <erik.vullings@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "marked": "^0.6.2",
+    "material-icons": "^0.3.1",
+    "materialize-css": "^1.0.0",
+    "mithril": "^2.0.0-rc.6",
+    "mithril-materialized": "^0.13.9",
+    "mithril-ui-form": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/materialize-css": "^1.0.6",
+    "@types/mithril": "github:MithrilJS/mithril.d.ts#v2",
+    "@types/marked": "^0.6.5",
+    "autoprefixer": "^9.6.0",
+    "cssnano": "^4.1.10",
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.5.2"
+  }
+}

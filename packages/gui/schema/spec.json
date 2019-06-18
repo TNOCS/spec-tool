@@ -1,0 +1,783 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "IBaseUiElement": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IChapter": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "presets": {
+                    "description": "When used, some or all (unanswered) questions are prefilled",
+                    "items": {
+                        "$ref": "#/definitions/IPreset"
+                    },
+                    "type": "array"
+                },
+                "questions": {
+                    "description": "A list of questions to show",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IBaseUiElement"
+                            },
+                            {
+                                "$ref": "#/definitions/IOption"
+                            },
+                            {
+                                "$ref": "#/definitions/ISelection"
+                            },
+                            {
+                                "$ref": "#/definitions/IQuestionGroup"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "repeat": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "sections": {
+                    "items": {
+                        "$ref": "#/definitions/ISection"
+                    },
+                    "type": "array"
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IData": {
+            "additionalProperties": {
+            },
+            "properties": {
+                "contentClass": {
+                    "type": "string"
+                },
+                "max": {
+                    "type": "number"
+                },
+                "maxLength": {
+                    "type": "number"
+                },
+                "min": {
+                    "type": "number"
+                },
+                "minLength": {
+                    "type": "number"
+                },
+                "newLine": {
+                    "type": "boolean"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "presets": {
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": [
+                                    "string",
+                                    "number",
+                                    "boolean"
+                                ]
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "titleClass": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "color",
+                        "date",
+                        "email",
+                        "number",
+                        "radio",
+                        "select",
+                        "switch",
+                        "text",
+                        "textarea",
+                        "time",
+                        "url"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IDocumentInfo": {
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "created": {
+                    "description": "Enables basic storage and retrieval of dates and times.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "releaseInfo": {
+                    "type": "string"
+                },
+                "updated": {
+                    "description": "Enables basic storage and retrieval of dates and times.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IFormResult": {
+            "properties": {
+                "presetName": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "IOption": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "options": {
+                    "items": {
+                        "$ref": "#/definitions/IBaseUiElement"
+                    },
+                    "type": "array"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IPreset": {
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "selections": {
+                    "items": {
+                        "$ref": "#/definitions/IPresetSelection"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IPresetSelection": {
+            "properties": {
+                "id": {
+                    "description": "ID of the selected question",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "text": {
+                    "description": "In case the ID refers to an open question, you can add here open text.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IQuestionGroup": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "questions": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IBaseUiElement"
+                            },
+                            {
+                                "$ref": "#/definitions/IOption"
+                            },
+                            {
+                                "$ref": "#/definitions/ISelection"
+                            },
+                            {
+                                "$ref": "#/definitions/IQuestionGroup"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "repeat": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ISection": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/IData"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "presets": {
+                    "description": "When used, some or all (unanswered) questions are prefilled",
+                    "items": {
+                        "$ref": "#/definitions/IPreset"
+                    },
+                    "type": "array"
+                },
+                "questions": {
+                    "description": "A list of questions to show",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IBaseUiElement"
+                            },
+                            {
+                                "$ref": "#/definitions/IOption"
+                            },
+                            {
+                                "$ref": "#/definitions/ISelection"
+                            },
+                            {
+                                "$ref": "#/definitions/IQuestionGroup"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "repeat": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ISelection": {
+            "properties": {
+                "choices": {
+                    "items": {
+                        "$ref": "#/definitions/IBaseUiElement"
+                    },
+                    "type": "array"
+                },
+                "data": {
+                    "$ref": "#/definitions/IData"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "output": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "show": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ITabDefinition": {
+            "properties": {
+                "icon": {
+                    "description": "Materialize CSS icon name",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "Label in the tab",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Partial<ITemplateDefinition>": {
+            "properties": {
+                "about": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "About page tab"
+                },
+                "and": {
+                    "description": "In a list, how to display a, b, AND c",
+                    "type": "string"
+                },
+                "authorLabel": {
+                    "description": "Label for the author",
+                    "type": "string"
+                },
+                "createdLabel": {
+                    "description": "Label for the created time",
+                    "type": "string"
+                },
+                "deleteLocalStorageLabel": {
+                    "description": "How to name the delete local storage button",
+                    "type": "string"
+                },
+                "docInfoTitle": {
+                    "description": "Label for the document info",
+                    "type": "string"
+                },
+                "downloadJsonFilename": {
+                    "description": "What is the name of the JSON download file",
+                    "type": "string"
+                },
+                "downloadJsonLabel": {
+                    "description": "How to name the JSON download button",
+                    "type": "string"
+                },
+                "downloadMarkdownFilename": {
+                    "description": "What is the name of the Markdown download file",
+                    "type": "string"
+                },
+                "downloadMarkdownLabel": {
+                    "description": "How to name the markdown download button",
+                    "type": "string"
+                },
+                "edit": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "Edit page tab"
+                },
+                "emptySpecMessage": {
+                    "description": "When there is no specification, what message do you want to display",
+                    "type": "string"
+                },
+                "home": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "Home page tab"
+                },
+                "nextLabel": {
+                    "description": "Label for navigation to the next page",
+                    "type": "string"
+                },
+                "prevLabel": {
+                    "description": "Label for navigation to the previous page",
+                    "type": "string"
+                },
+                "releaseLabel": {
+                    "description": "Label for the release info",
+                    "type": "string"
+                },
+                "showTemplateSelector": {
+                    "description": "When true, show the dropdown selector to switch between different examples.",
+                    "type": "boolean"
+                },
+                "spec": {
+                    "$ref": "#/definitions/ITabDefinition",
+                    "description": "Spec page tab"
+                },
+                "tableOfContent": {
+                    "description": "Label for the ToC",
+                    "type": "string"
+                },
+                "updatedLabel": {
+                    "description": "Label for the updated time",
+                    "type": "string"
+                },
+                "uploadTemplateLabel": {
+                    "description": "How to name the upload button",
+                    "type": "string"
+                },
+                "uploadTooltipLabel": {
+                    "description": "Message to show when you hover above the upload area",
+                    "type": "string"
+                },
+                "versionLabel": {
+                    "description": "Label for the version",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "chapters": {
+            "description": "Content questionnaires",
+            "items": {
+                "$ref": "#/definitions/IChapter"
+            },
+            "type": "array"
+        },
+        "introduction": {
+            "anyOf": [
+                {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                {
+                    "type": "string"
+                }
+            ],
+            "description": "Welcome text on the home page"
+        },
+        "results": {
+            "additionalProperties": {
+                "additionalProperties": {
+                    "$ref": "#/definitions/IFormResult"
+                },
+                "type": "object"
+            },
+            "description": "Provided answers",
+            "type": "object"
+        },
+        "specificationInfo": {
+            "$ref": "#/definitions/IDocumentInfo",
+            "description": "Information about the current version of the document"
+        },
+        "templateInfo": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/IDocumentInfo"
+                },
+                {
+                    "$ref": "#/definitions/Partial<ITemplateDefinition>"
+                }
+            ],
+            "description": "Information about the template you are currently editing"
+        }
+    },
+    "type": "object"
+}
+

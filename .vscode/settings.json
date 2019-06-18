@@ -2,10 +2,18 @@
   "json.schemas": [
     {
       "fileMatch": ["/*.spec.json"],
-      "url": "./schema/spec.json"
+      "url": "./packages/gui/schema/spec.json"
     }
   ],
   "yaml.schemas": {
     "./schema/spec.json": "/*.spec.yaml",
-  }
+  },
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ]
 }

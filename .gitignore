@@ -63,3 +63,4 @@ typings/
 # this repo
 .cache
 dist
+vmg.spec.json

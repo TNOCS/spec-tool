@@ -11,10 +11,10 @@
       "url": "http://localhost:1234",
       "skipFiles": ["jquery.js"],
       "smartStep": true,
-      "webRoot": "${workspaceFolder}/src",
+      "webRoot": "${workspaceFolder}/packages/example/src",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
-        "*": "${webRoot}/*"
+        "*": "${webRoot}/packages/example/*"
       }
       // "webRoot": "${workspaceFolder}//dist"
     }
